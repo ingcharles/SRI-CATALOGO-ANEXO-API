@@ -45,6 +45,6 @@ public class ParametroAmbienteController {
 		if (parametros.isEmpty()) {
 			return Response.status(404).type("Parametro no encontrado").build();
 		}
-		return Response.ok(parametroAmbienteService.consultarParametrosPorNombreCodigoAplicacion(nombreParametro, codigoAplicacion)).build();
+		return Response.ok(parametros).build();
 	}
 }
