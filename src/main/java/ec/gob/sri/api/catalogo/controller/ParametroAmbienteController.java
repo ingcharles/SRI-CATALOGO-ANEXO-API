@@ -3,7 +3,7 @@
  * Copyright 2022 Servicio de Rentas Internas.
  * Todos los derechos reservados.
  */
-package ec.gob.sri.api.catalogo;
+package ec.gob.sri.api.catalogo.controller;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
