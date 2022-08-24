@@ -5,6 +5,8 @@
  */
 package ec.gob.sri.api.catalogo.controller;
 
+import java.util.Set;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -21,6 +23,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import ec.gob.sri.api.catalogo.service.IParametroAmbienteService;
+import ec.gob.sri.api.catalogo.service.to.ParametroAmbienteTo;
 
 /**
  * @author cfcg070314
@@ -38,6 +41,10 @@ public class ParametroAmbienteController {
 	@GET
 	@Path("/{nombreParametro}")
 	public Response consultar(@PathParam("nombreParametro") String nombreParametro, @QueryParam("codigoApp") @NotNull @NotBlank @NotEmpty String codigoAplicacion) {
+		Set<ParametroAmbienteTo> parametros = parametroAmbienteService.consultarParametrosPorNombreCodigoAplicacion(nombreParametro, codigoAplicacion);
+		if (parametros.isEmpty()) {
+			return Response.status(404).type("Parametro no encontrado").build();
+		}
 		return Response.ok(parametroAmbienteService.consultarParametrosPorNombreCodigoAplicacion(nombreParametro, codigoAplicacion)).build();
 	}
 }
