@@ -20,7 +20,7 @@ import io.quarkus.test.junit.QuarkusTest;
 public class ParametroAmbienteControllerTest {
 
 	@Test
-	public void deberiaResponderConsultarModulosPorPerfil() {
+	public void deberiaResponderConsultar() {
 		given().when().get("/parametros/MAIL_SERVER?codigoApp=ADM").then().statusCode(200).body(is("[{\"valor\":\"10.1.0.76\"}]"));
 	}
 
