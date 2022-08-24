@@ -42,9 +42,6 @@ public class ParametroAmbienteController {
 	@Path("/{nombreParametro}")
 	public Response consultar(@PathParam("nombreParametro") String nombreParametro, @QueryParam("codigoApp") @NotNull @NotBlank @NotEmpty String codigoAplicacion) {
 		Set<ParametroAmbienteTo> parametros = parametroAmbienteService.consultarParametrosPorNombreCodigoAplicacion(nombreParametro, codigoAplicacion);
-		if (parametros.isEmpty()) {
-			return Response.status(404).type("Parametro no encontrado").build();
-		}
-		return Response.ok(parametros).build();
+		return parametros.isEmpty() ? Response.status(404).type("Parametro no encontrado").build() : Response.ok(parametros).build();
 	}
 }
