@@ -1,11 +1,11 @@
-openapi: '3.0.2'
+openapi: '3.0.3'
 info:
   title: API Catalogo
   version: '1.0'
 servers:
-  - url: http://localhost:8080/  
-  - url: https://pre.sri.gob.ec/
-  - url: https://sriintra01/
+  - url: http://localhost:8080/catalogo/v1.0  
+  - url: https://pre.sri.gob.ec/catalogo/v1.0
+  - url: https://sriintra01/catalogo/v1.0
   
 
 tags:
