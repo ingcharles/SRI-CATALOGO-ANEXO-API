@@ -9,7 +9,6 @@ import java.util.Set;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -30,7 +29,6 @@ import ec.gob.sri.api.catalogo.service.to.ParametroAmbienteTo;
  */
 @Path("/parametros")
 @ApplicationScoped
-@Transactional
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class ParametroAmbienteController {
