@@ -24,5 +24,4 @@ public class ParametroAmbienteControllerTest {
 		given().when().get("/parametros/MAIL_SERVER?codigoApp=ADM").then().statusCode(200).body(is("[{\"valor\":\"10.1.0.76\"}]"));
 	}
 
-	
 }
