@@ -9,9 +9,6 @@ import java.util.Set;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -38,7 +35,7 @@ public class ParametroAmbienteController {
 
 	@GET
 	@Path("/{nombreParametro}")
-	public Response consultar(@PathParam("nombreParametro") String nombreParametro, @QueryParam("codigoApp") @NotNull @NotBlank @NotEmpty String codigoAplicacion) {
+	public Response consultar(@PathParam("nombreParametro") String nombreParametro, @QueryParam("codigoApp") String codigoAplicacion) {
 		Set<ParametroAmbienteTo> parametros = parametroAmbienteService.consultarParametrosPorNombreCodigoAplicacion(nombreParametro, codigoAplicacion);
 		return parametros.isEmpty() ? Response.status(404).type("Parametro no encontrado").build() : Response.ok(parametros).build();
 	}
