@@ -3,7 +3,7 @@ info:
    title: API Catalogo
    version: '1.0'
 servers:
--  url: http://localhost:8080/catalogo/v1.0
+-  url: http://localhost:8680/catalogo/v1.0
 -  url: https://pre.sri.gob.ec/catalogo/v1.0
 -  url: https://sriintra01/catalogo/v1.0
 
