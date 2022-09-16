@@ -1,63 +1,62 @@
-openapi: 3.0.3
+openapi: "3.0.3"
 info:
-   title: API Catalogo
-   version: '1.0'
+  title: API Catalogo
+  version: "1.0"
 servers:
--  url: http://localhost:8680/catalogo/v1.0
--  url: https://pre.sri.gob.ec/catalogo/v1.0
--  url: https://sriintra01/catalogo/v1.0
-
+  - url: http://localhost:8680/catalogo/v1.0
+  - url: https://pre.sri.gob.ec/catalogo/v1.0
+  - url: https://sriintra01/catalogo/v1.0
 tags:
--  name: parametro
+  - name: parametro
 paths:
-   /parametros/{nombreParametro}:
-      get:
-         tags:
-         - parametro
-         summary: Operacion que consulta un parametro por su nombre y aplicación
-         parameters:
-         -  name: nombreParametro
-            in: path
-            description: Nombre del parametro
-            required: true
-            schema:
-               type: string
-               example: MAIL_SERVER
-         -  name: codigoApp
-            in: query
-            description: Código de la aplicación
-            required: true
-            schema:
-               type: string
-               example: ADM
-         responses:
-            '200':
-               description: OK
-               content:
-                  application/json:
-                     schema:
-                        $ref: '#/components/schemas/Parametro'
-            '401':
-               $ref: '#/components/responses/UnauthorizedError'
-            '404':
-               description: Parametro no encontrado
+  "/parametros/{nombreParametro}":
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - parametro
+      summary: Operacion que consulta un parametro por su nombre y aplicación
+      parameters:
+        - name: nombreParametro
+          in: path
+          description: Nombre del parametro
+          required: true
+          schema:
+            type: string
+            example: MAIL_SERVER
+        - name: codigoApp
+          in: query
+          description: Código de la aplicación
+          required: true
+          schema:
+            type: string
+            example: ADM
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Parametro"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          description: Parametro no encontrado
 components:
-   schemas:
-      Parametro:
-         type: object
-         required:
-         - valor
-         properties:
-            valor:
-               type: string
-               example: 10.1.0.76
-   securitySchemes:
-      bearerAuth:
-         type: http
-         scheme: bearer
-         bearerFormat: JWT
-   responses:
-      UnauthorizedError:
-         description: Access token is missing or invalid
-security:
--  bearerAuth: []
+  schemas:
+    Parametro:
+      type: object
+      required:
+        - valor
+      properties:
+        valor:
+          type: string
+          example: 10.1.0.76
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
