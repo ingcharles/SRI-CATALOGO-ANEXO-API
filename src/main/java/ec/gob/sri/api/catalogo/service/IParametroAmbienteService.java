@@ -5,15 +5,16 @@
  */
 package ec.gob.sri.api.catalogo.service;
 
-import java.util.Set;
+import java.util.List;
 
 import ec.gob.sri.api.catalogo.service.to.ParametroAmbienteTo;
+import io.smallrye.mutiny.Uni;
 
 /**
  * @author cfcg070314
  */
 public interface IParametroAmbienteService {
 
-	public Set<ParametroAmbienteTo> consultarParametrosPorNombreCodigoAplicacion(final String nombreParametro, final String codigoAplicacion);
+	public Uni<List<ParametroAmbienteTo>> consultarParametrosPorNombreCodigoAplicacion(final String nombreParametro, final String codigoAplicacion);
 
 }

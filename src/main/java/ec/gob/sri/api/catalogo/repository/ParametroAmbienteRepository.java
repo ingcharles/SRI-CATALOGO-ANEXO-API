@@ -6,13 +6,14 @@
 package ec.gob.sri.api.catalogo.repository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import javax.enterprise.context.ApplicationScoped;
 
 import ec.gob.sri.api.catalogo.modelo.ParametroAmbiente;
-import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import io.quarkus.hibernate.reactive.panache.PanacheRepository;
+import io.smallrye.mutiny.Uni;
 
 /**
  * @author cfcg070314
@@ -20,14 +21,16 @@ import io.quarkus.hibernate.orm.panache.PanacheRepository;
 @ApplicationScoped
 public class ParametroAmbienteRepository implements PanacheRepository<ParametroAmbiente> {
 
-	public Stream<ParametroAmbiente> consultarPorNombreYCodigoAplicacion(final String nombreParametro, final String codigoAplicacion) {
+	public Uni<List<ParametroAmbiente>> consultarPorNombreYCodigoAplicacion(final String nombreParametro, final String codigoAplicacion) {
 		Map<String, Object> parametros = new HashMap<>();
 		parametros.put("estado", "A");
 		parametros.put("eliminado", "N");
 		parametros.put("nombreParametro", nombreParametro);
 		parametros.put("codigoAplicacion", codigoAplicacion);
 
-		return stream("genericoEntidad.estado = :estado AND genericoEntidad.eliminado = :eliminado AND nombreParametro = :nombreParametro AND codigoAplicacion = :codigoAplicacion",
+		return list(
+				"genericoEntidad.estado = :estado AND genericoEntidad.eliminado = :eliminado AND nombreParametro = :nombreParametro AND codigoAplicacion = :codigoAplicacion",
 				parametros);
 	}
+
 }

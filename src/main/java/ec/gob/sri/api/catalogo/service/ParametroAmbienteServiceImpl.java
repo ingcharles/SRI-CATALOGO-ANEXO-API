@@ -5,7 +5,7 @@
  */
 package ec.gob.sri.api.catalogo.service;
 
-import java.util.Set;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import ec.gob.sri.api.catalogo.modelo.ParametroAmbiente;
 import ec.gob.sri.api.catalogo.repository.ParametroAmbienteRepository;
 import ec.gob.sri.api.catalogo.service.to.ParametroAmbienteTo;
+import io.smallrye.mutiny.Uni;
 
 /**
  * 
@@ -25,7 +26,8 @@ public class ParametroAmbienteServiceImpl implements IParametroAmbienteService {
 	@Inject
 	ParametroAmbienteRepository parametroAmbienteRepository;
 
-	private Function<ParametroAmbiente, ParametroAmbienteTo> mapParametroAmbienteTo = (parametroAmbiente -> new ParametroAmbienteTo(parametroAmbiente.getValor()));
+	private Function<ParametroAmbiente, ParametroAmbienteTo> mapParametroAmbienteTo = (parametroAmbiente -> new ParametroAmbienteTo(
+			parametroAmbiente.getValor(), parametroAmbiente.getAmbiente()));
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -35,9 +37,11 @@ public class ParametroAmbienteServiceImpl implements IParametroAmbienteService {
 	 */
 
 	@Override
-	public Set<ParametroAmbienteTo> consultarParametrosPorNombreCodigoAplicacion(String nombreParametro, String codigoAplicacion) {
-		return parametroAmbienteRepository.consultarPorNombreYCodigoAplicacion(nombreParametro, codigoAplicacion)
-				.map(parametroAmbiente -> mapParametroAmbienteTo.apply(parametroAmbiente)).collect(Collectors.toSet());
+	public Uni<List<ParametroAmbienteTo>> consultarParametrosPorNombreCodigoAplicacion(String nombreParametro, String codigoAplicacion) {
+		return parametroAmbienteRepository.consultarPorNombreYCodigoAplicacion(nombreParametro, codigoAplicacion).onItem()
+				.transform(parametroAmbienteLista -> parametroAmbienteLista.stream().map(item -> mapParametroAmbienteTo.apply(item))
+						.collect(Collectors.toList()));
+
 	}
 
 }
