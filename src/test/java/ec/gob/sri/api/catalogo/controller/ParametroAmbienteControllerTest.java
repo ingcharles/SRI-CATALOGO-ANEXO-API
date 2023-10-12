@@ -21,7 +21,7 @@ public class ParametroAmbienteControllerTest {
 
 	@Test
 	public void deberiaResponderConsultar() {
-		given().when().get("/parametros/MAIL_SERVER?codigoApp=ADM").then().statusCode(200).body(is("[{\"valor\":\"10.1.0.76\"}]"));
+		given().when().get("/parametros/MAIL_SERVER?codigoApp=ADM").then().statusCode(200).body(is("[{\"ambiente\":\"PRO\",\"valor\":\"10.1.0.27\"}]"));
 	}
 
 }
