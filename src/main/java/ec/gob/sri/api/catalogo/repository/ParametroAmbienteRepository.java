@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import ec.gob.sri.api.catalogo.modelo.ParametroAmbiente;
 import io.quarkus.hibernate.reactive.panache.PanacheRepository;
