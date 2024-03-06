@@ -30,8 +30,6 @@ generar-snapshot:
    - export M2_HOME=$M2_HOME
    - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
    - mvn package -Dmaven.test.skip=true
- except:
-  - master
  tags:
   - run_devops
 
@@ -47,7 +45,5 @@ generar-sonarqube:
   - sonar-scanner -Dproject.settings=sonar-scanner.properties -Dsonar.coverage.jacoco.xmlReportPaths=report-aggregate/target/site/jacoco-aggregate/jacoco.xml
  dependencies:
   - generar-snapshot
- except:
-  - master
  tags:
   - run_devops
