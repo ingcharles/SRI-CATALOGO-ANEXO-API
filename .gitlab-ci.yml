@@ -10,10 +10,9 @@ stages:
 variables:
  JAVA_HOME : "/opt/SDKMAN/candidates/java/current"
  M2_HOME : "/opt/SDKMAN/candidates/maven/current"
- SONAR_HOME: /home/jboss/herramientas/sonar-scanner-4.8.0.2856-linux_desa
+ SONAR_HOME: /opt/SDKMAN/candidates/sonar/sonar-scanner-4.8.0.2856-linux_desa
  M2_HOME_SONAR : "/opt/SDKMAN/candidates/maven/apache-maven-3.9.4_sonar"
  JAVA_HOME_SONAR : "/opt/SDKMAN/candidates/java/17.0.8-graal"
- SONAR_HOME : "/opt/SDKMAN/candidates/sonar/sonar-scanner-4.8.0.2856-linux_desa"
  
 
 cache:
@@ -37,12 +36,15 @@ generar-snapshot:
 generar-sonarqube:
  stage: primerafase
  script:
+  - export JAVA_HOME=$JAVA_HOME
+  - export M2_HOME=$M2_HOME
+  - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
+  - mvn package -Dmaven.test.skip=true
   - export JAVA_HOME=$JAVA_HOME_SONAR
   - export M2_HOME=$M2_HOME_SONAR
   - export SONAR_HOME=$SONAR_HOME
   - export PATH=$JAVA_HOME/bin:$SONAR_HOME/bin:$M2_HOME/bin:$PATH
-  - mvn package -Dmaven.test.skip=true
-  - sonar-scanner -Dproject.settings=sonar-scanner.properties -Dsonar.coverage.jacoco.xmlReportPaths=report-aggregate/target/site/jacoco-aggregate/jacoco.xml
+  - sonar-scanner -Dproject.settings=sonar-project.properties -Dsonar.coverage.jacoco.xmlReportPaths=report-aggregate/target/site/jacoco-aggregate/jacoco.xml
  dependencies:
   - generar-snapshot
  tags:
