@@ -1,43 +1,53 @@
-sonarqube-check:
-  image: 
-    name: sonarsource/sonar-scanner-cli:latest
-    entrypoint: [""]
-  variables:
-    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
-    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
-    JAVA_HOME_SONAR : "/home/jboss/herramientas/jdk-11.0.16.1"
-    M2_HOME_SONAR : "/home/jboss/herramientas/apache-maven-3.6.3_desa"
-    JAVA_HOME : "/home/jboss/herramientas/jdk-17.0.6"
-    M2_HOME : "/home/jboss/herramientas/apache-maven-3.8.8"
-    GRAAL : "/root/graalvm-ce-java17-22.3.1"
-    JAVA_GRAAL : "/root/graalvm-ce-java17-22.3.1"
-  cache:
-    key: "${CI_JOB_NAME}"
-    paths:
-      - .sonar/cache
-  script:
-    - export JAVA_HOME=$JAVA_HOME
-    - export M2_HOME=$M2_HOME
-    - export GRAAL=$GRAAL
-    - export JAVA_GRAAL=$JAVA_GRAAL
-    #- export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
-    #- export PATH="/root/graalvm-ce-java17-22.3.1/bin:$PATH"
-    #- export JAVA_HOME="/root/graalvm-ce-java17-22.3.1"
-    - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$GRAAL/bin:$JAVA_GRAAL/bin:$PATH
-    - mvn package -Dmaven.test.skip=true
-    #- export JAVA_HOME=$JAVA_HOME_SONAR
-    - export M2_HOME=$M2_HOME_SONAR
-    - export PATH=$M2_HOME/bin:$PATH
-    #- mvn -Dmaven.compiler.fork=true -Dmaven.compiler.executable=/home/jboss/herramientas/jdk-11.0.16.1/bin/javac sonar:sonar cobertura:cobertura -Dcobertura.report.format=xml
-    - java -version
-    - mvn sonar:sonar cobertura:cobertura -Dcobertura.report.format=xml
-    #- mvn compile quarkus:dev -Dquarkus.http.host=0.0.0.0
-    #- mvn compile quarkus:dev -Ddebug=false -Dsuspend
-    #- mvn sonar:sonar cobertura:cobertura -Dcobertura.report.format=xml
-  allow_failure: true
-  only:
-    - merge_requests
-    - master
-    - develop
-  tags:
-    - jacoco
+image: busybox:latest
+
+stages:
+ - primerafase #1
+ - segundafase
+ - tercerafase
+ 
+#PARA GENERAR ARTEFACTOS Y REVISION DE SONAR
+
+variables:
+ JAVA_HOME : "/opt/SDKMAN/candidates/java/current"
+ M2_HOME : "/opt/SDKMAN/candidates/maven/current"
+ SONAR_HOME: /home/jboss/herramientas/sonar-scanner-4.8.0.2856-linux_desa
+ M2_HOME_SONAR : "/opt/SDKMAN/candidates/maven/apache-maven-3.9.4_sonar"
+ JAVA_HOME_SONAR : "/opt/SDKMAN/candidates/java/17.0.8-graal"
+ SONAR_HOME : "/opt/SDKMAN/candidates/sonar/sonar-scanner-4.8.0.2856-linux_desa"
+ 
+
+cache:
+  key: "${CI_JOB_NAME}"
+  paths:
+    - .sonar/cache
+
+
+##Branch
+generar-snapshot:
+ stage: primerafase
+ script:
+   - export JAVA_HOME=$JAVA_HOME
+   - export M2_HOME=$M2_HOME
+   - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
+   - mvn package -Dmaven.test.skip=true
+ except:
+  - master
+ tags:
+  - run_devops
+
+
+generar-sonarqube:
+ stage: primerafase
+ script:
+  - export JAVA_HOME=$JAVA_HOME_SONAR
+  - export M2_HOME=$M2_HOME_SONAR
+  - export SONAR_HOME=$SONAR_HOME
+  - export PATH=$JAVA_HOME/bin:$SONAR_HOME/bin:$M2_HOME/bin:$PATH
+  - mvn package -Dmaven.test.skip=true
+  - sonar-scanner -Dproject.settings=sonar-scanner.properties -Dsonar.coverage.jacoco.xmlReportPaths=report-aggregate/target/site/jacoco-aggregate/jacoco.xml
+ dependencies:
+  - generar-snapshot
+ except:
+  - master
+ tags:
+  - run_devops
