@@ -1,6 +1,9 @@
-image: busybox:latest
+image: maven:3.6.3-jdk-11
 
 stages:
+ - primerafase-branch #1
+ - segundafase-branch
+ - tercerafase-branch
  - primerafase #1
  - segundafase
  - tercerafase
@@ -10,10 +13,12 @@ stages:
 variables:
  JAVA_HOME : "/opt/SDKMAN/candidates/java/current"
  M2_HOME : "/opt/SDKMAN/candidates/maven/current"
- SONAR_HOME: /opt/SDKMAN/candidates/sonar/sonar-scanner-4.8.0.2856-linux_desa
+ SONAR_HOME: /home/jboss/herramientas/sonar-scanner-4.8.0.2856-linux_desa
  M2_HOME_SONAR : "/opt/SDKMAN/candidates/maven/apache-maven-3.9.4_sonar"
  JAVA_HOME_SONAR : "/opt/SDKMAN/candidates/java/17.0.8-graal"
- 
+ SONAR_HOME : "/opt/SDKMAN/candidates/sonar/sonar-scanner-4.8.0.2856-linux_desa"
+ SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+ GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
 
 cache:
   key: "${CI_JOB_NAME}"
@@ -22,13 +27,82 @@ cache:
 
 
 ##Branch
+generar-branch:
+ stage: primerafase-branch
+ script:
+   - export JAVA_HOME=$JAVA_HOME
+   - export M2_HOME=$M2_HOME
+   - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
+   - mvn clean install
+ except:
+  - master
+ tags:
+  - run_devops
+
+
+generar-sonarqube-branch:
+ stage: primerafase-branch
+ script:
+  - export JAVA_HOME=$JAVA_HOME_SONAR
+  - export M2_HOME=$M2_HOME_SONAR
+  - export SONAR_HOME=$SONAR_HOME
+  - export PATH=$JAVA_HOME/bin:$SONAR_HOME/bin:$M2_HOME/bin:$PATH
+  - mvn clean install
+  - sonar-scanner -Dproject.settings=sonar-scanner.properties -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco-report/jacoco.xml
+ dependencies:
+  - generar-branch
+ except:
+  - master
+ tags:
+  - run_devops
+
+crear-imagen-branch:
+ stage: segundafase-branch
+ script:
+   - export JAVA_HOME=$JAVA_HOME
+   - export M2_HOME=$M2_HOME
+   - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
+   - mvn package
+   - podman build -f src/main/docker/Dockerfile.jvm -t sri-catalogo-api-jvm .
+ dependencies:
+  - generar-sonarqube-branch
+ except:
+  - master
+ tags:
+  - run_devops
+
+tag-imagen-branch:
+ stage: segundafase-branch
+ script:
+   - podman image tag sri-catalogo-api-jvm:latest 10.2.21.21:9085/qa/sri-catalogo-api-jvm:latest
+   - podman login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+   - podman image push 10.2.21.21:9085/qa/sri-catalogo-api-jvm:latest
+ except:
+  - master
+ tags:
+  - run_devops
+
+ejecitar-imagen-branch:
+ stage: tercerafase-branch
+ script:
+   - kubectl delete -f sri-catalogo-api-jvm-pti.yaml
+   - kubectl apply -f sri-catalogo-api-jvm-pti.yaml
+ except:
+  - master
+ tags:
+  - run_devops
+
+
+#1 MASTER
 generar-snapshot:
  stage: primerafase
  script:
    - export JAVA_HOME=$JAVA_HOME
    - export M2_HOME=$M2_HOME
    - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
-   - mvn package -Dmaven.test.skip=true
+   - mvn clean install
+ only:
+  - master
  tags:
   - run_devops
 
@@ -36,16 +110,56 @@ generar-snapshot:
 generar-sonarqube:
  stage: primerafase
  script:
-  - export JAVA_HOME=$JAVA_HOME
-  - export M2_HOME=$M2_HOME
-  - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
-  - mvn package -Dmaven.test.skip=true
   - export JAVA_HOME=$JAVA_HOME_SONAR
   - export M2_HOME=$M2_HOME_SONAR
   - export SONAR_HOME=$SONAR_HOME
   - export PATH=$JAVA_HOME/bin:$SONAR_HOME/bin:$M2_HOME/bin:$PATH
-  - sonar-scanner -Dproject.settings=sonar-project.properties -Dsonar.coverage.jacoco.xmlReportPaths=report-aggregate/target/site/jacoco-aggregate/jacoco.xml
+  - mvn clean install
+  - sonar-scanner -Dproject.settings=sonar-scanner.properties -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco-report/jacoco.xml
+ allow_failure: true
+ only:
+  - master
  dependencies:
   - generar-snapshot
+ tags:
+  - run_devops
+
+crear-imagen:
+ stage: segundafase
+ script:
+   - export JAVA_HOME=$JAVA_HOME
+   - export M2_HOME=$M2_HOME
+   - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
+   - mvn package
+   - podman build -f src/main/docker/Dockerfile.jvm -t sri-catalogo-api-jvm .
+ dependencies:
+  - generar-sonarqube
+ only:
+  - master
+ tags:
+  - run_devops
+
+tag-imagen:
+ stage: segundafase
+ script:
+   - podman image tag sri-catalogo-api-jvm:latest 10.2.21.21:9085/qa/sri-catalogo-api-jvm:latest
+   - podman login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+   - podman image push 10.2.21.21:9085/qa/sri-catalogo-api-jvm:latest
+ dependencies:
+  - generar-sonarqube
+ only:
+  - master
+ tags:
+  - run_devops
+
+ejecitar-imagen:
+ stage: tercerafase
+ script:
+   - kubectl delete -f sri-catalogo-api-jvm-pti.yaml
+   - kubectl apply -f sri-catalogo-api-jvm-pti.yaml
+ dependencies:
+  - generar-sonarqube
+ only:
+  - master
  tags:
   - run_devops
