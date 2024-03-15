@@ -11,12 +11,14 @@ import static org.hamcrest.CoreMatchers.containsString;
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
 
 /**
  * @author cfcg070314
  *
  */
 @QuarkusTest
+@TestSecurity(authorizationEnabled = false)
 public class ParametroAmbienteControllerTest {
 
 	@Test
