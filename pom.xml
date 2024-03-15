@@ -16,19 +16,22 @@
 	</organization>
 
 	<properties>
-		<compiler-plugin.version>3.12.1</compiler-plugin.version>
-		<maven.compiler.release>17</maven.compiler.release>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		
+		<compiler-plugin.version>3.10.0</compiler-plugin.version>
+		<sonar-maven-plugin.version>3.10.0.2594</sonar-maven-plugin.version>
+		<maven.compiler.release>17</maven.compiler.release>
+		<surefire-plugin.version>3.2.5</surefire-plugin.version>
+		<jacoco.version>0.8.11</jacoco.version>
+		
 		<quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
 		<quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
 		<quarkus.platform.version>3.8.1</quarkus.platform.version>
 		<skipITs>true</skipITs>
-		<surefire-plugin.version>3.2.5</surefire-plugin.version>
-
-		<sonar.qualitygate.wait>true</sonar.qualitygate.wait>
+		
+		<sonar.qualitygate.wait>true</sonar.qualitygate.wait>		
 		<sonar.ProjectVersion>${project.version}</sonar.ProjectVersion>
-		<jacoco.version>0.8.11</jacoco.version>
 
 	</properties>
 	<dependencyManagement>
@@ -113,12 +116,39 @@
 
 
 	</dependencies>
+	
 	<build>
+	    <pluginManagement>
+	      <plugins>
+	        <plugin>
+	          <groupId>org.apache.maven.plugins</groupId>
+	          <artifactId>maven-compiler-plugin</artifactId>
+	          <version>${compiler-plugin.version}</version>
+	        </plugin>
+	        <plugin>
+	          <groupId>org.sonarsource.scanner.maven</groupId>
+	          <artifactId>sonar-maven-plugin</artifactId>
+	          <version>${sonar-maven-plugin.version}</version>
+	        </plugin>
+	        <plugin>
+	          <groupId>org.jacoco</groupId>
+	          <artifactId>jacoco-maven-plugin</artifactId>
+	          <version>${jacoco.version}</version>
+	        </plugin>
+	        
+	        <plugin>
+				<groupId>${quarkus.platform.group-id}</groupId>
+				<artifactId>quarkus-maven-plugin</artifactId>
+				<version>${quarkus.platform.version}</version>
+			</plugin>
+			
+	      </plugins>
+	    </pluginManagement>  
+		
 		<plugins>
 			<plugin>
 				<groupId>${quarkus.platform.group-id}</groupId>
 				<artifactId>quarkus-maven-plugin</artifactId>
-				<version>${quarkus.platform.version}</version>
 				<extensions>true</extensions>
 				<executions>
 					<execution>
@@ -132,7 +162,6 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${compiler-plugin.version}</version>
 				<configuration>
 					<compilerArgs>
 						<arg>-parameters</arg>
@@ -172,7 +201,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${jacoco.version}</version>
+				
 				<executions>
 					<execution>
 						<id>jacoco-check</id>
@@ -206,6 +235,7 @@
 			</plugin>
 		</plugins>
 	</build>
+	
 	<profiles>
 		<profile>
 			<id>native</id>
