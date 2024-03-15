@@ -16,29 +16,19 @@
 	</organization>
 
 	<properties>
+		<compiler-plugin.version>3.12.1</compiler-plugin.version>
+		<maven.compiler.release>17</maven.compiler.release>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		
-		<compiler-plugin.version>3.12.1</compiler-plugin.version>
-		<sonar-maven-plugin.version>3.11.0.3922</sonar-maven-plugin.version>
-		<maven-pmd-plugin.version>3.21.2</maven-pmd-plugin.version>
-		<maven.compiler.release>17</maven.compiler.release>
-		<surefire-plugin.version>3.2.5</surefire-plugin.version>
-				
-		  <!-- JaCoCo Properties -->
-	    <jacoco.version>0.8.11</jacoco.version>
-	    <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-	    <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-	    <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
-	    <sonar.language>java</sonar.language>
-		
 		<quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
 		<quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
 		<quarkus.platform.version>3.8.1</quarkus.platform.version>
 		<skipITs>true</skipITs>
-		
-		<sonar.qualitygate.wait>true</sonar.qualitygate.wait>		
+		<surefire-plugin.version>3.2.5</surefire-plugin.version>
+
+		<sonar.qualitygate.wait>true</sonar.qualitygate.wait>
 		<sonar.ProjectVersion>${project.version}</sonar.ProjectVersion>
+		<jacoco.version>0.8.11</jacoco.version>
 
 	</properties>
 	<dependencyManagement>
@@ -125,28 +115,11 @@
 	</dependencies>
 	
 	<build>
-	    <pluginManagement>
 	      <plugins>
 	        <plugin>
 	          <groupId>org.apache.maven.plugins</groupId>
-	          <artifactId>maven-compiler-plugin</artifactId>
-	          <version>${compiler-plugin.version}</version>
-	        </plugin>
-	        <plugin>
-	          <groupId>org.sonarsource.scanner.maven</groupId>
-	          <artifactId>sonar-maven-plugin</artifactId>
-	          <version>${sonar-maven-plugin.version}</version>
-	        </plugin>
-	        <plugin>
-	          <groupId>org.jacoco</groupId>
-	          <artifactId>jacoco-maven-plugin</artifactId>
-	          <version>${jacoco.version}</version>
-	        </plugin>
-	        
-	        <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>${maven-pmd-plugin.version}</version>
+                <version>3.21.2</version>
             </plugin>
 
 	        
@@ -154,33 +127,20 @@
 				<groupId>${quarkus.platform.group-id}</groupId>
 				<artifactId>quarkus-maven-plugin</artifactId>
 				<version>${quarkus.platform.version}</version>
-			</plugin>
-			
-	      </plugins>
-	    </pluginManagement>  
-		
-		<plugins>
-			 <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-            </plugin>
-            
-			<plugin>
-				<groupId>${quarkus.platform.group-id}</groupId>
-				<artifactId>quarkus-maven-plugin</artifactId>
 				<extensions>true</extensions>
-				<executions>
-					<execution>
-						<goals>
-							<goal>build</goal>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>build</goal>
 							<goal>generate-code</goal>
 							<goal>generate-code-tests</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${compiler-plugin.version}</version>
 				<configuration>
 					<compilerArgs>
 						<arg>-parameters</arg>
@@ -188,114 +148,91 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${surefire-plugin.version}</version>
-				<configuration>
-					<systemPropertyVariables>
-						<java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-						<maven.home>${maven.home}</maven.home>
-					</systemPropertyVariables>
-				</configuration>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire-plugin.version}</version>
+                <configuration>
+                    <systemPropertyVariables>
+						<java.util.logging.manager>
+							org.jboss.logmanager.LogManager</java.util.logging.manager>
+                        <maven.home>${maven.home}</maven.home>
+                    </systemPropertyVariables>
+                </configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>${surefire-plugin.version}</version>
-				<executions>
-					<execution>
-						<goals>
+                <executions>
+                    <execution>
+                        <goals>
 							<goal>integration-test</goal>
 							<goal>verify</goal>
-						</goals>
-						<configuration>
-							<systemPropertyVariables>
-								<native.image.path>${project.build.directory}/${project.build.finalName}-runner</native.image.path>
-								<java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+                        </goals>
+                        <configuration>
+                            <systemPropertyVariables>
+								<native.image.path>
+									${project.build.directory}/${project.build.finalName}-runner</native.image.path>
+								<java.util.logging.manager>
+									org.jboss.logmanager.LogManager</java.util.logging.manager>
 								<maven.home>${maven.home}</maven.home>
-							</systemPropertyVariables>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>jacoco-check</id>
-						<goals>
-							<goal>check</goal>
-						</goals>
-						<phase>post-integration-test</phase>
-						<configuration>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <id>jacoco-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <phase>post-integration-test</phase>
+                        <configuration>
 							<dataFile>
 								${project.build.directory}/jacoco-quarkus.exec</dataFile>
-							<rules>
-								<rule>
-									<element>BUNDLE</element>									
-									
-									<limits>
-										<limit>
-											<counter>LINE</counter>
-											<value>COVEREDRATIO</value>
-											<minimum>0.8</minimum>
-										</limit>
-										<limit>
-											<counter>BRANCH</counter>
-											<value>COVEREDRATIO</value>
-											<minimum>0.8</minimum>
-										</limit>
-									</limits>
-								</rule>
-							</rules>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+                            <rules>
+                                <rule>
+                                    <element>BUNDLE</element>
+                                    <includes>
+										<include>**/controller/*</include>
+										<include>**/service/*</include>
+									</includes>
+                                    <limits>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+											<minimum>0.95</minimum>
+                                        </limit>
+                                        <limit>
+                                            <counter>BRANCH</counter>
+                                            <value>COVEREDRATIO</value>
+											<minimum>0.80</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 	
 	<profiles>
-		<profile>
-			<id>native</id>
-			<activation>
-				<property>
-					<name>native</name>
-				</property>
-			</activation>
-			<properties>
+        <profile>
+            <id>native</id>
+            <activation>
+                <property>
+                    <name>native</name>
+                </property>
+            </activation>
+            <properties>
 				<skipITs>false</skipITs>
-				<quarkus.package.type>native</quarkus.package.type>
-			</properties>
-		</profile>
-		
-		<profile>
-	      <id>coverage</id>
-	      <activation>
-	        <activeByDefault>true</activeByDefault>
-	      </activation>
-	      <build>
-	        <plugins>
-	          <plugin>
-	            <groupId>org.jacoco</groupId>
-	            <artifactId>jacoco-maven-plugin</artifactId>
-	            <executions>
-	              <execution>
-	                <id>prepare-agent</id>
-	                <goals>
-	                  <goal>prepare-agent</goal>
-	                </goals>
-	              </execution>
-	              <execution>
-	                <id>report</id>
-	                <goals>
-	                  <goal>report</goal>
-	                </goals>
-	              </execution>
-	            </executions>
-	          </plugin>
-	        </plugins>
-	      </build>
+                <quarkus.package.type>native</quarkus.package.type>
+            </properties>
 	    </profile>
 	</profiles>
 </project>
