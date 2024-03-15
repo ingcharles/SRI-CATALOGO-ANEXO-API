@@ -46,8 +46,7 @@ generar-sonarqube-branch:
   - export M2_HOME=$M2_HOME_SONAR
   - export SONAR_HOME=$SONAR_HOME
   - export PATH=$JAVA_HOME/bin:$SONAR_HOME/bin:$M2_HOME/bin:$PATH
-  - mvn verify
-  - sonar-scanner -Dpmd.skip=true -Dproject.settings=sonar-scanner.properties -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco-report/jacoco.xml
+  - mvn clean verify sonar:sonar -Dpmd.skip=true -Dproject.settings=sonar-scanner.properties -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco-report/jacoco.xml
  dependencies:
   - generar-branch
  except:
