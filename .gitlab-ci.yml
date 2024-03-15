@@ -15,7 +15,7 @@ variables:
  M2_HOME : "/opt/SDKMAN/candidates/maven/current"
  SONAR_HOME: /home/jboss/herramientas/sonar-scanner-4.8.0.2856-linux_desa
  M2_HOME_SONAR : "/opt/SDKMAN/candidates/maven/apache-maven-3.9.4_sonar"
- JAVA_HOME_SONAR : "/opt/SDKMAN/candidates/java/jdk-11.0.6"
+ JAVA_HOME_SONAR : "/opt/SDKMAN/candidates/java/17.0.8-graal"
  SONAR_HOME : "/opt/SDKMAN/candidates/sonar/sonar-scanner-4.8.0.2856-linux_desa"
  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
  GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
