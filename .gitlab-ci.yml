@@ -13,7 +13,6 @@ stages:
 variables:
  JAVA_HOME : "/opt/SDKMAN/candidates/java/current"
  M2_HOME : "/opt/SDKMAN/candidates/maven/current"
- SONAR_HOME: /home/jboss/herramientas/sonar-scanner-4.8.0.2856-linux_desa
  M2_HOME_SONAR : "/opt/SDKMAN/candidates/maven/apache-maven-3.9.4_sonar"
  JAVA_HOME_SONAR : "/opt/SDKMAN/candidates/java/17.0.8-graal"
  SONAR_HOME : "/opt/SDKMAN/candidates/sonar/sonar-scanner-5.0.1.3006"
@@ -47,7 +46,7 @@ generar-sonarqube-branch:
   - export M2_HOME=$M2_HOME_SONAR
   - export SONAR_HOME=$SONAR_HOME
   - export PATH=$JAVA_HOME/bin:$SONAR_HOME/bin:$M2_HOME/bin:$PATH
-  - mvn clean install
+  - mvn clean verify
   - sonar-scanner -Dproject.settings=sonar-scanner.properties -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco-report/jacoco.xml
  dependencies:
   - generar-branch
