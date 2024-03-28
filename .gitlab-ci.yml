@@ -65,8 +65,8 @@ crear-imagen-branch:
    - export JAVA_HOME=$JAVA_HOME
    - export M2_HOME=$M2_HOME
    - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
-   - mvn package -Pnative
-   - podman build -f src/main/docker/Dockerfile.native -t sri-catalogo-api .
+   - mvn package
+   - podman build -f src/main/docker/Dockerfile.native -t sri-catalogo-api-jvm .
  except:
   - master
  tags:
@@ -77,9 +77,9 @@ tag-imagen-branch:
  needs: 
   - ["generar-sonarqube-branch"]
  script:
-   - podman image tag sri-catalogo-api:latest 10.2.21.21:9085/quarkus/sri-catalogo-api:latest
+   - podman image tag sri-catalogo-api-jvm:latest 10.2.21.21:9085/quarkus/sri-catalogo-api-jvm:latest
    - podman login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-   - podman image push 10.2.21.21:9085/quarkus/sri-catalogo-api:latest
+   - podman image push 10.2.21.21:9085/quarkus/sri-catalogo-api-jvm:latest
  except:
   - master
  tags:
@@ -154,8 +154,8 @@ crear-imagen-release:
    - export JAVA_HOME=$JAVA_HOME
    - export M2_HOME=$M2_HOME
    - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
-   - mvn package -Pnative
-   - podman build -f src/main/docker/Dockerfile.native -t sri-catalogo-api .
+   - mvn package
+   - podman build -f src/main/docker/Dockerfile.jvm -t sri-catalogo-api-jvm .
  only:
   - master
  tags:
@@ -166,9 +166,9 @@ tag-imagen-release:
  needs: 
   - ["generar-sonarqube-release"]
  script:
-   - podman image tag sri-catalogo-api:latest 10.2.21.21:9085/quarkus/sri-catalogo-api:latest
+   - podman image tag sri-catalogo-api-jvm:latest 10.2.21.21:9085/quarkus/sri-catalogo-api-jvm:latest
    - podman login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-   - podman image push 10.2.21.21:9085/quarkus/sri-catalogo-api:latest
+   - podman image push 10.2.21.21:9085/quarkus/sri-catalogo-api-jvm:latest
  only:
   - master
  tags:
