@@ -30,14 +30,19 @@ spec:
       - hostnames:
         - "sri51"
         ip: "10.12.3.115"
-      containers:
-        - image: 10.2.21.21:9085/qa/sri-catalogo-api:latest
-          imagePullPolicy: Always
-          name: sri-catalogo-api
+      containers:      
+        - name: sri-catalogo-api
+          image: 10.2.21.21:9085/qa/sri-catalogo-api:latest
+          resources:
+            limits:
+              memory: 100Mi
+              cpu: 0.5
+          imagePullPolicy: Always          
           ports:
             - containerPort: 8680
               name: http
               protocol: TCP
+      automountServiceAccountToken: false
 ---
 apiVersion: v1
 kind: Service
