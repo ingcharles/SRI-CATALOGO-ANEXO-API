@@ -228,9 +228,9 @@
             </activation>
             <properties>
 				<skipITs>false</skipITs>
-                <quarkus.package.type>native</quarkus.package.type>
-            </properties>
-	    </profile>
+				<quarkus.package.type>native</quarkus.package.type>
+			</properties>
+		</profile>
 		<profile>
 		  <id>coverage</id>
 		  <build>

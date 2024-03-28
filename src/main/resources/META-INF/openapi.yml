@@ -6,6 +6,7 @@ servers:
   - url: http://localhost:8680/catalogo/v1.0
   - url: https://pre.sri.gob.ec/catalogo/v1.0
   - url: https://sriintra01/catalogo/v1.0
+  - url: http://sripti04/catalogo/v1.0  
 tags:
   - name: parametro
 paths:
