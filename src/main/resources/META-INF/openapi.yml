@@ -10,7 +10,7 @@ servers:
 tags:
   - name: parametro
 paths:
-  "/parametros/{nombreParametro}":
+  /parametros/{nombreParametro}:
     get:
       security:
         - bearerAuth: []
