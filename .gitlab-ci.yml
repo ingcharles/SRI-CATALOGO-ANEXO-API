@@ -65,7 +65,7 @@ crear-imagen-branch:
    - export JAVA_HOME=$JAVA_HOME
    - export M2_HOME=$M2_HOME
    - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
-   - ./mvnw package -Pnative
+   - mvn package -Pnative
    - podman build -f src/main/docker/Dockerfile.native -t sri-catalogo-api .
  except:
   - master
@@ -154,7 +154,7 @@ crear-imagen-release:
    - export JAVA_HOME=$JAVA_HOME
    - export M2_HOME=$M2_HOME
    - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
-   - ./mvnw package -Pnative
+   - mvn package -Pnative
    - podman build -f src/main/docker/Dockerfile.native -t sri-catalogo-api .
  only:
   - master
