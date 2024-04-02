@@ -1,0 +1,67 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    app.quarkus.io/commit-id: fe94defa96d1f0a2e6b5753466d51a76763e3ef3
+    app.quarkus.io/build-timestamp: 2022-11-29 - 13:02:49 +0000
+  labels:
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
+    app.kubernetes.io/name: sri-catalogo-api-jvm
+  name: sri-catalogo-api-jvm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/version: 1.0.0-SNAPSHOT
+      app.kubernetes.io/name: sri-catalogo-api-jvm
+  template:
+    metadata:
+      annotations:
+        app.quarkus.io/commit-id: fe94defa96d1f0a2e6b5753466d51a76763e3ef3
+        app.quarkus.io/build-timestamp: 2022-11-29 - 13:02:49 +0000
+      labels:
+        app.kubernetes.io/version: 1.0.0-SNAPSHOT
+        app.kubernetes.io/name: sri-catalogo-api-jvm
+    spec:
+      imagePullSecrets:
+        - name: nexus-pti-secret    
+      hostAliases:
+      - hostnames:
+        - "sri51"
+        ip: "10.12.3.115"
+      containers:      
+        - name: sri-catalogo-api-jvm
+          image: 10.2.21.21:9085/quarkus/sri-catalogo-api-jvm:latest
+          resources:
+            limits:
+              memory: 100Mi
+              cpu: 0.5
+          imagePullPolicy: Always          
+          ports:
+            - containerPort: 8680
+              name: http
+              protocol: TCP
+      automountServiceAccountToken: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    app.quarkus.io/commit-id: fe94defa96d1f0a2e6b5753466d51a76763e3ef3
+    app.quarkus.io/build-timestamp: 2022-11-29 - 13:02:49 +0000
+  labels:
+    app.kubernetes.io/name: sri-catalogo-api-jvm
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
+  name: sri-catalogo-api-jvm
+spec:
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 8680
+      nodePort: 30001
+  selector:
+    app.kubernetes.io/name: sri-catalogo-api-jvm
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
+  type: NodePort
