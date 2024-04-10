@@ -60,7 +60,7 @@ spec:
       port: 80
       protocol: TCP
       targetPort: 8680
-      nodePort: 30001
+      nodePort: 30002
   selector:
     app.kubernetes.io/name: sri-catalogo-api-jvm
     app.kubernetes.io/version: 1.0.0-SNAPSHOT
