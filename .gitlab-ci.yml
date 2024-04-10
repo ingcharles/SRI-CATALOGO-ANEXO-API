@@ -179,7 +179,7 @@ ejecutar-imagen-release:
  needs:
   - tag-imagen-release
  script:
-   #- kubectl delete -f src/main/kubernetes/kubernetes.yaml
+   - kubectl delete -f src/main/kubernetes/kubernetes.yaml
    - kubectl apply -f src/main/kubernetes/kubernetes.yaml
  only:
   - master
