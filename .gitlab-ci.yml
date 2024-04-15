@@ -13,10 +13,8 @@ stages:
  
 #PARA GENERAR ARTEFACTOS Y REVISION DE SONAR
 variables:
- JAVA_HOME : "/opt/SDKMAN/candidates/java/current"
- M2_HOME : "/opt/SDKMAN/candidates/maven/current"
- M2_HOME_SONAR : "/opt/SDKMAN/candidates/maven/apache-maven-3.9.4_sonar"
- JAVA_HOME_SONAR : "/opt/SDKMAN/candidates/java/17.0.8-graal"
+ JAVA_HOME : "${JAVA_HOME}"
+ M2_HOME : "${M2_HOME}"
  SONAR_HOME : "/opt/SDKMAN/candidates/sonar/sonar-scanner-5.0.1.3006"
  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
  GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
@@ -46,8 +44,8 @@ generar-sonarqube-branch:
  stage: test-branch
  needs: ["generar-branch"]
  script:
-  - export JAVA_HOME=$JAVA_HOME_SONAR
-  - export M2_HOME=$M2_HOME_SONAR
+  - export JAVA_HOME=$JAVA_HOME
+  - export M2_HOME=$M2_HOME
   - export SONAR_HOME=$SONAR_HOME
   - export PATH=$JAVA_HOME/bin:$SONAR_HOME/bin:$M2_HOME/bin:$PATH
   - mvn clean verify
@@ -135,8 +133,8 @@ generar-sonarqube-release:
  stage: test-release
  needs: ["generar-release"]
  script:
-  - export JAVA_HOME=$JAVA_HOME_SONAR
-  - export M2_HOME=$M2_HOME_SONAR
+  - export JAVA_HOME=$JAVA_HOME
+  - export M2_HOME=$M2_HOME
   - export SONAR_HOME=$SONAR_HOME
   - export PATH=$JAVA_HOME/bin:$SONAR_HOME/bin:$M2_HOME/bin:$PATH
   - mvn clean verify
