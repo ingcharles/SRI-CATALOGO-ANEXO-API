@@ -33,10 +33,10 @@ spec:
       containers:      
         - name: sri-catalogo-api-jvm
           image: 10.2.21.21:9085/quarkus/sri-catalogo-api-jvm:latest
-          resources:
-            limits:
-              memory: 100Mi
-              cpu: 0.5
+ #         resources:
+ #           limits:
+ #             memory: 100Mi
+ #             cpu: 0.5
           imagePullPolicy: Always          
           ports:
             - containerPort: 8680
