@@ -4,7 +4,7 @@ quarkus:
       username: DS_GEN_ADM_CATALOGO
       password: DS_GEN_ADM_CATALOGO
       jdbc:
-         url: jdbc:oracle:thin:@sri51:1521:INTRASRI
+         url: jdbc:oracle:thin:@10.12.3.115:1521:INTRASRI
 
    http:
       cors:

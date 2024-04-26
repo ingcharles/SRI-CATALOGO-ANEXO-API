@@ -4,11 +4,12 @@ info:
   version: "1.0"
 servers:
   - url: http://localhost:8680/catalogo/v1.0
+  - url: http://localhost:30002/catalogo/v1.0
   - url: https://pre.sri.gob.ec/catalogo/v1.0
   - url: https://sriintra01/catalogo/v1.0
   - url: http://sripti04/catalogo/v1.0  
 tags:
-  - name: parametro
+  - name: parametro v1
 paths:
   /parametros/{nombreParametro}:
     get:
@@ -43,6 +44,29 @@ paths:
           $ref: "#/components/responses/UnauthorizedError"
         "404":
           description: Parametro no encontrado
+          
+  /pruebas/prueba01:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - prueba01
+      summary: Prueba para escalamiento
+      parameters:
+        - name: nombre
+          in: query
+          description: nombre de prueba
+          required: true
+          schema:
+            type: string
+            example: Testman
+      responses:
+        "200":
+          description: OK
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          description: Prueba01 no encontrado          
 components:
   schemas:
     Parametro:
