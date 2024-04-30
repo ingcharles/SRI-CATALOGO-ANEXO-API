@@ -88,7 +88,7 @@ ejecutar-imagen-branch:
  needs:
   - tag-imagen-branch
  script:
-   - kubectl delete -f src/main/kubernetes/kubernetes.yaml
+   - kubectl delete -f src/main/kubernetes/kubernetes.yaml || true
    - kubectl apply -f src/main/kubernetes/kubernetes.yaml
  except:
   - master
