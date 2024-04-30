@@ -1,205 +1,232 @@
 stages:
- - build-branch #1
- - test-branch
- - package-branch
- - deploy-branch
- - testapp-branch
- ##################
- - build-release #1
- - test-release
- - package-release
- - deploy-release
- - testapp-release
- 
+- build-branch #1
+- test-branch
+- package-branch
+- deploy-branch
+- testapp-branch
+##################
+- build-release #1
+- test-release
+- package-release
+- deploy-release
+- testapp-release
+
 #PARA GENERAR ARTEFACTOS Y REVISION DE SONAR
 variables:
- JAVA_HOME : "${JAVA_HOME}"
- M2_HOME : "${M2_HOME}"
- SONAR_HOME : "/opt/SDKMAN/candidates/sonar/sonar-scanner-5.0.1.3006"
- SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
- GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  JAVA_HOME: "${JAVA_HOME}"
+  M2_HOME: "${M2_HOME}"
+  SONAR_HOME: "/opt/SDKMAN/candidates/sonar/sonar-scanner-5.0.1.3006"
+  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar" # Defines the location of the analysis task cache
+  GIT_DEPTH: "0" # Tells git to fetch all the branches of the project, required by the analysis task
 
 cache:
   key: "${CI_JOB_NAME}"
   paths:
-    - .sonar/cache
-    - .cache/pip
-    - venv/
+  - .sonar/cache
+  - .cache/pip
+  - venv/
 
 ##Branch
 generar-branch:
- stage: build-branch
- script:
-   - export JAVA_HOME=$JAVA_HOME
-   - export M2_HOME=$M2_HOME
-   - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
-   - mvn clean install
- except:
+  stage: build-branch
+  script:
+  - export JAVA_HOME=$JAVA_HOME
+  - export M2_HOME=$M2_HOME
+  - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
+  - mvn clean install
+  except:
   - master
- tags:
+  tags:
   - run_devops
 
 
 generar-sonarqube-branch:
- stage: test-branch
- needs: ["generar-branch"]
- script:
+  stage: test-branch
+  needs: ["generar-branch"]
+  script:
   - export JAVA_HOME=$JAVA_HOME
   - export M2_HOME=$M2_HOME
   - export SONAR_HOME=$SONAR_HOME
   - export PATH=$JAVA_HOME/bin:$SONAR_HOME/bin:$M2_HOME/bin:$PATH
   - mvn clean verify
   - sonar-scanner -Dproject.settings=sonar-scanner.properties -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco-report/jacoco.xml
- except:
+  except:
   - master
- tags:
+  tags:
   - run_devops
 
 
 crear-imagen-branch:
- stage: package-branch
- needs: ["generar-sonarqube-branch"]
- script:
-   - export JAVA_HOME=$JAVA_HOME
-   - export M2_HOME=$M2_HOME
-   - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
-   - mvn package
-   - podman build -f src/main/docker/Dockerfile.jvm -t sri-catalogo-api-jvm .
- except:
+  stage: package-branch
+  needs: ["generar-sonarqube-branch"]
+  script:
+  - export JAVA_HOME=$JAVA_HOME
+  - export M2_HOME=$M2_HOME
+  - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
+  - mvn package
+  - podman build -f src/main/docker/Dockerfile.jvm -t sri-catalogo-api-jvm .
+  except:
   - master
- tags:
+  tags:
   - run_devops
 
 tag-imagen-branch:
- stage: package-branch
- needs: 
+  stage: package-branch
+  needs:
   - ["generar-sonarqube-branch"]
- script:
-   - podman image tag sri-catalogo-api-jvm:latest 10.2.21.21:9085/quarkus/sri-catalogo-api-jvm:latest
-   - podman login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-   - podman image push 10.2.21.21:9085/quarkus/sri-catalogo-api-jvm:latest
- except:
+  script:
+  - podman image tag sri-catalogo-api-jvm:latest 10.2.21.21:9085/quarkus/sri-catalogo-api-jvm:latest
+  - podman login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  - podman image push 10.2.21.21:9085/quarkus/sri-catalogo-api-jvm:latest
+  except:
   - master
- tags:
+  tags:
+  - run_devops
+
+borrar-imagen-branch:
+  stage: deploy-branch
+  needs:
+  - ["tag-imagen-branch"]
+  script:
+  #- kubectl delete -f src/main/kubernetes/kubernetes.yaml || true
+  - kubectl delete -f src/main/kubernetes/1-k8s-catalogo-api-deploy.yaml,src/main/kubernetes/2-k8s-catalogo-api-service.yaml,src/main/kubernetes/3-k8s-catalogo-api-ingress.yaml || true
+  allow_failure: true
+  except:
+  - master
+  tags:
   - run_devops
 
 ejecutar-imagen-branch:
- stage: deploy-branch
- needs:
-  - tag-imagen-branch
- script:
-   - kubectl delete -f src/main/kubernetes/kubernetes.yaml
-   - kubectl apply -f src/main/kubernetes/kubernetes.yaml
- except:
+  stage: deploy-branch
+  needs:
+  - ["borrar-imagen-branch"]
+  script:
+  #- kubectl apply -f src/main/kubernetes/kubernetes.yaml
+  - kubectl apply -f src/main/kubernetes/1-k8s-catalogo-api-deploy.yaml,src/main/kubernetes/2-k8s-catalogo-api-service.yaml,src/main/kubernetes/3-k8s-catalogo-api-ingress.yaml
+  except:
   - master
- tags:
+  tags:
   - run_devops
 
 prueba-humo-branch:
- stage: testapp-branch
- image: python:latest
- needs: 
+  stage: testapp-branch
+  image: python:latest
+  needs:
   - ["ejecutar-imagen-branch"]
- before_script:
+  before_script:
   - python3.8 -m venv .venv
   - . .venv/bin/activate
   - pip3 install selenium
   - pip3 install pytest
   - pip3 install webdriver_manager
   - pip3 install --upgrade pip
- script:
+  script:
   - cd /home/labqa/python
   - python3.8 app.py
- except:
+  except:
   - master
- tags:
+  tags:
   - run_devops
 
 ###########1 MASTER
 generar-release:
- stage: build-release
- script:
-   - export JAVA_HOME=$JAVA_HOME
-   - export M2_HOME=$M2_HOME
-   - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
-   - mvn clean install
- only:
+  stage: build-release
+  script:
+  - export JAVA_HOME=$JAVA_HOME
+  - export M2_HOME=$M2_HOME
+  - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
+  - mvn clean install
+  only:
   - master
- tags:
+  tags:
   - run_devops
 
 
 generar-sonarqube-release:
- stage: test-release
- needs: ["generar-release"]
- script:
+  stage: test-release
+  needs: ["generar-release"]
+  script:
   - export JAVA_HOME=$JAVA_HOME
   - export M2_HOME=$M2_HOME
   - export SONAR_HOME=$SONAR_HOME
   - export PATH=$JAVA_HOME/bin:$SONAR_HOME/bin:$M2_HOME/bin:$PATH
   - mvn clean verify
   - sonar-scanner -Dproject.settings=sonar-scanner.properties -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco-report/jacoco.xml
- only:
+  only:
   - master
- tags:
+  tags:
   - run_devops
 
 
 crear-imagen-release:
- stage: package-release
- needs: ["generar-sonarqube-release"]
- script:
-   - export JAVA_HOME=$JAVA_HOME
-   - export M2_HOME=$M2_HOME
-   - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
-   - mvn package
-   - podman build -f src/main/docker/Dockerfile.jvm -t sri-catalogo-api-jvm .
- only:
+  stage: package-release
+  needs: ["generar-sonarqube-release"]
+  script:
+  - export JAVA_HOME=$JAVA_HOME
+  - export M2_HOME=$M2_HOME
+  - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
+  - mvn package
+  - podman build -f src/main/docker/Dockerfile.jvm -t sri-catalogo-api-jvm .
+  only:
   - master
- tags:
+  tags:
   - run_devops
 
 tag-imagen-release:
- stage: package-release
- needs: 
+  stage: package-release
+  needs:
   - ["generar-sonarqube-release"]
- script:
-   - podman image tag sri-catalogo-api-jvm:latest 10.2.21.21:9085/quarkus/sri-catalogo-api-jvm:latest
-   - podman login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-   - podman image push 10.2.21.21:9085/quarkus/sri-catalogo-api-jvm:latest
- only:
+  script:
+  - podman image tag sri-catalogo-api-jvm:latest 10.2.21.21:9085/quarkus/sri-catalogo-api-jvm:latest
+  - podman login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  - podman image push 10.2.21.21:9085/quarkus/sri-catalogo-api-jvm:latest
+  only:
   - master
- tags:
+  tags:
+  - run_devops
+
+borrar-imagen-release:
+  stage: deploy-release
+  needs:
+  - ["tag-imagen-release"]
+  script:
+  #- kubectl delete -f src/main/kubernetes/kubernetes.yaml || true
+  - kubectl delete -f src/main/kubernetes/1-k8s-catalogo-api-deploy.yaml,src/main/kubernetes/2-k8s-catalogo-api-service.yaml,src/main/kubernetes/3-k8s-catalogo-api-ingress.yaml || true
+  allow_failure: true
+  only:
+  - master
+  tags:
   - run_devops
 
 ejecutar-imagen-release:
- stage: deploy-release
- needs:
-  - tag-imagen-release
- script:
-   - kubectl delete -f src/main/kubernetes/kubernetes.yaml
-   - kubectl apply -f src/main/kubernetes/kubernetes.yaml
- only:
+  stage: deploy-release
+  needs:
+  - ["borrar-imagen-release"]
+  script:
+  - kubectl apply -f src/main/kubernetes/1-k8s-catalogo-api-deploy.yaml,src/main/kubernetes/2-k8s-catalogo-api-service.yaml,src/main/kubernetes/3-k8s-catalogo-api-ingress.yaml
+  #- kubectl apply -f src/main/kubernetes/kubernetes.yaml
+  only:
   - master
- tags:
+  tags:
   - run_devops
 
+
 prueba-humo-release:
- stage: testapp-release
- image: python:latest
- needs: 
+  stage: testapp-release
+  image: python:latest
+  needs:
   - ["ejecutar-imagen-release"]
- before_script:
+  before_script:
   - python3.8 -m venv .venv
   - . .venv/bin/activate
   - pip3 install selenium
   - pip3 install pytest
   - pip3 install webdriver_manager
   - pip3 install --upgrade pip
- script:
+  script:
   - cd /home/labqa/python
   - python3.8 app.py
- only:
+  only:
   - master
- tags:
+  tags:
   - run_devops

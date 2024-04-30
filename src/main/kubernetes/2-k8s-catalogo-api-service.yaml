@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/name: sri-catalogo-api-jvm
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
+  name: sri-catalogo-api-jvm-svc
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8680
+  selector:
+    app.kubernetes.io/name: sri-catalogo-api-jvm
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
+    app.kubernetes.io/name: sri-catalogo-api-jvm
+  name: sri-catalogo-api-jvm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/version: 1.0.0-SNAPSHOT
+      app.kubernetes.io/name: sri-catalogo-api-jvm
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/version: 1.0.0-SNAPSHOT
+        app.kubernetes.io/name: sri-catalogo-api-jvm
+    spec:
+      imagePullSecrets:
+      - name: nexus-pti-secret
+      hostAliases:
+      - hostnames:
+        - "sri51"
+        ip: "10.12.3.115"
+      containers:
+      - name: sri-catalogo-api-jvm
+        image: 10.2.21.21:9085/quarkus/sri-catalogo-api-jvm:latest
+        resources:
+          limits:
+            memory: 400Mi
+            cpu: 500m
+        imagePullPolicy: Always
+        env:
+        - name: TZ
+          value: America/Guayaquil
+        ports:
+        - containerPort: 8680
+          name: http
+          protocol: TCP
+      automountServiceAccountToken: false
