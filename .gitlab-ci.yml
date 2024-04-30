@@ -1,6 +1,8 @@
 stages:
  - build-branch #1
  - test-branch
+ - visualize
+ - sonarqube
  - package-branch
  - deploy-branch
  - testapp-branch
@@ -33,16 +35,73 @@ generar-branch:
    - export JAVA_HOME=$JAVA_HOME
    - export M2_HOME=$M2_HOME
    - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
-   - mvn clean install
+   - mvn clean compile package
  except:
   - master
  tags:
   - run_devops
 
+report-junit-test:   
+  stage: test-branch
+  needs: ["generar-branch"]
+  script:
+    - export JAVA_HOME=$JAVA_HOME
+    - export M2_HOME=$M2_HOME
+    - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
+    - mvn test    
+  artifacts:
+    when: always
+    paths:
+      - target/surefire-reports/TEST-*.xml
+    expire_in: 1 week
+    reports:
+      junit:
+        - target/surefire-reports/TEST-*.xml        
+  except:
+   - master
+  tags:
+   - run_devops  
+
+#cobertura
+report-jacoco-jdk11:
+  stage: visualize
+  needs: ["report-junit-test"]  
+  script:
+    - export JAVA_HOME=$JAVA_HOME
+    - export M2_HOME=$M2_HOME
+    - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
+    - mvn $MAVEN_CLI_OPTS clean org.jacoco:jacoco-maven-plugin:prepare-agent test jacoco:report
+  artifacts:
+    paths:
+      - target/site/jacoco/jacoco.xml
+  except:
+   - master
+  tags:
+   - run_devops
+
+coverage-jdk11:
+  # Must be in a stage later than test-jdk11's stage.
+  # The `visualize` stage does not exist by default.
+  # Please define it first, or choose an existing stage like `deploy`.
+  stage: visualize  
+  image: haynes/jacoco2cobertura:latest
+  script:
+    # convert report from jacoco to cobertura, using relative project path
+    - python /opt/cover2cover.py target/site/jacoco/jacoco.xml $CI_PROJECT_DIR/src/main/java/ > target/site/cobertura.xml
+  needs: ["report-jacoco-jdk11"]
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: target/site/cobertura.xml
+  except:
+   - master
+  tags:
+   - run_devops
 
 generar-sonarqube-branch:
- stage: test-branch
- needs: ["generar-branch"]
+ stage: sonarqube
+ needs: ["coverage-jdk11"] 
  script:
   - export JAVA_HOME=$JAVA_HOME
   - export M2_HOME=$M2_HOME
@@ -73,11 +132,24 @@ crear-imagen-branch:
 tag-imagen-branch:
  stage: package-branch
  needs: 
-  - ["generar-sonarqube-branch"]
+  - ["crear-imagen-branch"]
  script:
-   - podman image tag sri-catalogo-api-jvm:latest 10.2.21.21:9085/quarkus/sri-catalogo-api-jvm:latest
+   - podman image tag sri-catalogo-api-jvm:latest 10.2.21.21:9085/qa/sri-catalogo-api-jvm:latest
    - podman login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-   - podman image push 10.2.21.21:9085/quarkus/sri-catalogo-api-jvm:latest
+   - podman image push 10.2.21.21:9085/qa/sri-catalogo-api-jvm:latest
+ except:
+  - master
+ tags:
+  - run_devops
+
+
+borrar-imagen-branch:
+ stage: deploy-branch
+ needs: 
+  - ["tag-imagen-branch"]
+ script:
+  - kubectl delete -f src/main/kubernetes/kubernetes.yaml || true
+ allow_failure: true
  except:
   - master
  tags:
@@ -85,11 +157,10 @@ tag-imagen-branch:
 
 ejecutar-imagen-branch:
  stage: deploy-branch
- needs:
-  - tag-imagen-branch
+ needs: 
+  - ["borrar-imagen-branch"]
  script:
-   - kubectl delete -f src/main/kubernetes/kubernetes.yaml || true
-   - kubectl apply -f src/main/kubernetes/kubernetes.yaml
+  - kubectl apply -f src/main/kubernetes/kubernetes.yaml
  except:
   - master
  tags:
@@ -162,11 +233,23 @@ crear-imagen-release:
 tag-imagen-release:
  stage: package-release
  needs: 
-  - ["generar-sonarqube-release"]
+  - ["crear-imagen-release"]
  script:
-   - podman image tag sri-catalogo-api-jvm:latest 10.2.21.21:9085/quarkus/sri-catalogo-api-jvm:latest
+   - podman image tag sri-catalogo-api-jvm:latest 10.2.21.21:9085/qa/sri-catalogo-api-jvm:latest
    - podman login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-   - podman image push 10.2.21.21:9085/quarkus/sri-catalogo-api-jvm:latest
+   - podman image push 10.2.21.21:9085/qa/sri-catalogo-api-jvm:latest
+ only:
+  - master
+ tags:
+  - run_devops
+
+borrar-imagen-release:
+ stage: deploy-release
+ needs:
+  - ["tag-imagen-release"]
+ script:
+  - kubectl delete -f src/main/kubernetes/kubernetes.yaml || true
+ allow_failure: true
  only:
   - master
  tags:
@@ -175,10 +258,9 @@ tag-imagen-release:
 ejecutar-imagen-release:
  stage: deploy-release
  needs:
-  - tag-imagen-release
+  - ["borrar-imagen-release"]
  script:
-   - kubectl delete -f src/main/kubernetes/kubernetes.yaml
-   - kubectl apply -f src/main/kubernetes/kubernetes.yaml
+  - kubectl apply -f src/main/kubernetes/kubernetes.yaml
  only:
   - master
  tags:
