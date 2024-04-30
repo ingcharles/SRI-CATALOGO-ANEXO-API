@@ -26,13 +26,13 @@ spec:
     spec:
       imagePullSecrets:
         - name: nexus-pti-secret    
-#      hostAliases:
-#      - hostnames:
-#        - "sri51"
-#        ip: "10.12.3.115"
+      hostAliases:
+      - hostnames:
+        - "sri51"
+        ip: "10.12.3.115"
       containers:      
         - name: sri-catalogo-api-jvm
-          image: sri-catalogo-api-jvm:latest
+          image: 10.2.21.21:9085/quarkus/sri-catalogo-api-jvm:latest
           resources:
             limits:
               memory: 512Mi
