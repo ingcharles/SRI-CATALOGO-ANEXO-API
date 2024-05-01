@@ -89,7 +89,7 @@ borrar-imagen-branch:
   - ["tag-imagen-branch"]
   script:
   #- kubectl delete -f src/main/kubernetes/kubernetes.yaml || true
-  - kubectl delete -f src/main/kubernetes/1-k8s-catalogo-api-deploy.yaml,src/main/kubernetes/2-k8s-catalogo-api-service.yaml,src/main/kubernetes/3-k8s-catalogo-api-ingress.yaml || true
+  - kubectl delete -f src/main/kubernetes/1-k8s-catalogo-api-deploy.yaml,src/main/kubernetes/2-k8s-catalogo-api-service.yaml,src/main/kubernetes/3-k8s-catalogo-api-ingress.yaml,src/main/kubernetes/4-k8s-catalogo-api-hpa.yaml  || true
   allow_failure: true
   except:
   - master
@@ -102,7 +102,7 @@ ejecutar-imagen-branch:
   - ["borrar-imagen-branch"]
   script:
   #- kubectl apply -f src/main/kubernetes/kubernetes.yaml
-  - kubectl apply -f src/main/kubernetes/1-k8s-catalogo-api-deploy.yaml,src/main/kubernetes/2-k8s-catalogo-api-service.yaml,src/main/kubernetes/3-k8s-catalogo-api-ingress.yaml
+  - kubectl apply -f src/main/kubernetes/1-k8s-catalogo-api-deploy.yaml,src/main/kubernetes/2-k8s-catalogo-api-service.yaml,src/main/kubernetes/3-k8s-catalogo-api-ingress.yaml,src/main/kubernetes/4-k8s-catalogo-api-hpa.yaml
   except:
   - master
   tags:
