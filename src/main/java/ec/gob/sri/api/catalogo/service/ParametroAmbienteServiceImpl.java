@@ -15,6 +15,7 @@ import jakarta.inject.Inject;
 import ec.gob.sri.api.catalogo.modelo.ParametroAmbiente;
 import ec.gob.sri.api.catalogo.repository.ParametroAmbienteRepository;
 import ec.gob.sri.api.catalogo.service.to.ParametroAmbienteTo;
+import io.quarkus.hibernate.reactive.panache.common.WithSession;
 import io.smallrye.mutiny.Uni;
 
 /**
@@ -43,5 +44,8 @@ public class ParametroAmbienteServiceImpl implements IParametroAmbienteService {
 						.collect(Collectors.toList()));
 
 	}
-
+	@WithSession
+	public Uni<List<ParametroAmbiente>> obtenerTodos() {
+		return parametroAmbienteRepository.obtenerTodos();
+	}
 }

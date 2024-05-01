@@ -106,4 +106,11 @@ public class ParametroAmbiente {
 		this.genericoEntidad = genericoEntidad;
 	}
 
+	@Override
+	public String toString() {
+		return "ParametroAmbiente [codigoParametro=" + codigoParametro + ", nombreParametro=" + nombreParametro
+				+ ", codigoAplicacion=" + codigoAplicacion + ", ambiente=" + ambiente + ", valor=" + valor
+				+ ", genericoEntidad=" + genericoEntidad + "]";
+	}
+
 }

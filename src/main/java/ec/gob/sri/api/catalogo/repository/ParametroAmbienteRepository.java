@@ -33,4 +33,7 @@ public class ParametroAmbienteRepository implements PanacheRepository<ParametroA
 				parametros);
 	}
 
+	public Uni<List<ParametroAmbiente>> obtenerTodos() {
+		return this.listAll();
+	}
 }
