@@ -191,7 +191,7 @@ borrar-imagen-release:
   - ["tag-imagen-release"]
   script:
   #- kubectl delete -f src/main/kubernetes/kubernetes.yaml || true
-  - kubectl delete -f src/main/kubernetes/1-k8s-catalogo-api-deploy.yaml,src/main/kubernetes/2-k8s-catalogo-api-service.yaml,src/main/kubernetes/3-k8s-catalogo-api-ingress.yaml || true
+  - kubectl delete -f src/main/kubernetes/1-k8s-catalogo-api-deploy.yaml,src/main/kubernetes/2-k8s-catalogo-api-service.yaml,src/main/kubernetes/3-k8s-catalogo-api-ingress.yaml,src/main/kubernetes/4-k8s-catalogo-api-hpa.yaml || true
   allow_failure: true
   only:
   - master
@@ -203,7 +203,7 @@ ejecutar-imagen-release:
   needs:
   - ["borrar-imagen-release"]
   script:
-  - kubectl apply -f src/main/kubernetes/1-k8s-catalogo-api-deploy.yaml,src/main/kubernetes/2-k8s-catalogo-api-service.yaml,src/main/kubernetes/3-k8s-catalogo-api-ingress.yaml
+  - kubectl apply -f src/main/kubernetes/1-k8s-catalogo-api-deploy.yaml,src/main/kubernetes/2-k8s-catalogo-api-service.yaml,src/main/kubernetes/3-k8s-catalogo-api-ingress.yaml,src/main/kubernetes/4-k8s-catalogo-api-hpa.yaml
   #- kubectl apply -f src/main/kubernetes/kubernetes.yaml
   only:
   - master

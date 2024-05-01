@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/name: sri-catalogo-api-jvm
   name: sri-catalogo-api-jvm
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app.kubernetes.io/version: 1.0.0-SNAPSHOT
@@ -28,8 +28,8 @@ spec:
         image: 10.2.21.21:9085/quarkus/sri-catalogo-api-jvm:latest
         resources:
           limits:
-            memory: 400Mi
-            cpu: 500m
+            memory: 512Mi
+            cpu: 0.5
         imagePullPolicy: Always
         env:
         - name: TZ
