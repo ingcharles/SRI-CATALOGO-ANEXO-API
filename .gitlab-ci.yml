@@ -37,7 +37,7 @@ generar-branch:
  except:
   - master
  tags:
-  - run_devops
+  - run_devopsdesa
 
 
 generar-sonarqube-branch:
@@ -53,7 +53,7 @@ generar-sonarqube-branch:
  except:
   - master
  tags:
-  - run_devops
+  - run_devopsdesa
 
 
 crear-imagen-branch:
@@ -68,7 +68,7 @@ crear-imagen-branch:
  except:
   - master
  tags:
-  - run_devops
+  - run_devopsdesa
 
 tag-imagen-branch:
  stage: package-branch
@@ -81,7 +81,7 @@ tag-imagen-branch:
  except:
   - master
  tags:
-  - run_devops
+  - run_devopsdesa
 
 ejecutar-imagen-branch:
  stage: deploy-branch
@@ -93,7 +93,7 @@ ejecutar-imagen-branch:
  except:
   - master
  tags:
-  - run_devops
+  - run_devopsdesa
 
 prueba-humo-branch:
  stage: testapp-branch
@@ -113,7 +113,7 @@ prueba-humo-branch:
  except:
   - master
  tags:
-  - run_devops
+  - run_devopsdesa
 
 ###########1 MASTER
 generar-release:
@@ -126,7 +126,7 @@ generar-release:
  only:
   - master
  tags:
-  - run_devops
+  - run_devopsdesa
 
 
 generar-sonarqube-release:
@@ -142,7 +142,7 @@ generar-sonarqube-release:
  only:
   - master
  tags:
-  - run_devops
+  - run_devopsdesa
 
 
 crear-imagen-release:
@@ -157,7 +157,7 @@ crear-imagen-release:
  only:
   - master
  tags:
-  - run_devops
+  - run_devopsdesa
 
 tag-imagen-release:
  stage: package-release
@@ -170,7 +170,7 @@ tag-imagen-release:
  only:
   - master
  tags:
-  - run_devops
+  - run_devopsdesa
 
 ejecutar-imagen-release:
  stage: deploy-release
@@ -182,7 +182,7 @@ ejecutar-imagen-release:
  only:
   - master
  tags:
-  - run_devops
+  - run_devopsdesa
 
 prueba-humo-release:
  stage: testapp-release
@@ -202,4 +202,4 @@ prueba-humo-release:
  only:
   - master
  tags:
-  - run_devops
+  - run_devopsdesa
