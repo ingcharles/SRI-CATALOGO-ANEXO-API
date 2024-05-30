@@ -57,4 +57,10 @@ public class GenericoEntidad implements Serializable, Comparable<GenericoEntidad
 	public int compareTo(GenericoEntidad t) {
 		return this.estado.compareTo(t.getEstado());
 	}
+
+	@Override
+	public String toString() {
+		return "GenericoEntidad [eliminado=" + eliminado + ", estado=" + estado + "]";
+	}
+	
 }

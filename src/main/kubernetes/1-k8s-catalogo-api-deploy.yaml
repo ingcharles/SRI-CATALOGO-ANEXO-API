@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/version: 1.0.0-SNAPSHOT
+    app.kubernetes.io/name: sri-catalogo-api-jvm
+  name: sri-catalogo-api-jvm
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/version: 1.0.0-SNAPSHOT
+      app.kubernetes.io/name: sri-catalogo-api-jvm
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/version: 1.0.0-SNAPSHOT
+        app.kubernetes.io/name: sri-catalogo-api-jvm
+    spec:
+      imagePullSecrets:
+      - name: nexus-pti-secret
+      hostAliases:
+      - hostnames:
+        - "sri51"
+        ip: "10.12.3.115"
+      containers:
+      - name: sri-catalogo-api-jvm
+        image: 10.2.21.21:9085/qa/sri-catalogo-api-jvm:latest
+        resources:
+          limits:
+            memory: 512Mi
+            cpu: 0.5
+        imagePullPolicy: Always
+        env:
+        - name: TZ
+          value: America/Guayaquil
+        - name: ADM_CATALOGO_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: poc01-secret
+              key: ADM_CATALOGO_USERNAME
+        - name: ADM_CATALOGO_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: poc01-secret
+              key: ADM_CATALOGO_PASSWORD
+        - name: REACTIVE_JDBC_URL_ORACLE_INTRASRI
+          valueFrom:
+            secretKeyRef:
+              name: poc01-secret
+              key: REACTIVE_JDBC_URL_ORACLE_INTRASRI
+        - name: URL_SSO_INTRANET
+          valueFrom:
+            secretKeyRef:
+              name: poc01-secret
+              key: URL_SSO_INTRANET
+        ports:
+        - containerPort: 8680
+          name: http
+          protocol: TCP
+      automountServiceAccountToken: false

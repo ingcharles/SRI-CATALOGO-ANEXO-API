@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sri-catalogo-api-jvm-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: kubelab.sri.gob.ec
+    http:
+      paths:
+      - path: /catalogo/
+        pathType: Prefix
+        backend:
+          service:
+            name: sri-catalogo-api-jvm-svc
+            port:
+              number: 80
