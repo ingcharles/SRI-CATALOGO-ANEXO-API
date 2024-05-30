@@ -34,6 +34,26 @@ spec:
         env:
         - name: TZ
           value: America/Guayaquil
+        - name: ADM_CATALOGO_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: poc01-secret
+              key: ADM_CATALOGO_USERNAME
+        - name: ADM_CATALOGO_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: poc01-secret
+              key: ADM_CATALOGO_PASSWORD
+        - name: JDBC_URL_ORACLE_INTRASRI
+          valueFrom:
+            secretKeyRef:
+              name: poc01-secret
+              key: JDBC_URL_ORACLE_INTRASRI
+        - name: URL_SSO_INTRANET
+          valueFrom:
+            secretKeyRef:
+              name: poc01-secret
+              key: URL_SSO_INTRANET
         ports:
         - containerPort: 8680
           name: http
