@@ -25,7 +25,7 @@ spec:
         ip: "10.12.3.115"
       containers:
       - name: sri-catalogo-api-jvm
-        image: 10.2.21.21:9085/quarkus/sri-catalogo-api-jvm:latest
+        image: 10.2.21.21:9085/qa/sri-catalogo-api-jvm:latest
         resources:
           limits:
             memory: 512Mi
@@ -44,11 +44,11 @@ spec:
             secretKeyRef:
               name: poc01-secret
               key: ADM_CATALOGO_PASSWORD
-        - name: JDBC_URL_ORACLE_INTRASRI
+        - name: REACTIVE_JDBC_URL_ORACLE_INTRASRI
           valueFrom:
             secretKeyRef:
               name: poc01-secret
-              key: JDBC_URL_ORACLE_INTRASRI
+              key: REACTIVE_JDBC_URL_ORACLE_INTRASRI
         - name: URL_SSO_INTRANET
           valueFrom:
             secretKeyRef:
