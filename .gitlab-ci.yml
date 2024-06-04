@@ -1,280 +1,112 @@
 stages:
-- build-branch #1
-- test-branch
-- visualize
-- sonarqube
-- package-branch
-- deploy-branch
-- testapp-branch
-##################
-- build-release #1
-- test-release
-- package-release
-- deploy-release
-- testapp-release
+ - build
+ - test
+ - visualize
+ - package
+ - deploy
+ - testqa
+ - deploy-pro
 
 #PARA GENERAR ARTEFACTOS Y REVISION DE SONAR
 variables:
-  JAVA_HOME: "${JAVA_HOME}"
-  M2_HOME: "${M2_HOME}"
-  SONAR_HOME: "/opt/SDKMAN/candidates/sonar/sonar-scanner-5.0.1.3006"
-  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar" # Defines the location of the analysis task cache
-  GIT_DEPTH: "0" # Tells git to fetch all the branches of the project, required by the analysis task
+ JAVA_HOME : "${JAVA_HOME}"
+ M2_HOME : "${M2_HOME}"
+ SONAR_HOME : "/opt/SDKMAN/candidates/sonar/sonar-scanner-5.0.1.3006"
+ SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+ GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+ DEPENDENCY : "/opt/SDKMAN/candidates/java/dependency-check"
 
 cache:
   key: "${CI_JOB_NAME}"
   paths:
-  - .sonar/cache
-  - .cache/pip
-  - venv/
-
-##Branch
-generar-branch:
-  stage: build-branch
-  script:
-  - export JAVA_HOME=$JAVA_HOME
-  - export M2_HOME=$M2_HOME
-  - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
-  - mvn clean compile package
-  except:
-  - master
-  tags:
-  - run_devopsdesa
-
-report-junit-test:
-  stage: test-branch
-  needs: ["generar-branch"]
-  script:
-  - export JAVA_HOME=$JAVA_HOME
-  - export M2_HOME=$M2_HOME
-  - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
-  - mvn test
-  artifacts:
-    when: always
-    paths:
-    - target/surefire-reports/TEST-*.xml
-    expire_in: 1 week
-    reports:
-      junit:
-      - target/surefire-reports/TEST-*.xml
-  except:
-  - master
-  tags:
-  - run_devops
-
-#cobertura
-report-jacoco-jdk11:
-  stage: visualize
-  needs: ["report-junit-test"]
-  script:
-  - export JAVA_HOME=$JAVA_HOME
-  - export M2_HOME=$M2_HOME
-  - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
-  - mvn $MAVEN_CLI_OPTS clean org.jacoco:jacoco-maven-plugin:prepare-agent test jacoco:report
-  artifacts:
-    paths:
-    - target/site/jacoco/jacoco.xml
-  except:
-  - master
-  tags:
-  - run_devops
-
-coverage-jdk11:
-  # Must be in a stage later than test-jdk11's stage.
-  # The `visualize` stage does not exist by default.
-  # Please define it first, or choose an existing stage like `deploy`.
-  stage: visualize
-  image: haynes/jacoco2cobertura:latest
-  script:
-  # convert report from jacoco to cobertura, using relative project path
-  - python /opt/cover2cover.py target/site/jacoco/jacoco.xml $CI_PROJECT_DIR/src/main/java/ > target/site/cobertura.xml
-  needs: ["report-jacoco-jdk11"]
-  artifacts:
-    reports:
-      coverage_report:
-        coverage_format: cobertura
-        path: target/site/cobertura.xml
-  except:
-  - master
-  tags:
-  - run_devops
-
-generar-sonarqube-branch:
-  stage: sonarqube
-  needs: ["coverage-jdk11"]
-  script:
-  - export JAVA_HOME=$JAVA_HOME
-  - export M2_HOME=$M2_HOME
-  - export SONAR_HOME=$SONAR_HOME
-  - export PATH=$JAVA_HOME/bin:$SONAR_HOME/bin:$M2_HOME/bin:$PATH
-  - mvn clean verify
-  - sonar-scanner -Dproject.settings=sonar-scanner.properties -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco-report/jacoco.xml
-  except:
-  - master
-  tags:
-  - run_devopsdesa
-
-
-crear-imagen-branch:
-  stage: package-branch
-  needs: ["generar-sonarqube-branch"]
-  script:
-  - export JAVA_HOME=$JAVA_HOME
-  - export M2_HOME=$M2_HOME
-  - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
-  - mvn package
-  - podman build -f src/main/docker/Dockerfile.jvm -t sri-catalogo-api-jvm .
-  except:
-  - master
-  tags:
-  - run_devopsdesa
-
-tag-imagen-branch:
-  stage: package-branch
-  needs:
-  - ["crear-imagen-branch"]
-  script:
-  - podman image tag sri-catalogo-api-jvm:latest 10.2.21.21:9085/qa/sri-catalogo-api-jvm:latest
-  - podman login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-  - podman image push 10.2.21.21:9085/qa/sri-catalogo-api-jvm:latest
-  except:
-  - master
-  tags:
-  - run_devops
-
-borrar-imagen-branch:
-  stage: deploy-branch
-  needs:
-  - ["tag-imagen-branch"]
-  script:
-  #- kubectl delete -f src/main/kubernetes/kubernetes.yaml || true
-  - kubectl delete -f src/main/kubernetes/1-k8s-catalogo-api-deploy.yaml,src/main/kubernetes/2-k8s-catalogo-api-service.yaml,src/main/kubernetes/3-k8s-catalogo-api-ingress.yaml,src/main/kubernetes/4-k8s-catalogo-api-hpa.yaml  || true
-  allow_failure: true
-  except:
-  - master
-  tags:
-  - run_devops
-
-ejecutar-imagen-branch:
-  stage: deploy-branch
-  needs:
-  - ["borrar-imagen-branch"]
-  script:
-  #- kubectl apply -f src/main/kubernetes/kubernetes.yaml
-  - kubectl apply -f src/main/kubernetes/1-k8s-catalogo-api-deploy.yaml,src/main/kubernetes/2-k8s-catalogo-api-service.yaml,src/main/kubernetes/3-k8s-catalogo-api-ingress.yaml,src/main/kubernetes/4-k8s-catalogo-api-hpa.yaml
-  except:
-  - master
-  tags:
-  - run_devops
-
-prueba-humo-branch:
-  stage: testapp-branch
-  image: python:latest
-  needs:
-  - ["ejecutar-imagen-branch"]
-  before_script:
-  - python3.8 -m venv .venv
-  - . .venv/bin/activate
-  - pip3 install selenium
-  - pip3 install pytest
-  - pip3 install webdriver_manager
-  - pip3 install --upgrade pip
-  script:
-  - cd /home/labqa/python
-  - python3.8 app.py
-  except:
-  - master
-  tags:
-  - run_devopsdesa
+    - .sonar/cache
+    - .cache/pip
+    - venv/
 
 ###########1 MASTER
-generar-release:
-  stage: build-release
-  script:
-  - export JAVA_HOME=$JAVA_HOME
-  - export M2_HOME=$M2_HOME
-  - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
-  - mvn clean install
-  only:
-  - master
-  tags:
-  - run_devopsdesa
+generar:
+ stage: build
+ script:
+   - export JAVA_HOME=$JAVA_HOME
+   - export M2_HOME=$M2_HOME
+   - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
+   - mvn clean install
+ tags:
+  - jacoco
 
-
-generar-sonarqube-release:
-  stage: test-release
-  needs: ["generar-release"]
-  script:
+generar-sonarqube:
+ stage: test
+ needs: ["generar"]
+ script:
   - export JAVA_HOME=$JAVA_HOME
   - export M2_HOME=$M2_HOME
   - export SONAR_HOME=$SONAR_HOME
-  - export PATH=$JAVA_HOME/bin:$SONAR_HOME/bin:$M2_HOME/bin:$PATH
+  - export DEPENDENCY=$DEPENDENCY
+  - export PATH=$DEPENDENCY/bin:$JAVA_HOME/bin:$SONAR_HOME/bin:$M2_HOME/bin:$PATH
+   ### DEPENDENCY CHECK ### 
+  - mvn dependency:copy-dependencies
+  - mkdir reports
+  - dependency-check.sh -n --scan ${CI_PROJECT_DIR}/target/dependency --project "API Catalogo" -f JSON -f HTML -f XML -o reports/
   - mvn clean verify
   - sonar-scanner -Dproject.settings=sonar-scanner.properties -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco-report/jacoco.xml
-  only:
-  - master
-  tags:
-  - run_devopsdesa
+ tags:
+  - jacoco
 
+prueba-instalacion:
+ stage: test
+ needs: ["generar"]
+ script:
+  - ls
+ tags:
+  - jacoco
 
-crear-imagen-release:
-  stage: package-release
-  needs: ["generar-sonarqube-release"]
+prueba-carga-api:
+ stage: test
+ needs: ["generar"]
+ script:
+  - cd /home/labqa/k6
+  - k6 run test_apik6_catalog.js
+ tags:
+  - jacoco
+
+crear-imagen:
+  stage: package
   script:
   - export JAVA_HOME=$JAVA_HOME
   - export M2_HOME=$M2_HOME
   - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
   - mvn package
   - podman build -f src/main/docker/Dockerfile.jvm -t sri-catalogo-api-jvm .
-  only:
-  - master
   tags:
-  - run_devopsdesa
+  - jacoco
 
-tag-imagen-release:
-  stage: package-release
-  needs:
-  - ["crear-imagen-release"]
+tag-imagen:
+  stage: package
   script:
   - podman image tag sri-catalogo-api-jvm:latest 10.2.21.21:9085/qa/sri-catalogo-api-jvm:latest
   - podman login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   - podman image push 10.2.21.21:9085/qa/sri-catalogo-api-jvm:latest
-  only:
-  - master
   tags:
-  - run_devops
+  - jacoco
 
-borrar-imagen-release:
-  stage: deploy-release
-  needs:
-  - ["tag-imagen-release"]
+borrar-imagen:
+  stage: deploy
   script:
-  #- kubectl delete -f src/main/kubernetes/kubernetes.yaml || true
-  - kubectl delete -f src/main/kubernetes/1-k8s-catalogo-api-deploy.yaml,src/main/kubernetes/2-k8s-catalogo-api-service.yaml,src/main/kubernetes/3-k8s-catalogo-api-ingress.yaml,src/main/kubernetes/4-k8s-catalogo-api-hpa.yaml || true
+  - kubectl delete -f src/main/kubernetes/1-k8s-catalogo-api-deploy.yaml,src/main/kubernetes/2-k8s-catalogo-api-service.yaml,src/main/kubernetes/3-k8s-catalogo-api-ingress.yaml,src/main/kubernetes/4-k8s-catalogo-api-hpa.yaml  || true
   allow_failure: true
-  only:
-  - master
   tags:
-  - run_devops
+  - jacoco
 
-ejecutar-imagen-release:
-  stage: deploy-release
-  needs:
-  - ["borrar-imagen-release"]
+ejecutar-imagen:
+  stage: deploy
   script:
   - kubectl apply -f src/main/kubernetes/1-k8s-catalogo-api-deploy.yaml,src/main/kubernetes/2-k8s-catalogo-api-service.yaml,src/main/kubernetes/3-k8s-catalogo-api-ingress.yaml,src/main/kubernetes/4-k8s-catalogo-api-hpa.yaml
-  #- kubectl apply -f src/main/kubernetes/kubernetes.yaml
-  only:
-  - master
   tags:
-  - run_devops
+  - jacoco
 
-
-prueba-humo-release:
-  stage: testapp-release
+prueba-humo-api:
+  stage: testqa
   image: python:latest
-  needs:
-  - ["ejecutar-imagen-release"]
   before_script:
   - python3.8 -m venv .venv
   - . .venv/bin/activate
@@ -284,8 +116,16 @@ prueba-humo-release:
   - pip3 install --upgrade pip
   script:
   - cd /home/labqa/python
-  - python3.8 app.py
-  only:
-  - master
+  - python3.8 test_catalogapi.py
   tags:
+  - jacoco
+
+ejecutar-imagen-produccion:
+ stage: deploy-pro
+ needs: ["prueba-humo-api"]
+ script:
+   - kubectl delete -f src/main/kubernetes/1-k8s-catalogo-api-deploy.yaml,src/main/kubernetes/2-k8s-catalogo-api-service.yaml,src/main/kubernetes/3-k8s-catalogo-api-ingress.yaml,src/main/kubernetes/4-k8s-catalogo-api-hpa.yaml
+   - kubectl apply -f src/main/kubernetes/1-k8s-catalogo-api-deploy.yaml,src/main/kubernetes/2-k8s-catalogo-api-service.yaml,src/main/kubernetes/3-k8s-catalogo-api-ingress.yaml,src/main/kubernetes/4-k8s-catalogo-api-hpa.yaml
+ when: manual
+ tags:
   - run_devopsdesa
