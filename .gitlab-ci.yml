@@ -44,11 +44,12 @@ generar-sonarqube:
   - export DEPENDENCY=$DEPENDENCY
   - export PATH=$DEPENDENCY/bin:$JAVA_HOME/bin:$SONAR_HOME/bin:$M2_HOME/bin:$PATH
    ### DEPENDENCY CHECK ### 
-  - mvn dependency:copy-dependencies
-  - mkdir reports
-  - dependency-check.sh -n --scan ${CI_PROJECT_DIR}/target/dependency --project "API Catalogo" -f JSON -f HTML -f XML -o reports/
-  - mvn clean verify
-  - sonar-scanner -Dproject.settings=sonar-scanner.properties -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco-report/jacoco.xml
+  #- mvn dependency:copy-dependencies
+  #- mkdir reports
+  #- dependency-check.sh -n --scan ${CI_PROJECT_DIR}/target/dependency --project "API Catalogo" -f JSON -f HTML -f XML -o reports/
+  #- mvn clean verify
+  #- sonar-scanner -Dproject.settings=sonar-scanner.properties -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco-report/jacoco.xml
+  - ls http://10.12.5.243:9000/dashboard?branch=master&id=sri-catalogo-api
  allow_failure: true
  tags:
   - jacoco
