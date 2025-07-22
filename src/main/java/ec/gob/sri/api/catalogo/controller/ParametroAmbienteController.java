@@ -40,4 +40,5 @@ public class ParametroAmbienteController {
 			@QueryParam("codigoApp") String codigoAplicacion) {
 		return parametroAmbienteService.consultarParametrosPorNombreCodigoAplicacion(nombreParametro, codigoAplicacion);
 	}
+	
 }

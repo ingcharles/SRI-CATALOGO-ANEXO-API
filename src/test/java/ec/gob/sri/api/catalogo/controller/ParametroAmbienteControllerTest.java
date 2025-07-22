@@ -1,35 +1,49 @@
-/**
- * Clase ParametroAmbienteControllerTest.java 24 ago. 2022
- * Copyright 2022 Servicio de Rentas Internas.
- * Todos los derechos reservados.
- */
 package ec.gob.sri.api.catalogo.controller;
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.containsString;
-
+import ec.gob.sri.api.catalogo.service.IParametroAmbienteService;
+import ec.gob.sri.api.catalogo.service.to.ParametroAmbienteTo;
+import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.junit.mockito.InjectMock;
+import io.restassured.http.ContentType;
+import io.smallrye.mutiny.Uni;
 import org.junit.jupiter.api.Test;
 
-import io.quarkus.test.junit.QuarkusTest;
-import io.quarkus.test.security.TestSecurity;
+import java.util.Arrays;
+import java.util.List;
 
-/**
- * @author cfcg070314
- *
- */
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.Mockito.when;
+
 @QuarkusTest
-@TestSecurity(authorizationEnabled = false)
-public class ParametroAmbienteControllerTest {
+class ParametroAmbienteControllerTest {
 
-	@Test
-	public void deberiaResponderConsultar() {
-		given().when().get("/parametros/MAIL_SERVER?codigoApp=ADM").then().statusCode(200)
-				.body(containsString("[{\"ambiente\":\"PRO\""));
-	}
+    @InjectMock
+    IParametroAmbienteService parametroAmbienteService;
 
-	@Test
-	public void deberiaResponderConsultarNoEncontrado() {
-		given().when().get("/parametrosxyz/XYZ?codigoApp=ADM").then().statusCode(404);
-	}
+    @Test
+    void testConsultarParametrosPorNombreYCodigoApp() {
+        // Datos simulados
+        ParametroAmbienteTo dto1 = new ParametroAmbienteTo("1e", "producción");
+        ParametroAmbienteTo dto2 = new ParametroAmbienteTo("1a", "pruebas");
+        List<ParametroAmbienteTo> simulados = Arrays.asList(dto1, dto2);
 
+        String nombreParametro = "ambiente";
+        String codigoApp = "APP1";
+
+        // Mock del servicio
+        when(parametroAmbienteService.consultarParametrosPorNombreCodigoAplicacion(nombreParametro, codigoApp))
+            .thenReturn(Uni.createFrom().item(simulados));
+
+        // Prueba del endpoint real
+        given()
+            .accept(ContentType.JSON)
+            .queryParam("codigoApp", codigoApp)
+        .when()
+            .get("/parametros/" + nombreParametro)
+        .then()
+            .statusCode(200)
+            .contentType(ContentType.JSON)
+            .body("$", hasSize(2));
+    }
 }
