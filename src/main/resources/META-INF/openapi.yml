@@ -1,87 +1,87 @@
-openapi: "3.0.3"
-info:
-  title: API Catalogo
-  version: "1.0"
-servers:
-  - url: http://localhost:8680/catalogo/v1.0
-  - url: http://localhost:30002/catalogo/v1.0
-  - url: https://pre.sri.gob.ec/catalogo/v1.0
-  - url: https://sriintra01/catalogo/v1.0
-  - url: http://sripti04/catalogo/v1.0  
-tags:
-  - name: parametro v1
-paths:
-  /parametros/{nombreParametro}:
-    get:
-      security:
-        - bearerAuth: []
-      tags:
-        - parametro
-      summary: Operacion que consulta un parametro por su nombre y aplicación
-      parameters:
-        - name: nombreParametro
-          in: path
-          description: Nombre del parametro
-          required: true
-          schema:
-            type: string
-            example: MAIL_SERVER
-        - name: codigoApp
-          in: query
-          description: Código de la aplicación
-          required: true
-          schema:
-            type: string
-            example: ADM
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Parametro"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "404":
-          description: Parametro no encontrado
+#openapi: "3.0.3"
+#info:
+#  title: API Catalogo
+#  version: "1.0"
+#servers:
+#  - url: http://localhost:8680/catalogo/v1.0
+#  - url: http://localhost:30002/catalogo/v1.0
+#  - url: https://pre.sri.gob.ec/catalogo/v1.0
+#  - url: https://sriintra01/catalogo/v1.0
+#  - url: http://sripti04/catalogo/v1.0  
+#tags:
+#  - name: parametro v1
+#paths:
+#  /parametros/{nombreParametro}:
+#    get:
+#      security:
+#        - bearerAuth: []
+#      tags:
+#        - parametro
+#      summary: Operacion que consulta un parametro por su nombre y aplicación
+#      parameters:
+#        - name: nombreParametro
+#          in: path
+#          description: Nombre del parametro
+#          required: true
+#          schema:
+#            type: string
+#            example: MAIL_SERVER
+#        - name: codigoApp
+#          in: query
+#          description: Código de la aplicación
+#          required: true
+#          schema:
+#            type: string
+#            example: ADM
+#      responses:
+#        "200":
+#          description: OK
+#          content:
+#            application/json:
+#              schema:
+#               $ref: "#/components/schemas/Parametro"
+#        "401":
+#          $ref: "#/components/responses/UnauthorizedError"
+#        "404":
+#          description: Parametro no encontrado
           
-  /pruebas/prueba01:
-    get:
-      security:
-        - bearerAuth: []
-      tags:
-        - prueba01
-      summary: Prueba para escalamiento
-      parameters:
-        - name: nombre
-          in: query
-          description: nombre de prueba
-          required: true
-          schema:
-            type: string
-            example: Testman
-      responses:
-        "200":
-          description: OK
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "404":
-          description: Prueba01 no encontrado          
-components:
-  schemas:
-    Parametro:
-      type: object
-      required:
-        - valor
-      properties:
-        valor:
-          type: string
-          example: 10.1.0.76
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-  responses:
-    UnauthorizedError:
-      description: Access token is missing or invalid
+#  /pruebas/prueba01:
+#    get:
+#      security:
+#        - bearerAuth: []
+#      tags:
+#        - prueba01
+#      summary: Prueba para escalamiento
+#      parameters:
+#        - name: nombre
+#          in: query
+#          description: nombre de prueba
+#          required: true
+#          schema:
+#            type: string
+#            example: Testman
+#      responses:
+#        "200":
+#          description: OK
+#        "401":
+#          $ref: "#/components/responses/UnauthorizedError"
+#        "404":
+#          description: Prueba01 no encontrado          
+#components:
+#  schemas:
+#    Parametro:
+#      type: object
+#      required:
+#        - valor
+#      properties:
+#        valor:
+#          type: string
+#          example: 10.1.0.76
+#  securitySchemes:
+#    bearerAuth:
+#      type: http
+#      scheme: bearer
+#      bearerFormat: JWT
+#  responses:
+#    UnauthorizedError:
+#      description: Access token is missing or invalid

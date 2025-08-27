@@ -10,8 +10,6 @@ release.properties
 .project
 .classpath
 .settings/
-.checkstyle
-.eclipse-pmd
 bin/
 
 # IntelliJ
@@ -40,3 +38,8 @@ nb-configuration.xml
 
 # Local environment
 .env
+
+# Plugin directory
+/.quarkus/cli/plugins/
+# TLS Certificates
+.certs/
