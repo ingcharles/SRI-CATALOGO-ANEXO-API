@@ -58,8 +58,8 @@ generar-sonarqube:
   - dependency-check.sh -n --scan ${CI_PROJECT_DIR}/target/dependency --project "API Catalogo" -f JSON -f HTML -f XML -o reports/
   - mvn clean verify
   #- sonar-scanner -Dproject.settings=sonar-scanner.properties -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco-report/jacoco.xml
-  #- sonar-scanner -Dproject.settings=sonar-scanner.properties -Dsonar.token=$SONAR_TOKEN -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco-report/jacoco.xml when: manual
-  - sonar-scanner -Dproject.settings=sonar-scanner.properties -Dsonar.token=squ_dbcebd445a9de04e7bb82e2ca304042e76b5e6c8 -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco-report/jacoco.xml
+  - sonar-scanner -Dproject.settings=sonar-scanner.properties -Dsonar.token=$SONAR_TOKEN -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco-report/jacoco.xml 
+ when: manual
  tags:
   - cobertura
 
@@ -68,6 +68,7 @@ prueba-instalacion:
  needs: ["generar"]
  script:
   - ls
+ when: manual
  tags:
   - jacoco
 
