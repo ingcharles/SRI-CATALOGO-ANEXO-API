@@ -14,12 +14,12 @@ variables:
  JAVA_HOME: "/datos/data-qa/herramientas/jdk-repo/openjdk-21.0.2"
  M2_HOME: "/datos/data-qa/herramientas/apache-maven/apache-maven-3.9.9_sonar_243"
 
- SONAR_HOME : "/opt/SDKMAN/candidates/sonar/sonar-scanner-5.0.1.3006"
- #SONAR_HOME: "/datos/data-qa/herramientas/sonar-scanner/sonar-scanner-7.1.0.4889-linux-x64"
+ #SONAR_HOME : "/opt/SDKMAN/candidates/sonar/sonar-scanner-5.0.1.3006"
+ SONAR_HOME: "/datos/data-qa/herramientas/sonar-scanner/sonar-scanner-7.1.0.4889-linux-x64"
  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
  GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
- DEPENDENCY : "/opt/SDKMAN/candidates/java/dependency-check"
- #DEPENDENCY: "/datos/data-qa/herramientas/dependency-check/dependency-check-12.1.0"
+ #DEPENDENCY : "/opt/SDKMAN/candidates/java/dependency-check"
+ DEPENDENCY: "/datos/data-qa/herramientas/dependency-check/dependency-check-12.1.0"
 
 cache:
   key: "${CI_JOB_NAME}"
@@ -53,11 +53,11 @@ generar-sonarqube:
   - export DEPENDENCY=$DEPENDENCY
   - export PATH=$DEPENDENCY/bin:$JAVA_HOME/bin:$SONAR_HOME/bin:$M2_HOME/bin:$PATH
    ### DEPENDENCY CHECK ### 
-  #- mvn dependency:copy-dependencies
-  #- mkdir reports
-  #- dependency-check.sh -n --scan ${CI_PROJECT_DIR}/target/dependency --project "API Catalogo" -f JSON -f HTML -f XML -o reports/
-  #- mvn clean verify
-  #- sonar-scanner -Dproject.settings=sonar-scanner.properties -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco-report/jacoco.xml
+  - mvn dependency:copy-dependencies
+  - mkdir reports
+  - dependency-check.sh -n --scan ${CI_PROJECT_DIR}/target/dependency --project "API Catalogo" -f JSON -f HTML -f XML -o reports/
+  - mvn clean verify
+  - sonar-scanner -Dproject.settings=sonar-scanner.properties -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco-report/jacoco.xml
   - ls http://10.12.5.243:9000/dashboard?branch=master&id=sri-catalogo-api
  allow_failure: true
  when: manual
