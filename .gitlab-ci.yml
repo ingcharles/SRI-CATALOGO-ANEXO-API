@@ -15,8 +15,7 @@ variables:
  #M2_HOME: "/datos/data-qa/herramientas/apache-maven/apache-maven-3.9.9_sonar_243"
 
  #SONAR_HOME : "/opt/SDKMAN/candidates/sonar/sonar-scanner-5.0.1.3006"
- #SONAR_HOME: "/datos/data-qa/herramientas/sonar-scanner/sonar-scanner-7.1.0.4889-linux-x64"
- SONAR_HOME : "/opt/SDKMAN/candidates/sonar/sonar-scanner-5.0.1.3006"
+ SONAR_HOME: "/datos/data-qa/herramientas/sonar-scanner/sonar-scanner-7.1.0.4889-linux-x64"
  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
  GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
  DEPENDENCY : "/opt/SDKMAN/candidates/java/dependency-check"
