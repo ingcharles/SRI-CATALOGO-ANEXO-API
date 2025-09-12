@@ -63,6 +63,62 @@ generar-sonarqube:
  tags:
   - cobertura
 
+analisis-propiedades-base-jdk21:
+  stage: test
+  script:
+    - export JAVA_HOME="/datos/data-qa/herramientas/jdk-repo/openjdk-21.0.2"
+    - export M2_HOME="/datos/data-qa/herramientas/apache-maven/apache-maven-4.0.0-rc-4"
+    - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
+    - mkdir ${CI_PROJECT_DIR}/reports
+    - mvn versions:display-property-updates -Dmaven.version.ignore="(?i).*(alpha|beta|rc|snapshot|milestone|-m).*" > reports/propiedades-updates.txt
+    - mvn versions:display-property-updates -X
+  artifacts:
+    name: "propiedades-updates"
+    paths:
+      - reports/propiedades-updates.txt
+    expire_in: 7 days
+  allow_failure: true
+  when: manual
+  tags:
+   - jacoco   
+
+analisis-plugins-base-jdk21:
+  stage: test
+  script:
+    - export JAVA_HOME="/datos/data-qa/herramientas/jdk-repo/openjdk-21.0.2"
+    - export M2_HOME="/datos/data-qa/herramientas/apache-maven/apache-maven-4.0.0-rc-4"
+    - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
+    - mkdir ${CI_PROJECT_DIR}/reports
+    - mvn versions:display-plugin-updates -Dmaven.version.ignore="(?i).*(alpha|beta|rc|snapshot|milestone|-m).*" > reports/plugins-updates.txt
+  artifacts:
+    name: "plugin-report"
+    paths:
+      - reports/plugins-updates.txt
+    expire_in: 7 days
+  allow_failure: true
+  when: manual
+  tags:
+   - jacoco
+
+analisis-dependencias-base-jdk21:
+  stage: test
+  script:
+    - export JAVA_HOME="/datos/data-qa/herramientas/jdk-repo/openjdk-21.0.2"
+    - export M2_HOME="/datos/data-qa/herramientas/apache-maven/apache-maven-4.0.0-rc-4"
+    - export PATH=$JAVA_HOME/bin:$M2_HOME/bin:$PATH
+    - mkdir ${CI_PROJECT_DIR}/reports
+    - mvn versions:display-dependency-updates -Dmaven.version.ignore="(?i).*(alpha|beta|rc|snapshot|milestone|-m).*" > reports/dependency-updates.txt
+  artifacts:
+    name: "dependencias-updates"
+    paths:
+      - reports/dependency-updates.txt
+    expire_in: 7 days
+  allow_failure: true
+  when: manual
+  tags:
+   - jacoco  
+
+
 prueba-instalacion:
  stage: test
  needs: ["generar"]
