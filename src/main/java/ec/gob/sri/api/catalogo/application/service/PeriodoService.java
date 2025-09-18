@@ -23,6 +23,5 @@ public class PeriodoService {
         return periodoRepository.consultarPorCodigoPeriodicidad(codPeriodicidad)
                 .map(periodoMapper::toResponseList);
     }
-
 }
 
