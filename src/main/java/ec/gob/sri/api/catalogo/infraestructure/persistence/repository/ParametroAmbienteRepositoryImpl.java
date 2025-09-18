@@ -21,7 +21,7 @@ public class ParametroAmbienteRepositoryImpl implements ParametroAmbienteReposit
     @Override
     @WithSession
     public Uni<List<ParametroAmbiente>> consultarPorAmbienteYCodigoAplicacion(String nombreParametro, String codigoAplicacion) {
-        return repo.find("eliminado = 'N' and  estado = 'A' and nombreParametro = ?1 and codigoAplicacion = ?2",
+        return repo.find("eliminado = 'N' and  estado = 'A' and ambiente = ?1 and codigoAplicacion = ?2",
                           nombreParametro, codigoAplicacion)
                           .list()
                    .map(mapper::toDomainList); 
