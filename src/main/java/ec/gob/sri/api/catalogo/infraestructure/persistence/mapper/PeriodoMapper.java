@@ -31,18 +31,6 @@ public interface PeriodoMapper {
     })
     Periodo toDomain(PeriodoEntity e);
 
-    @Mappings({
-            @Mapping(source = "codigoPeriodo", target = "codigoPeriodo"),
-            @Mapping(source = "anioFiscal", target = "anioFiscal"),
-            @Mapping(source = "periodicidadEntity.codigoPeriodicidad", target = "codigoPeriodicidad"),
-            @Mapping(source = "descripcion", target = "descripcion"),
-            @Mapping(source = "eliminado", target = "eliminado"),
-            @Mapping(source = "estado", target = "estado"),
-            @Mapping(source = "fechaFinal", target = "fechaFinal"),
-            @Mapping(source = "fechaInicial", target = "fechaInicial"),
-            @Mapping(source = "numeroPeriodo", target = "numeroPeriodo"),
-            @Mapping(source = "procesado", target = "procesado")
-    })
     List<Periodo> toDomainList(List<PeriodoEntity> list);
 
     // Domain -> Response DTO
@@ -53,5 +41,6 @@ public interface PeriodoMapper {
     PeriodoResponse toResponse(Periodo d);
 
     List<PeriodoResponse> toResponseList(List<Periodo> list);
+
 
 }

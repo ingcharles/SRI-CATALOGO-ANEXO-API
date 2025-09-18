@@ -29,7 +29,7 @@ public class PeriodoRepositoryImpl implements PeriodoRepository {
                 .list()
                 .await().indefinitely();*/
 
-        return periodoPanacheRepository.find("eliminado = 'N' and  estado = 'A' and periodicidadEntity.codigoPeriodicidad = ?1 ORDER BY descripcion ASC", codPeriodicidad)
+        return periodoPanacheRepository.find("SELECT p FROM PeriodoEntity p JOIN FETCH p.periodicidadEntity WHERE p.eliminado = 'N' and p.estado = 'A' and p.periodicidadEntity.codigoPeriodicidad = ?1 ORDER BY p.descripcion ASC", codPeriodicidad)
                 .list()
                 .map(periodoMapper::toDomainList);
     }
