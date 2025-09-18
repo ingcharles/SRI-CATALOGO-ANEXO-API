@@ -82,4 +82,5 @@ public class PeriodoRepositoryImpl implements PeriodoRepository {
                     throwable.printStackTrace();
                 });
     }
+
 }
