@@ -1,0 +1,802 @@
+[33mcommit c6cc5274053e0331427fd5020ea4069eade5f772[m[33m ([m[1;36mHEAD -> [m[1;32mtrunck[m[33m, [m[1;31morigin/trunck[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Carlos Anchundia <contacto.splendercode@gmail.com>
+Date:   Thu Sep 18 11:16:34 2025 -0500
+
+    fix: mappers
+
+[33mcommit 2a9b8cbfe49a68370ba8a9db59474cd80fe86130[m
+Author: Carlos Anchundia <contacto.splendercode@gmail.com>
+Date:   Thu Sep 18 10:56:52 2025 -0500
+
+    fix: mappers
+
+[33mcommit fe34591be301af0012434fd3b5b77fb0733528c1[m
+Author: Carlos Anchundia <ceanchundia@sri.gob.ec>
+Date:   Thu Sep 18 10:03:57 2025 -0500
+
+    first commit
+
+[33mcommit 97be23628883cda3f92cdf17be26cf470291d51b[m
+Author: Quiñonez Nuquez, Carlos Alberto <caqn300725@sri.ad>
+Date:   Mon Sep 15 13:58:42 2025 +0000
+
+    Edit sonar-scanner.properties
+
+[33mcommit fef1e366691cd7c9b36a4e205181da6baeafda54[m
+Author: Quiñonez Nuquez, Carlos Alberto <caqn300725@sri.ad>
+Date:   Mon Sep 15 13:15:34 2025 +0000
+
+    Edit sonar-scanner.properties
+
+[33mcommit 0560cbbdaa189a225d73b390695454b5ff185c6a[m
+Author: Quiñonez Nuquez, Carlos Alberto <caqn300725@sri.ad>
+Date:   Fri Sep 12 20:33:29 2025 +0000
+
+    Edit sonar-scanner.properties
+
+[33mcommit 8ae09235b21d9beb518a3a66b771d4cdae66dede[m
+Author: Quiñonez Nuquez, Carlos Alberto <caqn300725@sri.ad>
+Date:   Fri Sep 12 15:33:20 2025 +0000
+
+    validaciónplugins, depencias y propieades
+
+[33mcommit 583abe5167636f503bef8f621d62339c96e32dd1[m
+Author: Quiñonez Nuquez, Carlos Alberto <caqn300725@sri.ad>
+Date:   Fri Sep 12 14:45:11 2025 +0000
+
+    Edit sonar-scanner.properties
+
+[33mcommit abbfe89129cb7dcfe4cddcb9014de5505f99eae4[m
+Author: Quiñonez Nuquez, Carlos Alberto <caqn300725@sri.ad>
+Date:   Fri Sep 12 13:26:04 2025 +0000
+
+    Edit sonar-scanner.properties
+
+[33mcommit b616314162494db1df961e3a2369144c80dd6cb2[m
+Author: Quiñonez Nuquez, Carlos Alberto <caqn300725@sri.ad>
+Date:   Thu Sep 11 13:57:01 2025 +0000
+
+    Exluye los Test
+
+[33mcommit 15474467575e267c77abad6df98019988768615a[m
+Author: Alarcon Leoro, Paola Alexandra <paal110411@sri.ad>
+Date:   Tue Sep 9 20:23:59 2025 +0000
+
+    Edit sonar-scanner.properties
+
+[33mcommit fb9911dbbc544ed04e692748243c7c8bf4307606[m
+Author: Alarcon Leoro, Paola Alexandra <paal110411@sri.ad>
+Date:   Tue Sep 9 20:21:35 2025 +0000
+
+    Edit .gitlab-ci.yml
+
+[33mcommit 00a27259eab2bd8c6c87a9e97990f9de35e0de9f[m
+Author: Quiñonez Nuquez, Carlos Alberto <caqn300725@sri.ad>
+Date:   Tue Sep 9 16:39:46 2025 +0000
+
+    se añade dependecy check sonar-scanner.properties
+
+[33mcommit 38f30778712d4ff97235f84b9610b419cd3ec19c[m
+Author: Quiñonez Nuquez, Carlos Alberto <caqn300725@sri.ad>
+Date:   Tue Sep 9 16:28:02 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+[33mcommit 5b800115165005bd9d3ce073abdfb9c357e9af52[m
+Author: Quiñonez Nuquez, Carlos Alberto <caqn300725@sri.ad>
+Date:   Tue Sep 9 16:06:19 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+[33mcommit f0b942b5f6dbd2390bd3cbedf66826e71cca1466[m
+Author: Quiñonez Nuquez, Carlos Alberto <caqn300725@sri.ad>
+Date:   Tue Sep 9 15:28:30 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+[33mcommit 10d473a03e8b40e88ec8a6b5a88968447fcd8760[m
+Author: Quiñonez Nuquez, Carlos Alberto <caqn300725@sri.ad>
+Date:   Tue Sep 9 15:22:46 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+[33mcommit 01f86ef824bf4195204fae816d5d3c13e043edde[m
+Author: Quiñonez Nuquez, Carlos Alberto <caqn300725@sri.ad>
+Date:   Tue Sep 9 15:22:27 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+[33mcommit 3d7ebad9f7873cd2404a93cc6b378b36e5670486[m
+Author: Quiñonez Nuquez, Carlos Alberto <caqn300725@sri.ad>
+Date:   Tue Sep 9 15:20:44 2025 +0000
+
+    Update .gitlab-ci.yml file
+
+[33mcommit a2d323dd74c81fdce05ea99438b1f70e5d4b97f4[m
+Author: Quiñonez Nuquez, Carlos Alberto <caqn300725@sri.ad>
+Date:   Tue Sep 9 15:18:22 2025 +0000
+
+    corrección variables maven
+
+[33mcommit 81fb11f49f4535cfa0688eceac595f89f3d44589[m
+Author: Quiñonez Nuquez, Carlos Alberto <caqn300725@sri.ad>
+Date:   Fri Sep 5 16:10:24 2025 +0000
+
+    corrección variables maven
+
+[33mcommit aad19295e1ce1ebc361a3baf2c217790810d4f6d[m
+Author: Tamayo Romo <fdtr280525@sri.ad>
+Date:   Fri Sep 5 09:01:44 2025 -0500
+
+    fx - cambio de version de jacoco
+
+[33mcommit 292e76c8c5536a4836ed3673eddc52bbfb4a15d2[m
+Author: Tamayo Romo <fdtr280525@sri.ad>
+Date:   Tue Sep 2 10:13:20 2025 -0500
+
+    ft - pruebas unitarias v1
+
+[33mcommit 28f1c37ffeb13ba926c57a6d1c524a2b55eb0038[m
+Author: Santiago Simbana H <sdsimbana@sri.gob.ec>
+Date:   Wed Aug 27 15:31:00 2025 -0500
+
+    FEAT: Migracion estructura DDD
+
+[33mcommit b00becf77acb7d7fa24fbb7dc820237e364557a0[m
+Author: Tamayo Romo <fdtr280525@sri.ad>
+Date:   Tue Jul 22 12:03:52 2025 -0500
+
+    ft - pruebas unitarias correctas
+
+[33mcommit 9a8a9bb12442135e61bd92a6aee2ae0c9353afaa[m
+Author: Cesar Paullan <capp260412@sri.ad>
+Date:   Tue Jun 11 19:53:01 2024 +0000
+
+    Update .gitlab-ci.yml
+
+[33mcommit 23e6cbfd73595fb0617afe0530d15a3cdf221bd5[m
+Author: Cesar Paullan <capp260412@sri.ad>
+Date:   Tue Jun 4 19:48:16 2024 +0000
+
+    Update .gitlab-ci.yml
+
+[33mcommit fe5f57807f77eb1589e9dbdd585b7c9fc3fdda7b[m
+Author: Cesar Paullan <capp260412@sri.ad>
+Date:   Tue Jun 4 18:15:35 2024 +0000
+
+    Update .gitlab-ci.yml
+
+[33mcommit 40187e5c0b3502189f67005975051a16d233b3c5[m
+Author: Cesar Paullan <capp260412@sri.ad>
+Date:   Tue Jun 4 18:10:21 2024 +0000
+
+    Update .gitlab-ci.yml
+
+[33mcommit a02d29ecd4718842a440649dd76ca9d2438da51c[m
+Merge: 7cd1941 cab3fad
+Author: Arreaga Desiderio, Christian Guillermo <cgad211021@sri.ad>
+Date:   Thu May 30 19:07:01 2024 +0000
+
+    Merge branch '7-revisar-archivos-de-deploy' into 'master'
+    
+    Resolve "Revisar archivos de deploy"
+    
+    Closes #7
+    
+    See merge request Arquetipos/piloto-base-microservicios/sri-catalogo-api!10
+
+[33mcommit cab3fadec621b33d8c2728e2f853cd0f3a97e0fc[m
+Author: CAD <cgarreaga@sri.gob.ec>
+Date:   Thu May 30 14:04:52 2024 -0500
+
+    fix pipeline
+
+[33mcommit 9e8c1eca86f3d33c5bc19798b604dc1e7757be16[m
+Merge: c41014d 7cd1941
+Author: Arreaga Desiderio, Christian Guillermo <cgad211021@sri.ad>
+Date:   Thu May 30 19:02:01 2024 +0000
+
+    Merge branch 'master' into '7-revisar-archivos-de-deploy'
+    
+    # Conflicts:
+    #   .gitlab-ci.yml
+
+[33mcommit c41014d2e829b3c759d48fd3e773a4b2a524a094[m
+Author: CAD <cgarreaga@sri.gob.ec>
+Date:   Thu May 30 10:31:12 2024 -0500
+
+    cambio ruta imagen
+
+[33mcommit 25b6995b2abf5a084733102d60444fc1d65137a1[m
+Author: CAD <cgarreaga@sri.gob.ec>
+Date:   Thu May 30 10:00:50 2024 -0500
+
+    cambios para test
+
+[33mcommit f8e808274838dcf3d0c432e72cc4d4493d352cb0[m
+Author: CAD <cgarreaga@sri.gob.ec>
+Date:   Thu May 30 09:17:33 2024 -0500
+
+    cambios para env vars
+
+[33mcommit 7cd1941e77cdeeaffcf0610cb2b95dcaf2b24179[m
+Merge: 2bb3301 ae4cabf
+Author: Arreaga Desiderio, Christian Guillermo <cgad211021@sri.ad>
+Date:   Thu May 9 15:22:25 2024 +0000
+
+    Merge branch '8-metricas' into 'master'
+    
+    Resolve "metricas"
+    
+    Closes #8
+    
+    See merge request Arquetipos/piloto-base-microservicios/sri-catalogo-api!8
+
+[33mcommit 2bb33018eddae573fd8a0f0ced078e54ecb255fb[m
+Author: Cesar Paullan <capp260412@sri.ad>
+Date:   Thu May 2 15:40:13 2024 +0000
+
+    Update .gitlab-ci.yml
+
+[33mcommit 7c4c20ab1e432d8fc63b1b4e40339aa222c90d91[m
+Author: CAD <cgarreaga@sri.gob.ec>
+Date:   Wed May 1 17:09:32 2024 -0500
+
+    cambios del pipeline para hpa
+
+[33mcommit 1851051ec5f844367e53ad68762c9f684a5c8787[m
+Merge: 3f03392 7b0dba4
+Author: CAD <cgarreaga@sri.gob.ec>
+Date:   Wed May 1 16:25:28 2024 -0500
+
+    Merge branch 'prueba_hpa' into 7-revisar-archivos-de-deploy
+
+[33mcommit 3f0339270db05d9510d0e69fd72623e429198928[m
+Author: cgarreagad <cgarreaga@sri.gob.ec>
+Date:   Wed May 1 16:23:54 2024 -0500
+
+    cambios para HPA
+
+[33mcommit 2f4473405e74ff2b1550fc7c9909293256bcff3a[m
+Author: cgarreagad <cgarreaga@sri.gob.ec>
+Date:   Tue Apr 30 16:46:11 2024 -0500
+
+    corrección nombre del ingress
+
+[33mcommit d487afa5e3de45c4f2c8488db7f0b9d33df17fdd[m
+Author: cgarreagad <cgarreaga@sri.gob.ec>
+Date:   Tue Apr 30 16:32:31 2024 -0500
+
+    modificación deploy
+
+[33mcommit ae4cabf9c8066b1a886832df1fed78fd30fd433c[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Tue Apr 30 12:19:58 2024 -0500
+
+    Revert "Revert "fix (kubernetes) delete""
+    
+    This reverts commit ca45c4a46fd4e2b755f077b611645cddd209e6ea.
+
+[33mcommit 9d63cb371cfc06f84ae91c6ed4caed058947599e[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Tue Apr 30 11:38:58 2024 -0500
+
+    fix (kubernetes) delete yml
+
+[33mcommit ca45c4a46fd4e2b755f077b611645cddd209e6ea[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Tue Apr 30 11:38:23 2024 -0500
+
+    Revert "fix (kubernetes) delete"
+    
+    This reverts commit bcb7019572dc4543d4781384b527d7430baed227.
+
+[33mcommit bcb7019572dc4543d4781384b527d7430baed227[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Tue Apr 30 10:02:28 2024 -0500
+
+    fix (kubernetes) delete
+
+[33mcommit 7b0dba459fa42216b41fc6f71a44c95649d20e21[m
+Author: espl250516 <espl250516@UIOP2ESPL250516.sri.ad>
+Date:   Tue Apr 30 09:13:47 2024 -0500
+
+    ajustes para kub central
+
+[33mcommit 6b10c2973fb5f15036686a2c751ac779d623e262[m
+Author: espl250516 <espl250516@UIOP2ESPL250516.sri.ad>
+Date:   Tue Apr 30 09:11:10 2024 -0500
+
+    ajustes hpa y compatibilidad de imagen
+
+[33mcommit 32f209d17f7e7e62a1266dcd6a85c7be1bf16642[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Tue Apr 30 08:31:20 2024 -0500
+
+    agregar (prometheus) metricas para observabilidad.
+
+[33mcommit 03089920dacb1c46652ce6a550d6a10bdf558155[m
+Author: espl250516 <espl250516@UIOP2ESPL250516.sri.ad>
+Date:   Fri Apr 26 11:31:43 2024 -0500
+
+    ajustes para prueba de hpa
+
+[33mcommit b97b46cc178c5d08f34d07e1daa421cceef087f0[m
+Author: Arreaga Desiderio, Christian Guillermo <cgad211021@sri.ad>
+Date:   Mon Apr 15 21:49:11 2024 +0000
+
+    Se comenta configuración de limits
+
+[33mcommit 14b2db4de4e54a369791a5f8fd17d58d2b8233f9[m
+Author: Munoz Ontaneda, Carmen Estefania <cemo070909@sri.ad>
+Date:   Mon Apr 15 21:07:43 2024 +0000
+
+    Cambio de puerto de servicio solicitado por CA
+
+[33mcommit f4d42c8ae182ccfa8c78cd3aa85eed4484902be7[m
+Author: Munoz Ontaneda, Carmen Estefania <cemo070909@sri.ad>
+Date:   Mon Apr 15 20:49:24 2024 +0000
+
+    Update .gitlab-ci.yml file
+
+[33mcommit eb3fe0e67226370b64cc48743be28a7f4c779dd5[m
+Merge: 12208fc c9639dd
+Author: Munoz Ontaneda, Carmen Estefania <cemo070909@sri.ad>
+Date:   Mon Apr 15 20:46:18 2024 +0000
+
+    Merge branch '6-error-forbiden-403' into 'master'
+    
+    Resolve "Error Forbiden 403"
+    
+    Closes #6
+    
+    See merge request Arquetipos/piloto-base-microservicios/sri-catalogo-api!7
+
+[33mcommit c9639dd4577d04bf9908206ea00cb0cf2989efba[m
+Merge: a0d9070 12208fc
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Mon Apr 15 12:25:18 2024 -0500
+
+    Merge remote-tracking branch 'origin/master' into 6-error-forbiden-403
+
+[33mcommit 12208fc66f2e7e8f40d605fcbeaf2fc4967efa6b[m
+Author: Cesar Paullan <capp260412@sri.ad>
+Date:   Mon Apr 15 15:09:19 2024 +0000
+
+    Update .gitlab-ci.yml
+
+[33mcommit a0d90702e2505cdde8150e2947660e2b9f4dead8[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Mon Apr 15 08:51:09 2024 -0500
+
+    Migration quarkus to 3.9.2
+
+[33mcommit 5341a9463767761229a84b3c08f50a973c1d9131[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Mon Apr 15 08:50:25 2024 -0500
+
+    fix (OIDC) dependencias.
+
+[33mcommit 36ba7f83bf19c5b2e4823f93819196fa5df45b6e[m
+Author: Cesar Paullan <capp260412@sri.ad>
+Date:   Wed Apr 10 18:03:46 2024 +0000
+
+    Update .gitlab-ci.yml
+
+[33mcommit 0940a7ff557f2547c982208d16e115bb22db0f19[m
+Author: Cesar Paullan <capp260412@sri.ad>
+Date:   Wed Apr 10 17:41:43 2024 +0000
+
+    Update kubernetes.yaml
+
+[33mcommit b0017c8395afe9e316f85c8e06bf707b168f3485[m
+Author: Cesar Paullan <capp260412@sri.ad>
+Date:   Mon Apr 8 13:27:24 2024 +0000
+
+    Update .gitlab-ci.yml
+
+[33mcommit 5693a5478aaf1723013b5e83535678156cf243f9[m
+Merge: f1d85c0 7ae3dfd
+Author: Arreaga Desiderio, Christian Guillermo <cgad211021@sri.ad>
+Date:   Tue Apr 2 21:14:12 2024 +0000
+
+    Merge branch '5-incrementar-cobertura' into 'master'
+    
+    Resolve "incrementar-cobertura"
+    
+    Closes #5
+    
+    See merge request Arquetipos/piloto-base-microservicios/sri-catalogo-api!6
+
+[33mcommit 7ae3dfd62e82784efaea48dcef9dc3f1341b9a2e[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Tue Apr 2 15:54:55 2024 -0500
+
+    fix properties
+
+[33mcommit 288311da8f6e5dd3c946727c55d9c03e3ed11613[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Mon Apr 1 11:37:23 2024 -0500
+
+    skip delete yaml
+
+[33mcommit 3707056611292845af53e43d371cd2e48a9543a1[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Thu Mar 28 16:40:28 2024 -0500
+
+    fix openapi
+
+[33mcommit f85c93295feb2ac4fb5694f0f6979eba1f16a3cd[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Thu Mar 28 16:14:41 2024 -0500
+
+    fix ci
+
+[33mcommit 1c98c6aa2bd938796a0e817365b101eb1a254267[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Thu Mar 28 15:25:37 2024 -0500
+
+    fix yaml
+
+[33mcommit 10d5949c0e2cd3596c6b196e5fe3c535df1a8399[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Thu Mar 28 15:08:31 2024 -0500
+
+    fix uso de mvnw por permisos
+
+[33mcommit 7356284ec870108368732d814f93acbcc1369f24[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Thu Mar 28 14:59:09 2024 -0500
+
+    fix (Clean Code) security rating
+
+[33mcommit 7e7f8d08cdd5f87fe877a981d77392115e45b319[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Thu Mar 28 13:52:52 2024 -0500
+
+    configuraciones para AutoDevOps
+
+[33mcommit 29c1f6f30c73f4ccc10aaa96c940b812ff59b563[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Fri Mar 15 23:09:56 2024 -0500
+
+    fix sonar scanner
+
+[33mcommit 1fe9da748e62e0c0cdb26c1b9a7a5ff6ab032952[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Fri Mar 15 16:58:43 2024 -0500
+
+    fix coverage ratio
+
+[33mcommit 4396c040c17fb670845ee65fb6c81334af9c0c2e[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Fri Mar 15 16:46:40 2024 -0500
+
+    update (test) ok
+
+[33mcommit e16df7a176db79fc3031c98555f9f51c77a65294[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Fri Mar 15 16:06:31 2024 -0500
+
+    Update (ratio) to 0.8
+
+[33mcommit 2fc858473571aa6a36f2d6ee0b557b8b93687d04[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Fri Mar 15 16:04:04 2024 -0500
+
+    update (sonar-jacoco) integracion
+
+[33mcommit 24d46442209e5a3fff13abce0f35c1793113f33a[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Fri Mar 15 12:07:31 2024 -0500
+
+    fix sonar
+
+[33mcommit f2d6dd1b7f08287879e7b90f218be2638371788a[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Fri Mar 15 12:02:21 2024 -0500
+
+    fix (sonar-scanner) con pmd skip
+
+[33mcommit d6882344495f6cc58ba8bc84382fbbe106dfe707[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Fri Mar 15 11:41:43 2024 -0500
+
+    fix gitlab
+
+[33mcommit 031a86a60768244e8559868b16eaae7fbe37a395[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Fri Mar 15 11:37:37 2024 -0500
+
+    fix sonar
+
+[33mcommit 2cc1b5ffebade0f5564687f359a280bdee5163c4[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Fri Mar 15 09:53:41 2024 -0500
+
+    upgate gitlab-cli java 17
+
+[33mcommit 28ffa003e669c7e73f97b343a8b71d177de82aab[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Fri Mar 15 09:43:15 2024 -0500
+
+    update (gitlab-ci) java 11 para sonar
+
+[33mcommit cecff3b3f28ba898c93db9b0aa08dc35a3b33ef7[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Fri Mar 15 08:27:29 2024 -0500
+
+    update (gitlab) image maven
+
+[33mcommit 8ab1873b2b3484b82774c3777d0ac6a0724f206e[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Fri Mar 15 08:24:18 2024 -0500
+
+    upda gitlab mvn verify
+
+[33mcommit a232f2c99957a8e91bd7c0845c0c31a01cf38c6a[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Fri Mar 15 08:20:27 2024 -0500
+
+    fix (sonar) properties
+
+[33mcommit b571ab95a9f40fcaee54748f4bef4c43f1bff064[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Fri Mar 15 08:12:09 2024 -0500
+
+    fix (test) pruebas sin seguridad.
+
+[33mcommit 5943c9e5ed14f96916f2d8263863ee32ab4f08a9[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Fri Mar 15 07:58:14 2024 -0500
+
+    update (properties) para testing y seguridad
+
+[33mcommit a5b60a5a247f033521e70a8ab82d1b2ea057ea0d[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Thu Mar 14 17:03:08 2024 -0500
+
+    update (core) incrementar cobertura de pruebas
+
+[33mcommit f1d85c0a41a3577abf6a521b6329f4e6b1d230ee[m
+Author: Cesar Paullan <capp260412@sri.ad>
+Date:   Wed Mar 6 19:47:19 2024 +0000
+
+    Add new file
+
+[33mcommit 055a6a8e690d5475e89bac763ac0a222027b9cce[m
+Author: Cesar Paullan <capp260412@sri.ad>
+Date:   Wed Mar 6 19:43:56 2024 +0000
+
+    Update .gitlab-ci.yml
+
+[33mcommit 482bf597e413101984d199401458e22530554635[m
+Author: Cesar Paullan <capp260412@sri.ad>
+Date:   Wed Mar 6 17:42:08 2024 +0000
+
+    Update .gitlab-ci.yml
+
+[33mcommit a19d7b802b3d06b6ec2a2bd20dcbb53aa2ab56cb[m
+Author: Cesar Paullan <capp260412@sri.ad>
+Date:   Wed Mar 6 17:40:13 2024 +0000
+
+    Update .gitlab-ci.yml
+
+[33mcommit 46e478607bf31e99ae742cac58553fd10f049b5d[m
+Merge: 900f162 d596d9f
+Author: Arreaga Desiderio, Christian Guillermo <cgad211021@sri.ad>
+Date:   Wed Mar 6 15:32:16 2024 +0000
+
+    Merge branch '4-migracion-quarkus-3-8' into 'master'
+    
+    Resolve "migracion-quarkus-3.8"
+    
+    Closes #4
+    
+    See merge request Arquetipos/piloto-base-microservicios/sri-catalogo-api!5
+
+[33mcommit d596d9f411327ccc76f7cad5e29852a45eb8d65c[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Wed Mar 6 10:22:05 2024 -0500
+
+    Update(Quarkus) migration to 3.8
+
+[33mcommit 900f162e81d290f3df4b06bec8017197c83db8ca[m
+Author: Cesar Paullan <capp260412@sri.ad>
+Date:   Thu Feb 29 14:25:10 2024 +0000
+
+    Add new file
+
+[33mcommit d7edfe5f7ac043eb5f1f19bd9c2247e71b458f7b[m
+Merge: 8945155 20fba5e
+Author: Cesar Paullan <capp260412@sri.ad>
+Date:   Thu Nov 30 21:20:21 2023 +0000
+
+    Merge branch '3-estructuracion-del-yaml-del-proceso' into 'master'
+    
+    Resolve "Estructuración del YAML del proceso"
+    
+    Closes #3
+    
+    See merge request Arquetipos/piloto-base-microservicios/sri-catalogo-api!3
+
+[33mcommit 20fba5ee2cbc0d5c31d653c55298fa684b7ece27[m
+Merge: 8945155 d05a28e
+Author: Cabezas Gutierrez, Cristhian Fabian <cfcg070314@sri.ad>
+Date:   Thu Oct 12 16:59:54 2023 +0000
+
+    Merge branch '2-migracion-a-quarkus-v3-0' into '3-estructuracion-del-yaml-del-proceso'
+    
+    Migracion a Quarkus 3.0
+    
+    See merge request Arquetipos/piloto-base-microservicios/sri-catalogo-api!4
+
+[33mcommit d05a28e377fd528edca9c70134767af8eff220f3[m
+Author: cfcg070314 <cfcg070314@sri.ad>
+Date:   Mon May 22 15:22:35 2023 -0500
+
+    Migracion a Quarkus 3.0
+
+[33mcommit 89451556de697644630141eada01b821b5b6772c[m
+Author: cfcg070314 <cfcg070314@uiop1cfcg070314.sri.ad>
+Date:   Thu Dec 15 12:04:32 2022 -0500
+
+    properties pruebas
+
+[33mcommit 32db95e999e9498357e4f5477ccf1e3746208070[m
+Author: cfcg070314 <cfcg070314@host.docker.internal>
+Date:   Fri Nov 11 15:38:37 2022 -0500
+
+    activa servicios asegurados
+
+[33mcommit 7da6e350d96493462d967f4811768e189edc467f[m
+Author: cfcg070314 <cfcg070314@host.docker.internal>
+Date:   Fri Nov 11 15:37:31 2022 -0500
+
+    Version inicial con implementación reactiva.
+
+[33mcommit 5973d1f78e72e08f530862fe76224ef66558e3f4[m
+Merge: 3013efe a0534bf
+Author: cfcg070314 <cfcg070314@host.docker.internal>
+Date:   Fri Sep 16 17:20:18 2022 -0500
+
+    Merge branch 'master' of http://gitlab.sri.ad/Arquetipos/piloto-base-microservicios/sri-catalogo-api.git
+
+[33mcommit 3013efecf26ce32fd64ae8504fd852af4203a7ad[m
+Author: cfcg070314 <cfcg070314@host.docker.internal>
+Date:   Fri Sep 16 17:20:07 2022 -0500
+
+    documentacion
+
+[33mcommit a0534bfd6797e3ee3fd18571e60513e3954aefd4[m
+Author: eecc041018 <eecc041018@UIOP1EECC041018.sri.ad>
+Date:   Fri Sep 16 12:27:41 2022 -0500
+
+    Estandarización de contratos
+
+[33mcommit 4c94d48586890f7bc905d62048ad6cb493a210e4[m
+Author: cfcg070314 <cfcg070314@uiop1cfcg070314.mshome.net>
+Date:   Wed Sep 7 09:08:28 2022 -0500
+
+    aseguramiento de servicios y vault para clave de DS
+
+[33mcommit 26bd16a70b3981b9eacbc0a12387a4d4c26fa163[m
+Author: cfcg070314 <cfcg070314@uiop1cfcg070314.mshome.net>
+Date:   Mon Sep 5 10:22:37 2022 -0500
+
+    Servicio get parametro
+
+[33mcommit 4589dbf94791adc2eacad8169f12b20820f53c33[m
+Author: cfcg070314 <cfcg070314@uiop1cfcg070314.mshome.net>
+Date:   Mon Sep 5 10:16:09 2022 -0500
+
+    Configuracion autorización de servicios
+
+[33mcommit f10d42ceacf0492e259c5d5aa57c2894342854a7[m
+Author: cfcg070314 <cfcg070314@uiop1cfcg070314.mshome.net>
+Date:   Fri Sep 2 17:08:32 2022 -0500
+
+    Servicio asegurado
+
+[33mcommit 08204d889933bbadcf45052a2baa241908058073[m
+Author: cfcg070314 <cfcg070314@uiop1cfcg070314.mshome.net>
+Date:   Tue Aug 30 15:23:49 2022 -0500
+
+    Se elimina sql por defecto
+
+[33mcommit 5dbb2f52bc8827c69a540de5ebdcbb4730bce740[m
+Merge: a90b69d a09b29a
+Author: cfcg070314 <cfcg070314@uiop1cfcg070314.sri.ad>
+Date:   Thu Aug 25 17:08:19 2022 -0500
+
+    Merge branch 'master' of http://gitlab.sri.ad/Arquetipos/piloto-base-microservicios/sri-catalogo-api.git
+
+[33mcommit a90b69dd26f96b6cc499a34382c40ac746cc6d1e[m
+Author: cfcg070314 <cfcg070314@uiop1cfcg070314.sri.ad>
+Date:   Thu Aug 25 16:53:43 2022 -0500
+
+    Configuracion para compilacion con maven wrapper.
+
+[33mcommit a09b29a5cada9cdbf4faac6edd93b05dac905939[m
+Author: cfcg070314 <cfcg070314@uiop1cfcg070314.sri.ad>
+Date:   Thu Aug 25 16:53:43 2022 -0500
+
+    Configuracion para compilacion con maven wraper.
+
+[33mcommit 62ff1ce4bb07dfe53be172cf1ea3cd3bb2ce8a87[m
+Author: cfcg070314 <cfcg070314@uiop1cfcg070314.sri.ad>
+Date:   Thu Aug 25 16:52:12 2022 -0500
+
+    controller no transaccional
+
+[33mcommit 39195863e74794838edbb35f8156be61e4b57be3[m
+Author: cfcg070314 <cfcg070314@uiop1cfcg070314.sri.ad>
+Date:   Wed Aug 24 16:01:26 2022 -0500
+
+    Unico return con operador ternario.
+
+[33mcommit 60698c6a168de3ced14524b23620e87338f50095[m
+Author: cfcg070314 <cfcg070314@uiop1cfcg070314.sri.ad>
+Date:   Wed Aug 24 15:59:52 2022 -0500
+
+    Respuesta con datos
+
+[33mcommit 30781f8909a45c6bcd27b88692c3f4317c6870cb[m
+Author: cfcg070314 <cfcg070314@uiop1cfcg070314.sri.ad>
+Date:   Wed Aug 24 15:52:08 2022 -0500
+
+    Respuesta 404
+
+[33mcommit 8efc376145fdad8cb48ebe8a885dcffc97292b88[m
+Author: cfcg070314 <cfcg070314@uiop1cfcg070314.sri.ad>
+Date:   Wed Aug 24 15:31:02 2022 -0500
+
+    test unit
+
+[33mcommit 1e914dbfd4fc29768503f85f2304f39c133329a8[m
+Author: cfcg070314 <cfcg070314@uiop1cfcg070314.sri.ad>
+Date:   Wed Aug 24 15:27:00 2022 -0500
+
+    branding
+
+[33mcommit 0c135cb1fb4b3d38f7d257935b693a38faa50b68[m
+Author: cfcg070314 <cfcg070314@uiop1cfcg070314.sri.ad>
+Date:   Wed Aug 24 15:26:54 2022 -0500
+
+    configuraciones
+
+[33mcommit c529824f05e550b279f4c4d7289d97be4da5423d[m
+Author: cfcg070314 <cfcg070314@uiop1cfcg070314.sri.ad>
+Date:   Wed Aug 24 15:26:34 2022 -0500
+
+    Pruebas unitarias
+
+[33mcommit 2477c41aa5062e4bfceac3595182dbd60e24b203[m
+Author: cfcg070314 <cfcg070314@uiop1cfcg070314.sri.ad>
+Date:   Wed Aug 24 10:46:48 2022 -0500
+
+    Completado contrato inicial
+
+[33mcommit d6142f78db380081b9ce498cf1813a633469f188[m
+Author: Cabezas Gutierrez <cfcg070314@sri.ad>
+Date:   Wed Aug 24 09:02:08 2022 -0500
+
+    puerto 8080
+
+[33mcommit 9d54bb2d4e192a6d555fde3ba3277f3fda35ad50[m
+Author: Cabezas Gutierrez <cfcg070314@sri.ad>
+Date:   Wed Aug 24 09:00:33 2022 -0500
+
+    configuraciones y dependencias
+
+[33mcommit b86af86800e42ec2175bde82642c33f1e6de8b77[m
+Author: cfcg070314 <cfcg070314@uiop1cfcg070314.sri.ad>
+Date:   Tue Aug 23 16:32:53 2022 -0500
+
+    init
+
+[33mcommit 5114633643a195f81d03d0e3c6cafaf57b2c154d[m
+Author: Cabezas Gutierrez, Cristhian Fabian <cfcg070314@sri.ad>
+Date:   Tue Aug 23 20:45:54 2022 +0000
+
+    Initial commit
