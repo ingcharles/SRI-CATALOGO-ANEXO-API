@@ -20,8 +20,8 @@ public class PeriodoService {
     PeriodoMapper periodoMapper;
 
     public Uni<List<PeriodoResponse>> consultarPorCodigoPeriodicidad(BigDecimal codPeriodicidad) {
-        return periodoRepository.consultarPorCodigoPeriodicidad(codPeriodicidad)
-                .map(periodoMapper::toResponseList);
+        return periodoRepository.consultarPorCodigoPeriodicidad(codPeriodicidad)s
+                .map(periodoMapper::toResponseList);a
     }
 }
 
