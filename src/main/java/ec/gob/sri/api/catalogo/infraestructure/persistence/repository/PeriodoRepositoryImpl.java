@@ -33,4 +33,5 @@ public class PeriodoRepositoryImpl implements PeriodoRepository {
                 .list()
                 .map(periodoMapper::toDomainList);
     }
+
 }
