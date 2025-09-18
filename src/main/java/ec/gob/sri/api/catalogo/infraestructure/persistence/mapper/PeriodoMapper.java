@@ -9,6 +9,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.NullValueCheckStrategy;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Mapper(componentModel = "jakarta", nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
@@ -42,5 +43,9 @@ public interface PeriodoMapper {
 
     List<PeriodoResponse> toResponseList(List<Periodo> list);
 
+    // Método auxiliar para convertir Long a BigDecimal
+    default BigDecimal longToBigDecimal(Long value) {
+        return value != null ? BigDecimal.valueOf(value) : null;
+    }
 
 }
