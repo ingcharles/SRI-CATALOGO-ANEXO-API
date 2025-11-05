@@ -23,12 +23,7 @@ public class PeriodoRepositoryImpl implements PeriodoRepository {
     @Override
     @WithSession
     public Uni<List<Periodo>> consultarPorCodigoPeriodicidad(BigDecimal codPeriodicidad) {
-
-       /* List<PeriodoEntity> lista = periodoPanacheRepository
-                .find("eliminado = 'N' and estado = 'A' and periodicidadEntity.codigoPeriodicidad = ?1 ORDER BY descripcion ASC", codPeriodicidad)
-                .list()
-                .await().indefinitely();*/
-
+        
         return periodoPanacheRepository.find("eliminado = 'N' and  estado = 'A' and periodicidadEntity.codigoPeriodicidad = ?1 ORDER BY descripcion ASC", codPeriodicidad)
                 .list()
                 .map(periodoMapper::toDomainList);

@@ -4,10 +4,10 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 @Schema(name = "PeriodoResponse")
 public class PeriodoResponse {
-    public long etiqueta;
+    public long valor;
 
 
-    public String valor;
+    public String etiqueta;
 
 
 }

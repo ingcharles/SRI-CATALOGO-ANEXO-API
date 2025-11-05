@@ -30,9 +30,9 @@ public interface PeriodicidadMapper {
 
     // Domain -> Response DTO
     @Mappings({
-            @Mapping(source = "codigoPeriodicidad", target = "clave"),
+            @Mapping(source = "codigoPeriodicidad", target = "valor"),
             //@Mapping(source = "abreviacion", target = "abreviacion"),
-            @Mapping(source = "descripcion", target = "valor"),
+            @Mapping(source = "descripcion", target = "etiqueta"),
             //@Mapping(source = "eliminado", target = "eliminado"),
             //@Mapping(source = "estado", target = "estado")
     })
