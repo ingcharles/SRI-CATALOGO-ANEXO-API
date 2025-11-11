@@ -1,0 +1,260 @@
+/**
+ * Clase PlantillaFormularioResource.java 10 nov. 2025
+ * Copyright 2025 Servicio de Rentas Internas.
+ * Todos los derechos reservados.
+ */
+package ec.gob.sri.api.catalogo.infraestructure.rest;
+
+import ec.gob.sri.api.catalogo.application.dto.*;
+import ec.gob.sri.api.catalogo.application.service.PlantillaFormularioService;
+import io.smallrye.mutiny.Uni;
+import jakarta.inject.Inject;
+import jakarta.validation.Valid;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.ExampleObject;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+
+/**
+ * Controlador REST para Plantilla Formulario
+ * 
+ * @author SRI
+ */
+@Path("/plantilla-formulario")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+@Tag(name = "Plantilla Formulario", description = "Gestión de plantillas de formularios")
+public class PlantillaFormularioResource {
+
+        @Inject
+        PlantillaFormularioService service;
+
+        @POST
+        @Operation(summary = "Guardar un nuevo formulario", description = "Crea una nueva plantilla de formulario")
+        @APIResponses({
+                        @APIResponse(responseCode = "201", description = "Formulario creado exitosamente", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = GuardarFormularioResponse.class), examples = {
+                                        @ExampleObject(name = "Ejemplo 201", value = """
+                                                        {
+                                                          "codigoPlantillaFormulario": 1,
+                                                          "codigo": "FORM-ANEXO-001",
+                                                          "nombre": "Formulario de Anexo",
+                                                          "descripcion": "Formulario para registro de anexos",
+                                                          "version": "1.0.0",
+                                                          "paginas": [
+                                                            {
+                                                              "id": "page-d9a5480b-cbef-430f-a8a8-cdbfd29a9a25",
+                                                              "tipo": "page",
+                                                              "nombre": "Página Principal",
+                                                              "dimension": 12,
+                                                              "atributos": {
+                                                                "contenidos": [],
+                                                                "secciones": [
+                                                                  {
+                                                                    "id": "section-8b22b028-f722-4d4f-bf57-c419bed00122",
+                                                                    "tipo": "section",
+                                                                    "nombre": "Sección 1",
+                                                                    "dimension": 12,
+                                                                    "atributos": {
+                                                                      "contenidos": [],
+                                                                      "secciones": []
+                                                                    }
+                                                                  }
+                                                                ]
+                                                              }
+                                                            }
+                                                          ],
+                                                          "fechaCreacion": "2025-11-10T10:30:00",
+                                                          "fechaActualizacion": "2025-11-10T10:30:00"
+                                                        }
+                                                        """)
+                        })),
+                        @APIResponse(responseCode = "400", description = "Petición inválida (datos con formato o valores incorrectos)", content = @Content(mediaType = MediaType.APPLICATION_JSON, examples = {
+                                        @ExampleObject(name = "Ejemplo 400", value = """
+                                                        { "codigo": "ERR-400", "mensaje": "Ya existe un formulario con el código: FORM-ANEXO-001" }
+                                                        """)
+                        })),
+                        @APIResponse(responseCode = "500", description = "Error interno del servidor", content = @Content(mediaType = MediaType.APPLICATION_JSON, examples = {
+                                        @ExampleObject(name = "Ejemplo 500", value = """
+                                                        { "codigo": "ERR-500", "mensaje": "Error inesperado procesando la solicitud" }
+                                                        """)
+                        }))
+        })
+        public Uni<Response> guardar(@Valid GuardarFormularioRequest request) {
+                return service.guardar(request)
+                                .onItem()
+                                .transform(result -> Response.status(Response.Status.CREATED).entity(result).build())
+                                .onFailure(IllegalArgumentException.class)
+                                .recoverWithItem(err -> Response.status(Response.Status.BAD_REQUEST)
+                                                .entity(new ErrorResponse("ERR-400", err.getMessage()))
+                                                .build())
+                                .onFailure()
+                                .recoverWithItem(err -> Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                                                .entity(new ErrorResponse("ERR-500",
+                                                                "Error inesperado procesando la solicitud"))
+                                                .build());
+        }
+
+        @PUT
+        @Path("/{codigoPlantillaFormulario}")
+        @Operation(summary = "Actualizar un formulario existente", description = "Actualiza los datos de una plantilla de formulario existente")
+        @APIResponses({
+                        @APIResponse(responseCode = "200", description = "Formulario actualizado exitosamente", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = GuardarFormularioResponse.class))),
+                        @APIResponse(responseCode = "400", description = "Petición inválida", content = @Content(mediaType = MediaType.APPLICATION_JSON)),
+                        @APIResponse(responseCode = "404", description = "Formulario no encontrado"),
+                        @APIResponse(responseCode = "500", description = "Error interno del servidor", content = @Content(mediaType = MediaType.APPLICATION_JSON))
+        })
+        public Uni<Response> actualizar(
+                        @Parameter(description = "Código de plantilla formulario", required = true) @PathParam("codigoPlantillaFormulario") Long codigoPlantillaFormulario,
+                        @Valid ActualizarFormularioRequest request) {
+                request.codigoPlantillaFormulario = codigoPlantillaFormulario;
+                return service.actualizar(request)
+                                .onItem().transform(result -> Response.ok(result).build())
+                                .onFailure(IllegalArgumentException.class)
+                                .recoverWithItem(err -> {
+                                        if (err.getMessage().contains("No se encontró")) {
+                                                return Response.status(Response.Status.NOT_FOUND)
+                                                                .entity(new ErrorResponse("ERR-404", err.getMessage()))
+                                                                .build();
+                                        }
+                                        return Response.status(Response.Status.BAD_REQUEST)
+                                                        .entity(new ErrorResponse("ERR-400", err.getMessage()))
+                                                        .build();
+                                })
+                                .onFailure()
+                                .recoverWithItem(err -> Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                                                .entity(new ErrorResponse("ERR-500",
+                                                                "Error inesperado procesando la solicitud"))
+                                                .build());
+        }
+
+        @GET
+        @Path("/{codigoPlantillaFormulario}")
+        @Operation(summary = "Consultar un formulario por ID", description = "Obtiene los datos de un formulario específico por su identificador")
+        @APIResponses({
+                        @APIResponse(responseCode = "200", description = "Formulario obtenido correctamente", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = GuardarFormularioResponse.class))),
+                        @APIResponse(responseCode = "404", description = "Formulario no encontrado"),
+                        @APIResponse(responseCode = "500", description = "Error interno del servidor")
+        })
+        public Uni<Response> buscarPorId(
+                        @Parameter(description = "Código de plantilla formulario", required = true) @PathParam("codigoPlantillaFormulario") Long codigoPlantillaFormulario) {
+                return service.buscarPorId(codigoPlantillaFormulario)
+                                .onItem().transform(result -> Response.ok(result).build())
+                                .onFailure(IllegalArgumentException.class)
+                                .recoverWithItem(err -> Response.status(Response.Status.NOT_FOUND)
+                                                .entity(new ErrorResponse("ERR-404", err.getMessage()))
+                                                .build())
+                                .onFailure()
+                                .recoverWithItem(err -> Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                                                .entity(new ErrorResponse("ERR-500",
+                                                                "Error inesperado procesando la solicitud"))
+                                                .build());
+        }
+
+        @GET
+        @Operation(summary = "Listar formularios", description = "Obtiene un listado paginado de formularios con filtros opcionales")
+        @APIResponses({
+                        @APIResponse(responseCode = "200", description = "Listado obtenido correctamente", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ListarFormulariosResponse.class), examples = {
+                                        @ExampleObject(name = "Ejemplo 200", value = """
+                                                        {
+                                                          "formularios": [
+                                                            {
+                                                              "codigoPlantillaFormulario": 1,
+                                                              "codigo": "FORM-ANEXO-001",
+                                                              "nombre": "Formulario de Anexo",
+                                                              "descripcion": "Formulario para registro de anexos",
+                                                              "version": "1.0.0",
+                                                              "paginas": [
+                                                                {
+                                                                  "id": "page-d9a5480b",
+                                                                  "tipo": "page",
+                                                                  "nombre": "",
+                                                                  "dimension": 12,
+                                                                  "atributos": {
+                                                                    "contenidos": [],
+                                                                    "secciones": []
+                                                                  }
+                                                                }
+                                                              ],
+                                                              "fechaCreacion": "2025-11-10T10:30:00",
+                                                              "fechaActualizacion": "2025-11-10T10:30:00"
+                                                            }
+                                                          ],
+                                                          "total": 1,
+                                                          "pagina": 1,
+                                                          "limite": 10
+                                                        }
+                                                        """)
+                        })),
+                        @APIResponse(responseCode = "400", description = "Parámetros de consulta inválidos"),
+                        @APIResponse(responseCode = "500", description = "Error interno del servidor")
+        })
+        public Uni<Response> listar(
+                        @Parameter(description = "Número de página") @QueryParam("pagina") Integer pagina,
+                        @Parameter(description = "Límite de registros por página") @QueryParam("limite") Integer limite,
+                        @Parameter(description = "Texto de búsqueda") @QueryParam("buscar") String buscar,
+                        @Parameter(description = "Campo por el cual ordenar") @QueryParam("ordenarPor") String ordenarPor,
+                        @Parameter(description = "Orden (asc/desc)") @QueryParam("orden") String orden) {
+
+                ListarFormulariosRequest request = new ListarFormulariosRequest();
+                request.pagina = pagina;
+                request.limite = limite;
+                request.buscar = buscar;
+                request.ordenarPor = ordenarPor;
+                request.orden = orden;
+
+                return service.listar(request)
+                                .onItem().transform(result -> Response.ok(result).build())
+                                .onFailure()
+                                .recoverWithItem(err -> Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                                                .entity(new ErrorResponse("ERR-500",
+                                                                "Error inesperado procesando la solicitud"))
+                                                .build());
+        }
+
+        @DELETE
+        @Path("/{codigoPlantillaFormulario}")
+        @Operation(summary = "Eliminar un formulario", description = "Elimina lógicamente un formulario (marca como eliminado)")
+        @APIResponses({
+                        @APIResponse(responseCode = "204", description = "Formulario eliminado exitosamente"),
+                        @APIResponse(responseCode = "404", description = "Formulario no encontrado"),
+                        @APIResponse(responseCode = "500", description = "Error interno del servidor")
+        })
+        public Uni<Response> eliminar(
+                        @Parameter(description = "Código de plantilla formulario", required = true) @PathParam("codigoPlantillaFormulario") Long codigoPlantillaFormulario) {
+                return service.eliminar(codigoPlantillaFormulario)
+                                .onItem().transform(result -> Response.noContent().build())
+                                .onFailure(IllegalArgumentException.class)
+                                .recoverWithItem(err -> Response.status(Response.Status.NOT_FOUND)
+                                                .entity(new ErrorResponse("ERR-404", err.getMessage()))
+                                                .build())
+                                .onFailure()
+                                .recoverWithItem(err -> Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                                                .entity(new ErrorResponse("ERR-500",
+                                                                "Error inesperado procesando la solicitud"))
+                                                .build());
+        }
+
+        /**
+         * DTO para respuestas de error
+         */
+        @Schema(name = "ErrorResponse", description = "Respuesta de error")
+        public static class ErrorResponse {
+                @Schema(description = "Código de error", example = "ERR-400")
+                public String codigo;
+
+                @Schema(description = "Mensaje del error", example = "Petición inválida")
+                public String mensaje;
+
+                public ErrorResponse(String codigo, String mensaje) {
+                        this.codigo = codigo;
+                        this.mensaje = mensaje;
+                }
+        }
+}

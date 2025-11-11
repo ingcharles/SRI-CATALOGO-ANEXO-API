@@ -85,7 +85,7 @@ public class ParametroAmbienteResource {
                 @ExampleObject(
                     name = "Ejemplo 400",
                     value = """
-                    { "code": "ERR-400", "details": "El valor de 'ambiente' debe ser uno de: DEV, QA, PRO" }
+                    { "codigo": "ERR-400", "mensaje": "El valor de 'ambiente' debe ser uno de: DEV, QA, PRO" }
                     """
                 )
             }
@@ -104,7 +104,7 @@ public class ParametroAmbienteResource {
                 @ExampleObject(
                     name = "Ejemplo 500",
                     value = """
-                    { "code": "ERR-500", "details": "Error inesperado procesando la solicitud" }
+                    { "codigo": "ERR-500", "mensaje": "Error inesperado procesando la solicitud" }
                     """
                 )
             }

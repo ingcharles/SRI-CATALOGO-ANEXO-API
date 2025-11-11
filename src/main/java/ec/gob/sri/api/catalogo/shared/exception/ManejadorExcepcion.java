@@ -15,8 +15,8 @@ public class ManejadorExcepcion implements ExceptionMapper<Throwable> {
     }
 
     public static class ErrorDto {
-        public String code;
-        public String details;
-        public ErrorDto(String code, String details){ this.code=code; this.details=details; }
+        public String codigo;
+        public String mensaje;
+        public ErrorDto(String codigo, String mensaje){ this.codigo=codigo; this.mensaje=mensaje; }
     }
 }

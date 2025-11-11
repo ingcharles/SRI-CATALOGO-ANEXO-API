@@ -75,7 +75,7 @@ public class UbicacionGeograficaResource {
                                     @ExampleObject(
                                             name = "Ejemplo 400",
                                             value = """
-                                                    { "code": "ERR-400", "details": "Petición inválida" }
+                                                    { "codigo": "ERR-400", "mensaje": "Petición inválida" }
                                                     """
                                     )
                             }
@@ -94,7 +94,7 @@ public class UbicacionGeograficaResource {
                                     @ExampleObject(
                                             name = "Ejemplo 500",
                                             value = """
-                                                    { "code": "ERR-500", "details": "Error inesperado procesando la solicitud" }
+                                                    { "codigo": "ERR-500", "mensaje": "Error inesperado procesando la solicitud" }
                                                     """
                                     )
                             }
