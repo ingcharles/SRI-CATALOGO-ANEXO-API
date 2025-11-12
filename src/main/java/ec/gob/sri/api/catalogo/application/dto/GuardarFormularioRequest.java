@@ -34,4 +34,8 @@ public class GuardarFormularioRequest {
     @Schema(description = "Estructura JSON dinámica de las páginas del formulario (cualquier estructura válida)", required = true)
     @JsonProperty("paginas")
     public Object paginas;
+
+    @Schema(description = "Estado del formulario (A = Activo, I = Inactivo)", example = "A", defaultValue = "A")
+    @JsonProperty("estado")
+    public String estado;
 }

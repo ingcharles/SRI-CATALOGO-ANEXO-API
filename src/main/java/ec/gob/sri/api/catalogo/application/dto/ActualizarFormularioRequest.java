@@ -31,6 +31,10 @@ public class ActualizarFormularioRequest {
     @JsonProperty("version")
     public String version;
 
+    @Schema(description = "Estado del formulario (A=Activo, I=Inactivo)", example = "A")
+    @JsonProperty("estado")
+    public String estado;
+
     @Schema(description = "Estructura JSON dinámica de las páginas del formulario")
     @JsonProperty("paginas")
     public Object paginas;

@@ -6,6 +6,7 @@ import ec.gob.sri.api.catalogo.infraestructure.persistence.entity.PlantillaFormu
 import ec.gob.sri.api.catalogo.infraestructure.persistence.mapper.PlantillaFormularioMapper;
 import io.quarkus.hibernate.reactive.panache.common.WithSession;
 import io.quarkus.hibernate.reactive.panache.common.WithTransaction;
+import io.quarkus.panache.common.Page;
 import io.quarkus.panache.common.Sort;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -89,9 +90,8 @@ public class PlantillaFormularioRepositoryImpl implements PlantillaFormularioRep
 
     @Override
     @WithSession
-    public Uni<List<PlantillaFormulario>> listar(Integer pagina, Integer limite, String buscar,
-            String ordenarPor, String orden) {
-        StringBuilder query = new StringBuilder("eliminado = 'N' AND estado = 'A'");
+    public Uni<List<PlantillaFormulario>> listar(Page page, Sort sort, String buscar) {
+        StringBuilder query = new StringBuilder("eliminado = 'N'");
         Map<String, Object> params = new HashMap<>();
 
         if (buscar != null && !buscar.isEmpty()) {
@@ -100,18 +100,14 @@ public class PlantillaFormularioRepositoryImpl implements PlantillaFormularioRep
             params.put("buscar", "%" + buscar.toLowerCase() + "%");
         }
 
-        Sort sort = crearOrdenamiento(ordenarPor, orden);
-
-        int offset = (pagina - 1) * limite;
-
         if (params.isEmpty()) {
             return panacheRepository.find(query.toString(), sort)
-                    .page(offset / limite, limite)
+                    .page(page)
                     .list()
                     .map(mapper::toDomainList);
         } else {
             return panacheRepository.find(query.toString(), sort, params)
-                    .page(offset / limite, limite)
+                    .page(page)
                     .list()
                     .map(mapper::toDomainList);
         }
@@ -151,19 +147,5 @@ public class PlantillaFormularioRepositoryImpl implements PlantillaFormularioRep
                             .map(e -> true);
                 })
                 .onItem().ifNull().continueWith(false);
-    }
-
-    /**
-     * Crea el ordenamiento para las consultas
-     */
-    private Sort crearOrdenamiento(String ordenarPor, String orden) {
-        String campo = switch (ordenarPor != null ? ordenarPor : "fechaCreacion") {
-            case "codigo" -> "codigo";
-            case "nombre" -> "nombre";
-            case "fechaActualizacion" -> "fechaActualizacion";
-            default -> "fechaCreacion";
-        };
-
-        return "asc".equalsIgnoreCase(orden) ? Sort.by(campo).ascending() : Sort.by(campo).descending();
     }
 }

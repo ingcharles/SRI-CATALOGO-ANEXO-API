@@ -19,11 +19,23 @@ public class ListarFormulariosResponse {
     @JsonProperty("total")
     public Long total;
 
-    @Schema(description = "Número de página actual", example = "1")
+    @Schema(description = "Total de páginas", example = "10")
+    @JsonProperty("totalPaginas")
+    public Integer totalPaginas;
+
+    @Schema(description = "Número de página actual (inicia en 0)", example = "0")
     @JsonProperty("pagina")
     public Integer pagina;
 
-    @Schema(description = "Límite de registros por página", example = "10")
-    @JsonProperty("limite")
-    public Integer limite;
+    @Schema(description = "Tamaño de página (registros por página)", example = "10")
+    @JsonProperty("tamanio")
+    public Integer tamanio;
+
+    @Schema(description = "Indica si es la primera página", example = "true")
+    @JsonProperty("esPrimera")
+    public Boolean esPrimera;
+
+    @Schema(description = "Indica si es la última página", example = "false")
+    @JsonProperty("esUltima")
+    public Boolean esUltima;
 }

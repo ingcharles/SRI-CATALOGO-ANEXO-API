@@ -47,6 +47,7 @@ public class PlantillaFormularioResource {
                                                           "nombre": "Formulario de Anexo",
                                                           "descripcion": "Formulario para registro de anexos",
                                                           "version": "1.0.0",
+                                                          "estado": "Activo",
                                                           "paginas": [
                                                             {
                                                               "id": "page-d9a5480b-cbef-430f-a8a8-cdbfd29a9a25",
@@ -170,6 +171,7 @@ public class PlantillaFormularioResource {
                                                               "nombre": "Formulario de Anexo",
                                                               "descripcion": "Formulario para registro de anexos",
                                                               "version": "1.0.0",
+                                                              "estado": "Activo",
                                                               "paginas": [
                                                                 {
                                                                   "id": "page-d9a5480b",
@@ -186,9 +188,12 @@ public class PlantillaFormularioResource {
                                                               "fechaActualizacion": "2025-11-10T10:30:00"
                                                             }
                                                           ],
-                                                          "total": 1,
+                                                          "total": 100,
+                                                          "totalPaginas": 10,
                                                           "pagina": 1,
-                                                          "limite": 10
+                                                          "tamanio": 10,
+                                                          "esPrimera": true,
+                                                          "esUltima": false
                                                         }
                                                         """)
                         })),
@@ -196,11 +201,11 @@ public class PlantillaFormularioResource {
                         @APIResponse(responseCode = "500", description = "Error interno del servidor")
         })
         public Uni<Response> listar(
-                        @Parameter(description = "Número de página") @QueryParam("pagina") Integer pagina,
-                        @Parameter(description = "Límite de registros por página") @QueryParam("limite") Integer limite,
-                        @Parameter(description = "Texto de búsqueda") @QueryParam("buscar") String buscar,
-                        @Parameter(description = "Campo por el cual ordenar") @QueryParam("ordenarPor") String ordenarPor,
-                        @Parameter(description = "Orden (asc/desc)") @QueryParam("orden") String orden) {
+                        @Parameter(description = "Número de página (inicia en 1)", example = "1") @QueryParam("pagina") Integer pagina,
+                        @Parameter(description = "Tamaño de página (registros por página)", example = "10") @QueryParam("limite") Integer limite,
+                        @Parameter(description = "Texto de búsqueda (busca en código, nombre y descripción)") @QueryParam("buscar") String buscar,
+                        @Parameter(description = "Campo por el cual ordenar (codigo, nombre, fechaCreacion, fechaActualizacion)", example = "fechaCreacion") @QueryParam("ordenarPor") String ordenarPor,
+                        @Parameter(description = "Orden de clasificación (asc/desc)", example = "desc") @QueryParam("orden") String orden) {
 
                 ListarFormulariosRequest request = new ListarFormulariosRequest();
                 request.pagina = pagina;

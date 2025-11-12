@@ -1,6 +1,5 @@
 package ec.gob.sri.api.catalogo.shared.exception;
 
-
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
@@ -17,6 +16,10 @@ public class ManejadorExcepcion implements ExceptionMapper<Throwable> {
     public static class ErrorDto {
         public String codigo;
         public String mensaje;
-        public ErrorDto(String codigo, String mensaje){ this.codigo=codigo; this.mensaje=mensaje; }
+
+        public ErrorDto(String codigo, String mensaje) {
+            this.codigo = codigo;
+            this.mensaje = mensaje;
+        }
     }
 }

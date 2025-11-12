@@ -1,5 +1,6 @@
 package ec.gob.sri.api.catalogo.domain.model.entity;
 
+import ec.gob.sri.api.catalogo.domain.model.enums.EstadoPlantilla;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +21,7 @@ public class PlantillaFormulario {
     private String version;
     private String paginas;
     private String eliminado;
-    private String estado;
+    private EstadoPlantilla estado;
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaActualizacion;
 

@@ -30,6 +30,10 @@ public class GuardarFormularioResponse {
     @JsonProperty("version")
     public String version;
 
+    @Schema(description = "Estado del formulario", example = "Activo")
+    @JsonProperty("estado")
+    public String estado;
+
     @Schema(description = "Estructura JSON dinámica de las páginas del formulario", required = true)
     @JsonProperty("paginas")
     @JsonRawValue

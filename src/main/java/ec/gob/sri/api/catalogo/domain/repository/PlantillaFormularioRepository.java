@@ -1,6 +1,8 @@
 package ec.gob.sri.api.catalogo.domain.repository;
 
 import ec.gob.sri.api.catalogo.domain.model.entity.PlantillaFormulario;
+import io.quarkus.panache.common.Page;
+import io.quarkus.panache.common.Sort;
 import io.smallrye.mutiny.Uni;
 
 import java.util.List;
@@ -31,10 +33,9 @@ public interface PlantillaFormularioRepository {
     Uni<PlantillaFormulario> buscarPorCodigoYVersion(String codigo, String version);
 
     /**
-     * Lista todas las plantillas con paginación y filtros
+     * Lista todas las plantillas con paginación y filtros usando Panache
      */
-    Uni<List<PlantillaFormulario>> listar(Integer pagina, Integer limite, String buscar, String ordenarPor,
-            String orden);
+    Uni<List<PlantillaFormulario>> listar(Page page, Sort sort, String buscar);
 
     /**
      * Cuenta el total de plantillas según filtros
