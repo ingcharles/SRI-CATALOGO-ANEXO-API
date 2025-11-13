@@ -96,7 +96,7 @@ public class PlantillaFormularioRepositoryImpl implements PlantillaFormularioRep
 
         if (buscar != null && !buscar.isEmpty()) {
             query.append(
-                    " AND (LOWER(nombre) LIKE :buscar OR LOWER(codigo) LIKE :buscar OR LOWER(descripcion) LIKE :buscar)");
+                    " AND (LOWER(nombre) LIKE :buscar OR LOWER(codigo) LIKE :buscar OR LOWER(descripcion) LIKE :buscar OR LOWER(version) LIKE :buscar)");
             params.put("buscar", "%" + buscar.toLowerCase() + "%");
         }
 
