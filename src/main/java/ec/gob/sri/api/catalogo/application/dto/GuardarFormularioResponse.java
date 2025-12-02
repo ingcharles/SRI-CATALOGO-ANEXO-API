@@ -34,10 +34,10 @@ public class GuardarFormularioResponse {
     @JsonProperty("estado")
     public String estado;
 
-    @Schema(description = "Estructura JSON dinámica de las páginas del formulario", required = true)
-    @JsonProperty("paginas")
+    @Schema(description = "Estructura JSON dinámica de las elementos del formulario", required = true)
+    @JsonProperty("elementos")
     @JsonRawValue
-    public String paginas;
+    public String elementos;
 
     @Schema(description = "Fecha de creación", example = "2025-11-10T10:30:00")
     @JsonProperty("fechaCreacion")

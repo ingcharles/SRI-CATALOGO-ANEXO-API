@@ -35,8 +35,8 @@ public class PlantillaFormularioEntity {
     private String version;
 
     @Lob
-    @Column(name = "PAGINAS", nullable = false)
-    private String paginas;
+    @Column(name = "ELEMENTOS", nullable = false)
+    private String elementos;
 
     @Column(name = "ELIMINADO", nullable = false, length = 1)
     private String eliminado;

@@ -31,9 +31,9 @@ public class GuardarFormularioRequest {
     public String version;
 
     @NotNull(message = "Las páginas son obligatorias")
-    @Schema(description = "Estructura JSON dinámica de las páginas del formulario (cualquier estructura válida)", required = true)
-    @JsonProperty("paginas")
-    public Object paginas;
+    @Schema(description = "Estructura JSON dinámica de las elementos del formulario (cualquier estructura válida)", required = true)
+    @JsonProperty("elementos")
+    public Object elementos;
 
     @Schema(description = "Estado del formulario (A = Activo, I = Inactivo)", example = "A", defaultValue = "A")
     @JsonProperty("estado")

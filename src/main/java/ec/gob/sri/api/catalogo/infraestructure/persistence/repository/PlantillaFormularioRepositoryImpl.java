@@ -60,8 +60,8 @@ public class PlantillaFormularioRepositoryImpl implements PlantillaFormularioRep
                     if (plantilla.getVersion() != null) {
                         entity.setVersion(plantilla.getVersion());
                     }
-                    if (plantilla.getPaginas() != null) {
-                        entity.setPaginas(plantilla.getPaginas());
+                    if (plantilla.getElementos() != null) {
+                        entity.setElementos(plantilla.getElementos());
                     }
                     entity.setFechaActualizacion(LocalDateTime.now());
                     entity.setAudUsuarioModifica("SYSTEM"); // TODO: Obtener usuario del contexto

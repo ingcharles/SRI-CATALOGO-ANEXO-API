@@ -19,7 +19,7 @@ public class PlantillaFormulario {
     private String nombre;
     private String descripcion;
     private String version;
-    private String paginas;
+    private String elementos;
     private String eliminado;
     private EstadoPlantilla estado;
     private LocalDateTime fechaCreacion;

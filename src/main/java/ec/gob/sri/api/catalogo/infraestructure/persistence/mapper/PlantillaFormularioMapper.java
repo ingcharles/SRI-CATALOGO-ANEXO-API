@@ -1,7 +1,8 @@
 package ec.gob.sri.api.catalogo.infraestructure.persistence.mapper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ec.gob.sri.api.catalogo.application.dto.*;
+import ec.gob.sri.api.catalogo.application.dto.GuardarFormularioRequest;
+import ec.gob.sri.api.catalogo.application.dto.GuardarFormularioResponse;
 import ec.gob.sri.api.catalogo.domain.model.entity.PlantillaFormulario;
 import ec.gob.sri.api.catalogo.domain.model.enums.EstadoPlantilla;
 import ec.gob.sri.api.catalogo.infraestructure.persistence.entity.PlantillaFormularioEntity;
@@ -29,7 +30,7 @@ public interface PlantillaFormularioMapper {
     @Mapping(source = "nombre", target = "nombre")
     @Mapping(source = "descripcion", target = "descripcion")
     @Mapping(source = "version", target = "version")
-    @Mapping(source = "paginas", target = "paginas")
+    @Mapping(source = "elementos", target = "elementos")
     @Mapping(source = "eliminado", target = "eliminado")
     @Mapping(source = "estado", target = "estado", qualifiedByName = "stringToEstado")
     @Mapping(source = "fechaCreacion", target = "fechaCreacion")
@@ -44,7 +45,7 @@ public interface PlantillaFormularioMapper {
     @Mapping(source = "nombre", target = "nombre")
     @Mapping(source = "descripcion", target = "descripcion")
     @Mapping(source = "version", target = "version")
-    @Mapping(source = "paginas", target = "paginas")
+    @Mapping(source = "elementos", target = "elementos")
     @Mapping(source = "eliminado", target = "eliminado")
     @Mapping(source = "estado", target = "estado", qualifiedByName = "estadoToCodigo")
     @Mapping(source = "fechaCreacion", target = "fechaCreacion")
@@ -64,7 +65,7 @@ public interface PlantillaFormularioMapper {
     @Mapping(source = "descripcion", target = "descripcion")
     @Mapping(source = "version", target = "version")
     @Mapping(source = "estado", target = "estado", qualifiedByName = "estadoToString")
-    @Mapping(source = "paginas", target = "paginas")
+    @Mapping(source = "elementos", target = "elementos")
     @Mapping(source = "fechaCreacion", target = "fechaCreacion", qualifiedByName = "dateToString")
     @Mapping(source = "fechaActualizacion", target = "fechaActualizacion", qualifiedByName = "dateToString")
     GuardarFormularioResponse toResponse(PlantillaFormulario domain);
@@ -77,9 +78,9 @@ public interface PlantillaFormularioMapper {
     @Mapping(source = "nombre", target = "nombre")
     @Mapping(source = "descripcion", target = "descripcion")
     @Mapping(source = "version", target = "version")
-    @Mapping(target = "paginas", ignore = true) // Se maneja manualmente en el servicio
+    @Mapping(target = "elementos", ignore = true)
     @Mapping(target = "eliminado", constant = "N")
-    @Mapping(target = "estado", ignore = true) // Se maneja manualmente en el servicio
+    @Mapping(target = "estado", ignore = true)
     @Mapping(target = "fechaCreacion", ignore = true)
     @Mapping(target = "fechaActualizacion", ignore = true)
     PlantillaFormulario toDomainFromRequest(GuardarFormularioRequest request);

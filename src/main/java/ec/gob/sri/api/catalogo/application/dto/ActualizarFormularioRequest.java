@@ -1,7 +1,6 @@
 package ec.gob.sri.api.catalogo.application.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotNull;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 /**
@@ -10,10 +9,10 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 @Schema(name = "ActualizarFormulario", description = "Datos para actualizar un formulario existente")
 public class ActualizarFormularioRequest {
 
-    @NotNull(message = "El código de plantilla formulario es obligatorio")
+   /* @NotNull(message = "El código de plantilla formulario es obligatorio")
     @Schema(description = "Identificador del formulario", example = "1", required = true)
     @JsonProperty("codigoPlantillaFormulario")
-    public Long codigoPlantillaFormulario;
+    public Long codigoPlantillaFormulario;*/
 
     @Schema(description = "Código del formulario", example = "FORM-ANEXO-001")
     @JsonProperty("codigo")
@@ -36,6 +35,6 @@ public class ActualizarFormularioRequest {
     public String estado;
 
     @Schema(description = "Estructura JSON dinámica de las páginas del formulario")
-    @JsonProperty("paginas")
-    public Object paginas;
+    @JsonProperty("elementos")
+    public Object elementos;
 }

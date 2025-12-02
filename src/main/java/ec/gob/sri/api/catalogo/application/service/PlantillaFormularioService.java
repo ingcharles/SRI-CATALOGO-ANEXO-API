@@ -21,13 +21,11 @@ import java.util.List;
 @ApplicationScoped
 public class PlantillaFormularioService {
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
     @Inject
     PlantillaFormularioRepository repository;
-
     @Inject
     PlantillaFormularioMapper mapper;
-
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
      * Guarda un nuevo formulario
@@ -44,12 +42,12 @@ public class PlantillaFormularioService {
                     }
 
                     PlantillaFormulario plantilla = mapper.toDomainFromRequest(request);
-                    
+
                     // Validar y establecer el estado
                     plantilla.setEstado(validarYConvertirEstado(request.estado));
-                    
+
                     // Convertir paginas Object a JSON String
-                    plantilla.setPaginas(convertirPaginasAJson(request.paginas));
+                    plantilla.setElementos(convertirElementosAJson(request.elementos));
 
                     return repository.guardar(plantilla)
                             .map(mapper::toResponse);
@@ -59,13 +57,13 @@ public class PlantillaFormularioService {
     /**
      * Actualiza un formulario existente
      */
-    public Uni<GuardarFormularioResponse> actualizar(ActualizarFormularioRequest request) {
-        return repository.buscarPorId(request.codigoPlantillaFormulario)
+    public Uni<GuardarFormularioResponse> actualizar(ActualizarFormularioRequest request, Long codigoPlantillaFormulario) {
+        return repository.buscarPorId(codigoPlantillaFormulario)
                 .onItem().transformToUni(existente -> {
                     if (existente == null) {
                         return Uni.createFrom().failure(
                                 new IllegalArgumentException(
-                                        "No se encontró el formulario con ID: " + request.codigoPlantillaFormulario));
+                                        "No se encontró el formulario con ID: " + codigoPlantillaFormulario));
                     }
 
                     // Validar que el código y versión no existan en otro registro
@@ -95,7 +93,7 @@ public class PlantillaFormularioService {
     }
 
     private Uni<GuardarFormularioResponse> actualizarPlantilla(ActualizarFormularioRequest request,
-            PlantillaFormulario existente) {
+                                                               PlantillaFormulario existente) {
         if (request.codigo != null)
             existente.setCodigo(request.codigo);
         if (request.nombre != null)
@@ -107,8 +105,8 @@ public class PlantillaFormularioService {
         if (request.estado != null) {
             existente.setEstado(validarYConvertirEstado(request.estado));
         }
-        if (request.paginas != null) {
-            existente.setPaginas(convertirPaginasAJson(request.paginas));
+        if (request.elementos != null) {
+            existente.setElementos(convertirElementosAJson(request.elementos));
         }
 
         return repository.actualizar(existente)
@@ -197,14 +195,14 @@ public class PlantillaFormularioService {
     }
 
     /**
-     * Convierte el objeto paginas a JSON String
+     * Convierte el objeto elementos a JSON String
      */
-    private String convertirPaginasAJson(Object paginas) {
-        if (paginas == null) {
+    private String convertirElementosAJson(Object elementos) {
+        if (elementos == null) {
             return null;
         }
         try {
-            return objectMapper.writeValueAsString(paginas);
+            return objectMapper.writeValueAsString(elementos);
         } catch (JsonProcessingException e) {
             throw new IllegalArgumentException("Error al convertir páginas a JSON: " + e.getMessage(), e);
         }
