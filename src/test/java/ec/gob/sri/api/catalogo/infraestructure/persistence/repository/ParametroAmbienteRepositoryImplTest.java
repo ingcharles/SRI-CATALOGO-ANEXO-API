@@ -15,7 +15,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -41,22 +42,19 @@ class ParametroAmbienteRepositoryImplTest {
     }
 
     @Test
-
     void consultarPorAmbienteYCodigoAplicacion_retornaListaMapeada() {
-        String nombreParametro = "URL_SERVICIO";
+        String ambiente = "PRO";
         String codigoApp = "ADM";
 
         PanacheQuery<ParametroAmbienteEntity> query = mock(PanacheQuery.class);
 
         when(repo.find(
-                argThat(q ->
-                        q.contains("eliminado = 'N'")
-                                && q.contains("estado = 'A'")
-                                && q.contains("nombreParametro = ?1")
-                                && q.contains("codigoAplicacion = ?2")),
-                eq(nombreParametro),
-                eq(codigoApp)
-        )).thenReturn(query);
+                argThat(q -> q.contains("eliminado = 'N'")
+                        && q.contains("estado = 'A'")
+                        && q.contains("ambiente = ?1")
+                        && q.contains("codigoAplicacion = ?2")),
+                eq(ambiente),
+                eq(codigoApp))).thenReturn(query);
 
         List<ParametroAmbienteEntity> entidades = List.of(entity(), entity());
         when(query.list()).thenReturn(Uni.createFrom().item(entidades));
@@ -65,11 +63,11 @@ class ParametroAmbienteRepositoryImplTest {
         when(mapper.toDomainList(entidades)).thenReturn(dominio);
 
         List<ParametroAmbiente> out = impl
-                .consultarPorAmbienteYCodigoAplicacion(nombreParametro, codigoApp)
+                .consultarPorAmbienteYCodigoAplicacion(ambiente, codigoApp)
                 .await().indefinitely();
 
         assertThat(out).containsExactlyElementsOf(dominio);
-        verify(repo).find(anyString(), eq(nombreParametro), eq(codigoApp));
+        verify(repo).find(anyString(), eq(ambiente), eq(codigoApp));
         verify(query).list();
         verify(mapper).toDomainList(entidades);
         verifyNoMoreInteractions(repo, query, mapper);
@@ -105,11 +103,11 @@ class ParametroAmbienteRepositoryImplTest {
         when(repo.find(anyString(), eq(nombreParametro), eq(codigoApp))).thenReturn(query);
         when(query.list()).thenReturn(Uni.createFrom().failure(new RuntimeException("db down")));
 
-        assertThatThrownBy(() ->
-                impl.consultarPorAmbienteYCodigoAplicacion(nombreParametro, codigoApp)
-                        .await().indefinitely()
-        ).isInstanceOf(RuntimeException.class)
-         .hasMessageContaining("db down");
+        Uni<?> uni = impl.consultarPorAmbienteYCodigoAplicacion(nombreParametro, codigoApp);
+
+        assertThatThrownBy(() -> esperarResultado(uni))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("db down");
 
         verify(repo).find(anyString(), eq(nombreParametro), eq(codigoApp));
         verify(query).list();
@@ -117,9 +115,13 @@ class ParametroAmbienteRepositoryImplTest {
         verifyNoMoreInteractions(repo, query);
     }
 
+    private void esperarResultado(Uni<?> uni) {
+        uni.await().indefinitely();
+    }
+
     @Test
     void consultarPorAmbienteYCodigoAplicacion_verificaParametrosDeBusqueda() {
-        String nombreParametro = "QA_ONLY";
+        String ambiente = "PRO";
         String codigoApp = "APP1";
 
         PanacheQuery<ParametroAmbienteEntity> query = mock(PanacheQuery.class);
@@ -127,17 +129,17 @@ class ParametroAmbienteRepositoryImplTest {
         when(query.list()).thenReturn(Uni.createFrom().item(List.of()));
         when(mapper.toDomainList(anyList())).thenReturn(List.of());
 
-        impl.consultarPorAmbienteYCodigoAplicacion(nombreParametro, codigoApp)
+        impl.consultarPorAmbienteYCodigoAplicacion(ambiente, codigoApp)
                 .await().indefinitely();
 
         ArgumentCaptor<String> queryCaptor = ArgumentCaptor.forClass(String.class);
-        verify(repo).find(queryCaptor.capture(), eq(nombreParametro), eq(codigoApp));
+        verify(repo).find(queryCaptor.capture(), eq(ambiente), eq(codigoApp));
 
         String q = queryCaptor.getValue();
         assertThat(q).contains("eliminado = 'N'")
-                     .contains("estado = 'A'")
-                     .contains("nombreParametro = ?1")
-                     .contains("codigoAplicacion = ?2");
+                .contains("estado = 'A'")
+                .contains("ambiente = ?1")
+                .contains("codigoAplicacion = ?2");
 
         verify(query).list();
         verify(mapper).toDomainList(anyList());

@@ -1,22 +1,24 @@
 package ec.gob.sri.api.catalogo.application.service;
 
+import java.util.List;
+
 import ec.gob.sri.api.catalogo.application.dto.UbicacionGeograficaResponse;
 import ec.gob.sri.api.catalogo.domain.repository.UbicacionGeograficaRepository;
 import ec.gob.sri.api.catalogo.infraestructure.persistence.mapper.UbicacionGeograficaMapper;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-
-import java.util.List;
 
 @ApplicationScoped
 public class UbicacionGeograficaService {
 
-    @Inject
-    UbicacionGeograficaRepository ubicacionGeograficaRepository;
+    private final UbicacionGeograficaRepository ubicacionGeograficaRepository;
+    private final UbicacionGeograficaMapper ubicacionGeograficaMapper;
 
-    @Inject
-    UbicacionGeograficaMapper ubicacionGeograficaMapper;
+    public UbicacionGeograficaService(UbicacionGeograficaRepository ubicacionGeograficaRepository,
+            UbicacionGeograficaMapper ubicacionGeograficaMapper) {
+        this.ubicacionGeograficaRepository = ubicacionGeograficaRepository;
+        this.ubicacionGeograficaMapper = ubicacionGeograficaMapper;
+    }
 
     public Uni<List<UbicacionGeograficaResponse>> consultarTodos() {
         return ubicacionGeograficaRepository.consultarTodos()
@@ -28,4 +30,3 @@ public class UbicacionGeograficaService {
                 .map(ubicacionGeograficaMapper::toResponseList);
     }
 }
-

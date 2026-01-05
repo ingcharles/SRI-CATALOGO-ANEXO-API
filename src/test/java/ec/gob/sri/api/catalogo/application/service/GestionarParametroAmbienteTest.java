@@ -18,8 +18,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
 @Disabled
+@ExtendWith(MockitoExtension.class)
 class GestionarParametroAmbienteTest {
 
     @Mock
@@ -36,15 +36,17 @@ class GestionarParametroAmbienteTest {
         String ambiente = "PROD";
         String codigoApp = "SRI";
 
-        List<ParametroAmbiente> entidades = List.of(mock(ParametroAmbiente.class), mock(ParametroAmbiente.class));
-        List<ParametroAmbienteResponse> respuestas = List.of(mock(ParametroAmbienteResponse.class), mock(ParametroAmbienteResponse.class));
+        List<ParametroAmbiente> entidades = List.of(mock(ParametroAmbiente.class),
+                mock(ParametroAmbiente.class));
+        List<ParametroAmbienteResponse> respuestas = List.of(mock(ParametroAmbienteResponse.class),
+                mock(ParametroAmbienteResponse.class));
 
         when(repositorio.consultarPorAmbienteYCodigoAplicacion(ambiente, codigoApp))
                 .thenReturn(Uni.createFrom().item(entidades));
         when(mapper.toResponseList(entidades)).thenReturn(respuestas);
 
-        List<ParametroAmbienteResponse> result =
-                service.consultarPorAmbienteYCodigoAplicacion(ambiente, codigoApp).await().indefinitely();
+        List<ParametroAmbienteResponse> result = service
+                .consultarPorAmbienteYCodigoAplicacion(ambiente, codigoApp).await().indefinitely();
 
         assertSame(respuestas, result);
         verify(repositorio).consultarPorAmbienteYCodigoAplicacion(ambiente, codigoApp);
@@ -53,7 +55,6 @@ class GestionarParametroAmbienteTest {
     }
 
     @Test
-
     void consultar_listaVacia() {
         String ambiente = "QA";
         String codigoApp = "SRI";
@@ -62,8 +63,8 @@ class GestionarParametroAmbienteTest {
                 .thenReturn(Uni.createFrom().item(Collections.emptyList()));
         when(mapper.toResponseList(Collections.emptyList())).thenReturn(Collections.emptyList());
 
-        List<ParametroAmbienteResponse> result =
-                service.consultarPorAmbienteYCodigoAplicacion(ambiente, codigoApp).await().indefinitely();
+        List<ParametroAmbienteResponse> result = service
+                .consultarPorAmbienteYCodigoAplicacion(ambiente, codigoApp).await().indefinitely();
 
         assertTrue(result.isEmpty());
         verify(repositorio).consultarPorAmbienteYCodigoAplicacion(ambiente, codigoApp);
@@ -72,7 +73,7 @@ class GestionarParametroAmbienteTest {
     }
 
     @Test
-    void consultar_propagaErrorDelRepositorio() {
+    void consultar_propagaErrorRepositorio() {
         String ambiente = "DEV";
         String codigoApp = "SRI";
         RuntimeException boom = new RuntimeException("db down");
@@ -80,12 +81,18 @@ class GestionarParametroAmbienteTest {
         when(repositorio.consultarPorAmbienteYCodigoAplicacion(ambiente, codigoApp))
                 .thenReturn(Uni.createFrom().failure(boom));
 
-        RuntimeException ex = assertThrows(RuntimeException.class, () ->
-                service.consultarPorAmbienteYCodigoAplicacion(ambiente, codigoApp).await().indefinitely());
+        Uni<?> uni = service.consultarPorAmbienteYCodigoAplicacion(ambiente, codigoApp);
 
-        assertEquals("db down", ex.getMessage());
+        RuntimeException runtimeException = assertThrows(RuntimeException.class,
+                () -> esperarResultado(uni));
+
+        assertEquals("db down", runtimeException.getMessage());
         verify(repositorio).consultarPorAmbienteYCodigoAplicacion(ambiente, codigoApp);
         verifyNoInteractions(mapper);
         verifyNoMoreInteractions(repositorio);
+    }
+
+    private void esperarResultado(Uni<?> uni) {
+        uni.await().indefinitely();
     }
 }

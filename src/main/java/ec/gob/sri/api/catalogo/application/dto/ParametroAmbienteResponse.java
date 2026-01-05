@@ -1,13 +1,17 @@
 package ec.gob.sri.api.catalogo.application.dto;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 @Schema(name = "ParametroAmbienteResponse")
+@Getter
+@Setter
 public class ParametroAmbienteResponse {
-    public Long codigoParametro;
-    public String nombreParametro;
-    public String codigoAplicacion;
-    public String ambiente;
-    public String valor;
-    public String estado;
+    private Long codigoParametro;
+    private String nombreParametro;
+    private String codigoAplicacion;
+    private String ambiente;
+    private String valor;
+    private String estado;
 }

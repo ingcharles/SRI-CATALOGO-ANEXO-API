@@ -4,6 +4,6 @@ import ec.gob.sri.api.catalogo.infraestructure.persistence.entity.UbicacionGeogr
 import io.quarkus.hibernate.reactive.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
-
 @ApplicationScoped
-public class UbicacionGeograficaPanacheRepository implements PanacheRepository<UbicacionGeograficaEntity> { }
+public class UbicacionGeograficaPanacheRepository implements PanacheRepository<UbicacionGeograficaEntity> {
+}

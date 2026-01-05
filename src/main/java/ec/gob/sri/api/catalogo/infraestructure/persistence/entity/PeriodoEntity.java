@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-
 /**
  * The persistent class for the ADM_PERIODO database table.
  */
@@ -68,10 +67,9 @@ public class PeriodoEntity implements Serializable {
     @Column(nullable = false, length = 1)
     public String procesado;
 
-    //bi-directional many-to-one association to PeriodicidadEntity
+    // bi-directional many-to-one association to PeriodicidadEntity
     @ManyToOne
     @JoinColumn(name = "CODIGO_PERIODICIDAD", nullable = false)
     public PeriodicidadEntity periodicidadEntity;
-
 
 }

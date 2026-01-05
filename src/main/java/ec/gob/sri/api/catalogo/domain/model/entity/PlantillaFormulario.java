@@ -19,11 +19,16 @@ public class PlantillaFormulario {
     private String nombre;
     private String descripcion;
     private String version;
-    private String elementos;
+    private String elementosJson;
+    private String elementosXml;
     private String eliminado;
     private EstadoPlantilla estado;
+    private String motivo;
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaActualizacion;
+    private LocalDateTime fechaRevision;
+    private LocalDateTime fechaAprobacion;
+    private LocalDateTime fechaPublicacion;
 
     @Override
     public boolean equals(Object o) {

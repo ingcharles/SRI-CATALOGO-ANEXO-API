@@ -1,8 +1,9 @@
 package ec.gob.sri.api.catalogo.infraestructure.persistence.entity;
 
-import io.quarkus.hibernate.reactive.panache.PanacheEntityBase;
-import jakarta.persistence.*;
-import java.time.LocalDate;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "ADM_PARAMETRO_AMBIENTE")
@@ -19,7 +20,7 @@ public class ParametroAmbienteEntity {
     public String codigoAplicacion;
 
     @Column(name = "AMBIENTE", nullable = false)
-    public String ambiente; 
+    public String ambiente;
 
     @Column(name = "VALOR_TEXTO", nullable = false)
     public String valor;

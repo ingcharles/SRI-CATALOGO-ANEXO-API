@@ -10,11 +10,16 @@ create table plantilla_formulario (
    nombre                      varchar2(255) not null,
    descripcion                 varchar2(1000),
    version                     varchar2(20) not null,
-   elementos                   clob not null,
+   elementos_json              clob not null,
+   elementos_xml               clob not null,
    eliminado                   char(1) default 'N' not null,
-   estado                      char(1) default 'A' not null,
+   estado                      varchar2(2) default 'A' not null,
+   motivo                      varchar2(500) not null,
    fecha_creacion              timestamp default current_timestamp not null,
    fecha_actualizacion         timestamp default current_timestamp not null,
+   fecha_revision              timestamp default current_timestamp not null,
+   fecha_aprobacion            timestamp default current_timestamp not null,
+   fecha_publicacion           timestamp default current_timestamp not null,
    aud_usuario_crea            varchar2(30) not null,
    aud_usuario_modifica        varchar2(30),
    aud_usuario_elimina         varchar2(30),
@@ -25,8 +30,10 @@ create table plantilla_formulario (
    constraint uk_plantilla_codigo unique ( codigo ),
    constraint chk_eliminado check ( eliminado in ( 'S',
                                                    'N' ) ),
-   constraint chk_estado check ( estado in ( 'A',
-                                             'I' ) )
+   constraint chk_estado
+      check ( estado in ( 'A',
+                          'I',
+                          'EC' ) )
 );
 
 -- Comentarios en las columnas
