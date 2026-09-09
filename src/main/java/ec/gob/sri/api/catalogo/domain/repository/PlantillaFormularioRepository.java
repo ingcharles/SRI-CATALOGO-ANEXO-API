@@ -1,7 +1,7 @@
 package ec.gob.sri.api.catalogo.domain.repository;
 
+import ec.gob.sri.api.catalogo.application.dto.PaginadoResponse;
 import ec.gob.sri.api.catalogo.domain.model.entity.PlantillaFormulario;
-import ec.gob.sri.api.catalogo.infraestructure.persistence.util.ResultadoPaginado;
 import io.quarkus.panache.common.Page;
 import io.quarkus.panache.common.Sort;
 import io.smallrye.mutiny.Uni;
@@ -24,7 +24,8 @@ public interface PlantillaFormularioRepository {
     /**
      * Actualiza solo el estado de una plantilla
      */
-    Uni<PlantillaFormulario> actualizarEstado(Long codigoPlantillaFormulario, PlantillaFormulario plantilla);
+    Uni<PlantillaFormulario> actualizarEstado(Long codigoPlantillaFormulario,
+        PlantillaFormulario plantilla);
 
     /**
      * Busca una plantilla por ID
@@ -37,10 +38,11 @@ public interface PlantillaFormularioRepository {
     Uni<PlantillaFormulario> buscarPorCodigoYVersion(String codigo, String version);
 
     /**
-     * Lista todas las plantillas con paginación y filtros
-     * Retorna ResultadoPaginado con metadatos completos
+     * Lista todas las plantillas con paginación y filtros Retorna ResultadoPaginado con metadatos
+     * completos
      */
-    Uni<ResultadoPaginado<PlantillaFormulario>> listar(Page page, Sort sort, String buscar);
+    Uni<PaginadoResponse<PlantillaFormulario>> listar(Page page, Sort sort, String codigo,
+        String buscar);
 
     /**
      * Elimina lógicamente una plantilla

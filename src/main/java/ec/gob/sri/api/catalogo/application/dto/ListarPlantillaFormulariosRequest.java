@@ -17,6 +17,10 @@ public class ListarPlantillaFormulariosRequest {
     @JsonProperty("limite")
     public Integer limite = 10;
 
+    @Schema(description = "Código de búsqueda")
+    @JsonProperty("codigo")
+    public String codigo;
+
     @Schema(description = "Texto de búsqueda")
     @JsonProperty("buscar")
     public String buscar;

@@ -192,6 +192,16 @@ public class FormularioResource {
                         @Parameter(description = "Campo por el cual ordenar (codigoFormulario, fechaCreacion, fechaActualizacion)") @QueryParam("ordenarPor") String ordenarPor,
                         @Parameter(description = "Orden de clasificación (asc/desc)") @QueryParam("orden") String orden) {
 
+                System.out.println("[FormularioResource.listar] 📥 REQUEST recibido:");
+                System.out.println("  - pagina: " + pagina);
+                System.out.println("  - limite: " + limite);
+                System.out.println("  - codigoPlantillaFormulario: " + codigoPlantillaFormulario);
+                System.out.println("  - codigoUsuario: " + codigoUsuario);
+                System.out.println("  - identificacionUsuario: " + identificacionUsuario);
+                System.out.println("  - buscar: " + buscar);
+                System.out.println("  - ordenarPor: " + ordenarPor);
+                System.out.println("  - orden: " + orden);
+                
                 ConsultarFormulariosRequest request = new ConsultarFormulariosRequest();
                 request.pagina = pagina;
                 request.limite = limite;

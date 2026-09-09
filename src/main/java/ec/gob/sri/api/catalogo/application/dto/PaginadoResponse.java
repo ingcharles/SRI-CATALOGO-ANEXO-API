@@ -1,58 +1,28 @@
 package ec.gob.sri.api.catalogo.application.dto;
 
+
 import java.util.List;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
- * DTO genérico para respuestas paginadas
+ * Clase auxiliar para manejar resultados paginados con metadatos
  * <p>
- * Similar a Page<T> de Spring, proporciona metadatos completos de paginación
+ * Encapsula: - Lista de resultados - Total de elementos - Total de páginas - Página actual - Tamaño
+ * de página
  */
-@Getter
-@Setter
 public class PaginadoResponse<T> {
 
-  /**
-   * Lista de contenido de la página actual
-   */
-  private List<T> contenido;
+    public final List<T> contenido;
+    public final long totalElementos;
+    public final int totalPaginas;
+    public final int paginaActual;
+    public final int tamanio;
 
-  /**
-   * Total de elementos en toda la base de datos (sin paginar)
-   */
-  private long totalElementos;
-
-  /**
-   * Total de páginas disponibles
-   */
-  private int totalPaginas;
-
-  /**
-   * Página actual (base 1 para el cliente)
-   */
-  private int paginaActual;
-
-  /**
-   * Tamaño de la página (registros por página)
-   */
-  private int tamanio;
-
-  /**
-   * Constructor vacío para serializador
-   */
-  public PaginadoResponse() {
-  }
-
-  /**
-   * Constructor completo
-   */
-  public PaginadoResponse(List<T> contenido, long totalElementos, int totalPaginas,
-      int paginaActual, int tamanio) {
-    this.contenido = contenido;
-    this.totalElementos = totalElementos;
-    this.totalPaginas = totalPaginas;
-    this.paginaActual = paginaActual;
-    this.tamanio = tamanio;
-  }
+    public PaginadoResponse(List<T> contenido, long totalElementos, int totalPaginas,
+        int paginaActual, int tamanio) {
+        this.contenido = contenido;
+        this.totalElementos = totalElementos;
+        this.totalPaginas = totalPaginas;
+        this.paginaActual = paginaActual;
+        this.tamanio = tamanio;
+    }
 }

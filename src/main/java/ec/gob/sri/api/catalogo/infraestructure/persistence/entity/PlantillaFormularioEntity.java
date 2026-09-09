@@ -44,6 +44,126 @@ import lombok.Setter;
     name = "PlantillaFormularioEntity.contarActivos",
     query = "SELECT COUNT(p) FROM PlantillaFormularioEntity p WHERE p.eliminado = 'N'"
 )
+// Consulta nativa con JSON_EXISTS para soportar búsqueda en elementos JSON
+/*@NamedNativeQuery(
+    name = "PlantillaFormularioEntity.buscarConFiltros",
+    query = """
+        SELECT p.CODIGO_PLANTILLA_FORMULARIO, p.CODIGO, p.NOMBRE, p.DESCRIPCION, p.VERSION, p.ELEMENTOS_JSON, p.ELEMENTOS_XML, p.ELIMINADO, p.ESTADO, p.MOTIVO, p.FECHA_CREACION, p.FECHA_ACTUALIZACION, p.FECHA_REVISION, p.FECHA_APROBACION, p.FECHA_PUBLICACION, p.AUD_USUARIO_CREA, p.AUD_USUARIO_MODIFICA, p.AUD_USUARIO_ELIMINA, p.AUD_FECHA_CREA, p.AUD_FECHA_MODIFICA, p.AUD_FECHA_ELIMINA FROM PLANTILLA_FORMULARIO p WHERE p.ELIMINADO = 'N'
+        AND (LOWER(p.CODIGO) LIKE :buscar
+             OR LOWER(p.NOMBRE) LIKE :buscar
+             OR LOWER(p.DESCRIPCION) LIKE :buscar
+             OR LOWER(p.VERSION) LIKE :buscar
+             OR JSON_EXISTS(p.ELEMENTOS_JSON, '$..id?(@ == $buscarJson)' PASSING :buscarJson AS "buscarJson")
+             OR JSON_EXISTS(p.ELEMENTOS_JSON, '$..nombre?(@ == $buscarJson)' PASSING :buscarJson AS "buscarJson"))
+        ORDER BY p.FECHA_CREACION DESC
+        """,
+    resultClass = PlantillaFormularioEntity.class
+)*/
+/*@NamedNativeQuery(
+    name = "PlantillaFormularioEntity.buscarConFiltros",
+    query = """
+        SELECT * 
+        FROM PLANTILLA_FORMULARIO 
+        WHERE ELIMINADO = 'N'
+        AND (
+          LOWER(CODIGO) LIKE :buscar
+          OR LOWER(NOMBRE) LIKE :buscar
+          OR LOWER(DESCRIPCION) LIKE :buscar
+          OR LOWER(VERSION) LIKE :buscar
+          OR JSON_EXISTS(ELEMENTOS_JSON, '$..id?(@ == $buscarJson)' PASSING :buscarJson AS "buscarJson")
+          OR JSON_EXISTS(ELEMENTOS_JSON, '$..nombre?(@ == $buscarJson)' PASSING :buscarJson AS "buscarJson")
+        )
+        ORDER BY FECHA_CREACION DESC
+        """,
+    resultClass = PlantillaFormularioEntity.class
+)
+
+@NamedNativeQuery(
+    name = "PlantillaFormularioEntity.contarConFiltros",
+    query = """
+        SELECT COUNT(*) 
+        FROM PLANTILLA_FORMULARIO 
+        WHERE ELIMINADO = 'N'
+        AND (
+          LOWER(CODIGO) LIKE :buscar
+          OR LOWER(NOMBRE) LIKE :buscar
+          OR LOWER(DESCRIPCION) LIKE :buscar
+          OR LOWER(VERSION) LIKE :buscar
+          OR JSON_EXISTS(ELEMENTOS_JSON, '$..id?(@ == $buscarJson)' PASSING :buscarJson AS "buscarJson")
+          OR JSON_EXISTS(ELEMENTOS_JSON, '$..nombre?(@ == $buscarJson)' PASSING :buscarJson AS "buscarJson")
+        )
+        """
+)*/
+
+/*
+@NamedNativeQuery(
+    name = "PlantillaFormularioEntity.listarTodas",
+    query = """
+        SELECT CODIGO_PLANTILLA_FORMULARIO, CODIGO, NOMBRE, DESCRIPCION, VERSION, ELEMENTOS_JSON, ELEMENTOS_XML, ELIMINADO, ESTADO, MOTIVO, FECHA_CREACION, FECHA_ACTUALIZACION, FECHA_REVISION, FECHA_APROBACION, FECHA_PUBLICACION, AUD_USUARIO_CREA, AUD_USUARIO_MODIFICA, AUD_USUARIO_ELIMINA, AUD_FECHA_CREA, AUD_FECHA_MODIFICA, AUD_FECHA_ELIMINA
+        FROM PLANTILLA_FORMULARIO 
+        WHERE ELIMINADO = 'N'
+        ORDER BY FECHA_CREACION DESC
+        """,
+    resultClass = PlantillaFormularioEntity.class
+)
+
+@NamedNativeQuery(
+    name = "PlantillaFormularioEntity.contarTodas",
+    query = """
+        SELECT COUNT(*) 
+        FROM PLANTILLA_FORMULARIO 
+        WHERE ELIMINADO = 'N'
+        """
+)
+
+*/
+/**
+ * Query de listado con filtros en campos normales y JSON
+ * SOLUCIÓN AL CONFLICTO:
+ * - Parámetros JPA: :buscar, :valorJson
+ * - Parámetros JSON_EXISTS: $valorJson (debe coincidir sin los dos puntos)
+ *//*
+
+@NamedNativeQuery(
+    name = "PlantillaFormularioEntity.buscarConFiltros",
+    query = """
+        SELECT * 
+        FROM PLANTILLA_FORMULARIO 
+        WHERE ELIMINADO = 'N'
+        AND (
+          LOWER(CODIGO) LIKE :buscar
+          OR LOWER(NOMBRE) LIKE :buscar
+          OR LOWER(DESCRIPCION) LIKE :buscar
+          OR LOWER(VERSION) LIKE :buscar
+           OR JSON_EXISTS(ELEMENTOS_JSON, '$?(@.id == $valor || @.nombre == $valor)' PASSING :valorJson AS "valor")
+        )
+        ORDER BY FECHA_CREACION DESC
+        """,
+    resultClass = PlantillaFormularioEntity.class
+)
+
+*/
+/**
+ * Query de conteo con los mismos filtros
+ *//*
+
+@NamedNativeQuery(
+    name = "PlantillaFormularioEntity.contarConFiltros",
+    query = """
+        SELECT COUNT(*) 
+        FROM PLANTILLA_FORMULARIO 
+        WHERE ELIMINADO = 'N'
+        AND (
+          LOWER(CODIGO) LIKE :buscar
+          OR LOWER(NOMBRE) LIKE :buscar
+          OR LOWER(DESCRIPCION) LIKE :buscar
+          OR LOWER(VERSION) LIKE :buscar
+          OR JSON_EXISTS(ELEMENTOS_JSON, '$?(@.id == $valor || @.nombre == $valor)' PASSING :valorJson AS "valor")
+        )
+        """
+)
+*/
+
 public class PlantillaFormularioEntity {
 
   @Id
